@@ -5,6 +5,8 @@ m = list[0]
 for x in list:
 	if x > m:
 		n = m
-		m = x  
-print 'the first max number is %s,the second max number is %s' %(m,n)
+		m = x
+	elif x < m and x > n:  
+		n = x
 
+print 'the first max number is %s,the second max number is %s' %(m,n)
