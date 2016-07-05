@@ -33,3 +33,5 @@ x='fujinzhou'
 y=22
 h='good'
 print 'Hi %s I am %d years old ,You are very %s'%(x,y,h)
+print 'Hi '+ x +',You are very '+ h +'' 
+print ('Hi {0} I am {1} years old,You are very {2}!'.format(x,y,h))
