@@ -64,3 +64,36 @@ if name=='reboot':
 	print 'condition is reboot'
 else:
 	print 'condition is False'
+
+#while 循环
+#while 情况1：
+#	里面的代码会一直执行，直到情况1是false
+#i=0
+#while i<20:
+#	print i
+#	i+=1
+#print 'while is end'
+#用户一直输入数字，当输入0时。终止并输出数字之和
+count=0
+while True:
+        i=int(raw_input('please inut your number:'))
+        count +=i
+        if i==0:
+          print count
+          break;
+count=0
+y=raw_input('please input a number')
+while int(y)!=0:
+  count =count+int(y)
+  y=raw_input('please input a number')
+print 'the total is %d'%(count)
+
+#用户一直输入数字，当输入为空时。终止并输出平均值
+count=0
+total=0
+y=raw_input('please input a number')
+while y:
+  count =count+int(y)
+  y=raw_input('please input a numbers:')
+  total+=1
+print 'the total is %s'%(count/total)
