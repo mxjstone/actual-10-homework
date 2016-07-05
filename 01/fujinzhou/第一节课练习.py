@@ -29,6 +29,7 @@ print 'hello '+'reboot'
 print 'hello '*2
 
 #字符串格式化
+#数字(0, 1, ...)即代表format()里面的元素, 所以可以使用"."调用元素的方法;
 x='fujinzhou'
 y=22
 h='good'
