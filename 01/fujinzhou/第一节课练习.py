@@ -27,3 +27,9 @@ a
 #字符串拼接
 print 'hello '+'reboot'
 print 'hello '*2
+
+#字符串格式化
+x='fujinzhou'
+y=22
+h='good'
+print 'Hi %s I am %d years old ,You are very %s'%(x,y,h)
