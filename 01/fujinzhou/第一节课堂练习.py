@@ -97,3 +97,55 @@ while y:
   y=raw_input('please input a numbers:')
   total+=1
 print 'the total is %s'%(count/total)
+
+#for 循环 专门针对list dict等结构
+#arr=['1','2','three']
+#for i in arr:
+#  print i
+#找出列表中js出现的次数
+#num=0
+#list1=['c','python','js','node','java','js','ruby']
+#for i in list1:
+#	if i =='js':
+#            num+=1
+#print num
+#numlist=[1,2,3,2,12,3,1,3,21,2,2,3,4111,22,3333,444,111,4,5,777,65555,45,33,45]
+#max1=0
+#max2=0
+#for i in numlist:
+#	if max1<i:
+#		max1=i
+#for i in numlist:
+#	if max1==i:
+#		continue
+#	if max2<i:
+#		max2=i
+#print max1,max2
+
+#i=0
+#while True:
+#	if i >10:
+#		break
+#	print i
+#	i+=1
+#arr=['c','python','js','node']
+#for i in arr:
+#	if i=='js':
+#		continue
+#	print i
+
+#d ={'name':'reboot','age':50}
+#print d['name'] #根据key 获取 value
+#d['age']=50  #修改值
+#print d
+#d['newkey']='key1' #增加新值
+#print d
+#total=0
+b={}
+a=['C','js','python','js','css','js','html','node','js','python','js','css','js','html','node','js','python','js','css','js']
+for i in a:
+	if i in b:
+		b[i]+=b[i]+1
+	else:
+		b[i]=1
+print b
