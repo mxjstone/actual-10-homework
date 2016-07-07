@@ -7,13 +7,14 @@ while True:
  x=raw_input('please input your name:')
  y=raw_input('please input your grade:')
  if y.isdigit() and x.isalpha():
-    list1.append(str(x))
     list1.append(int(y))
+    list1.append(str(x))
     count+=1
-    num=(int(num)+int(y))/count
+    num=int(num)+int(y)
  elif len(x)==0 or len(y)==0:
+    avg=num/count
     print list1
     break
  else:
     print 'input is error'
-print '平均值是 %s' %(num)
+print '平均值是 %s' %(avg)
