@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #coding:utf-8
 #冒泡排序
 #  挨个对比，如果 一个元素比右边的大，交换位置
