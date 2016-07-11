@@ -1,14 +1,12 @@
-#!/usr/bin/env python
-#coding:utf-8
-#冒泡排序
-#  挨个对比，如果 一个元素比右边的大，交换位置
-arr=[3,4,8,9,10,6,5,7]
-length=len(arr)
-for i in range(length):
-	print '*'*20
-	print i
-	for j in range(length-1-i):
-		if arr[j]>arr[j+1]:
-			arr[j],arr[j+1]=arr[j+1],arr[j]
-			print 'list is %s'%(arr)
-print arr
+#coding=UTF-8
+#插入排序
+array = [3,1,4,2,5,7,6]
+length = len(array)
+for i in range(1,length):
+    key = array[i]
+    j = i-1 
+    while array[j] > key and j >= 0:
+        array[j+1] = array[j]
+        j = j-1 
+    array[j+1] =key
+print array
