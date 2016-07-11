@@ -5,7 +5,10 @@
 arr=[3,4,8,9,10,6,5,7]
 length=len(arr)
 for i in range(length):
+	print '*'*20
+	print i
 	for j in range(length-1-i):
 		if arr[j]>arr[j+1]:
 			arr[j],arr[j+1]=arr[j+1],arr[j]
+			print 'list is %s'%(arr)
 print arr
