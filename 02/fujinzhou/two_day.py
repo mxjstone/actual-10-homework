@@ -42,3 +42,26 @@ print arr
 arr[0]='hello'
 print arr
 
+#排序  编程世界的游戏规则
+#    根据索引找到值
+#    值可以比大小
+#    值可以交换位置
+#冒泡排序
+#  挨个对比，如果 一个元素比右边的大，交换位置
+arr=[3,4,8,9,10,6,5,7]
+length=len(arr)
+for i in range(length-1):
+	print '*'*20
+	print i
+	for j in range(length-i-1):
+		if arr[j]>arr[j+1]:
+		    arr[j],arr[j+1]=arr[j+1],arr[j]
+		    print 'list is %s'%(arr)
+print arr
+
+array=[1,4,2,3,6,5]
+for i in range(len(array)):
+    for j in range(i):
+         if  array[j] > array[j+1]:
+                array[j],array[j+1]=array[j+1],array[j]
+print array
