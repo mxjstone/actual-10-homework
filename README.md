@@ -68,4 +68,3 @@ vim ~/.ssh/id_rsa.pub
 
 
 账号没有加到reboot群组里的 请随时联系我
-test
