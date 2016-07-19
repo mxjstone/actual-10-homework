@@ -1,2 +1,0 @@
-admin:admin
-aaa:1234
