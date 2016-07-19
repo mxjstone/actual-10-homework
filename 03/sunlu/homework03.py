@@ -14,13 +14,11 @@ for ip in ips:
     if ip in dict_ip:
         dict_ip[ip] += 1
     else:
-        # dict_ip.setdefault(dict_ip[ip],[]).append()
         dict_ip[ip] = 1
 
 f.close()
 for k, v in dict_ip.iteritems():
     dict_ips.setdefault(v, []).append(k)
-# print dict_ips
 
 keys = dict_ips.keys()
 keys.sort()
