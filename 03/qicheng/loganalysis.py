@@ -43,7 +43,7 @@ def loganalysis(logfile, topn=10):
             <title>{title}</title>
         </head>
         <body>
-            <table>
+            <table border="1px;">
                 <thead>
                     <tr>
                        {thead} 
