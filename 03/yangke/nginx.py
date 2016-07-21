@@ -1,3 +1,4 @@
+#home work
 log_file = "access.log"
 html_file = "top_ten.html"
 #read log
