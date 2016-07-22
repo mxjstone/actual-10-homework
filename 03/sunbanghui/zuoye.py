@@ -1,3 +1,6 @@
+#!coding=utf-8
+# 还存在一个问题，输出的结果只按照IP的次数来计算，实际上会显示出12个IP，需要继续修改才行
+
 file = open('access.log')
 ip_dict = {}
 for line in file.readlines():
