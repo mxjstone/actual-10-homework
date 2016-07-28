@@ -57,3 +57,63 @@ def sum(arg1,arg2):
 
 sum(10,20)
 print "函数外部是全局变量:",total
+
+
+#函数的参数就是个变量
+#定义函数的时候，使用关键字参数，可以指定默认值
+def hello(name='reboot',age=1):
+    return 'hello %s,your age is %s' %(name,age)
+print hello('reboot',3)
+print hello(3,'reboot')
+#print hello(age=3,name='reboot')
+print hello('reboot')
+def f(n):
+    count=1
+    for i in range(1,n+1):
+        count=i*count
+    return count
+print f(5)
+
+# *号开头的参数，收集所有的剩余参数（位置参数）,组装成元组
+# **开头的参数，收集所有剩下参数（关键字参数），组装成字典
+def sum(name,*num):
+    print num
+    return sum
+sum(111,2222,333)
+
+#练习、函数add_all，把传入的所有参数求和并打印
+
+def count(*add_all):
+    count=0
+    for i in add_all:
+        count+=i
+    return count
+print count(1,2,3,4,5)
+
+def name(**dict):
+    print dict
+name(name='reboot',teach='pc',age=30)
+
+#排序
+def my_sort(arr,sort_fn):
+    for j in range(11):
+        for i in range(len(arr)-1):
+            if sort_fn(arr[i])>sort_fn(arr[i+1]):
+                arr[i],arr[i+1]=arr[i+1],arr[i]
+    return arr
+
+arr=[1,22,3,55,99,0,4,7]
+def sort_fn1(data):
+    return data
+print my_sort(arr,sort_fn1)
+
+arr2=[('xiaoming',29),('xiaohua',44),('xiaohong',99)]
+def sort_fn2(data):
+    return data[1]
+print my_sort(arr2,sort_fn2)
+
+arr3=[{'name':'xiaohong','age':22},{'name':'pc','age':18},{'name':'xiaohua','age':99}]
+def sort_fn3(data):
+    return data['age']
+print my_sort(arr3,sort_fn3)
+print sorted(arr3,key=sort_fn3)  #sorted（待排序的list，決定根据元素的那個排序）
