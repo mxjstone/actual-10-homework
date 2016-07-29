@@ -117,3 +117,16 @@ def sort_fn3(data):
     return data['age']
 print my_sort(arr3,sort_fn3)
 print sorted(arr3,key=sort_fn3)  #sorted（待排序的list，決定根据元素的那個排序）
+
+#lambda 没有名字的函数,特别简单的函数，只有return语句的函数
+#语法 lambda 返回值
+def hello(x):
+    return x[1]
+print hello([1,2])
+
+hello=lambda  x:x[1]
+hello1=lambda  x:x[0]+x[1]
+hello2=lambda x,y:x*y
+print hello([1,2])
+print hello1([3,4])
+print hello2(2,3)
