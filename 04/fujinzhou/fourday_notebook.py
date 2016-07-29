@@ -130,3 +130,19 @@ hello2=lambda x,y:x*y
 print hello([1,2])
 print hello1([3,4])
 print hello2(2,3)
+
+#遍历list的方法
+arr=['hello','world','111']
+for index,value in enumerate(arr):
+    print index,value
+
+for i in range(len(arr)):
+    print i,arr[i]
+#遍历字典
+#for in 遍历key 然后通过key查找value
+arr1={'name':'reboot','age':12,'job':'devops'}
+for key in arr1:
+    print key,arr1[key]
+##for in 遍历key，value
+for key,value in arr1.items():
+    print key,value
