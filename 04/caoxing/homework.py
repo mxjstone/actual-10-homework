@@ -3,7 +3,7 @@
 
 dict={}
 def writefile(username,userpassword):
-    with open('user.txt') as f:
+    with open('user.txt','a') as f:
         f.write("%s:%s\n"%(username,userpassword))
   
 def readfile():
