@@ -1,11 +1,11 @@
 def user_list():
-    dict = {}
+    d = {}
     with open('userpasswd.txt') as f:
         for line in f:
             temp = line.strip().split(":")
-            dict.setdefault(temp[0],temp[1])
-   # print dict
-    return dict
+            d.setdefault(temp[0],temp[1])
+   # print d
+    return d
 
 
 def write(name,passwd):
