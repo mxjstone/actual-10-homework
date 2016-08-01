@@ -1,4 +1,5 @@
 #encoding: utf-8
+import json
 
 def login_required(username, password):
     with open('db.txt') as f:
@@ -33,3 +34,17 @@ def uesrs():
             password = user.split(':')[2].strip('}\n')
             users.append({'username':username, 'password':password})
     return users
+
+def delete_users(username):
+    tmp = []
+    with open('db.txt') as f:
+        for user in f:
+            tmp.append(user)
+        tmp1 = []
+        for item in tmp:
+            if item.split(':')[1].split(',')[0] != str(username):
+                tmp1.append(item)
+
+    with open('db.txt', 'w') as f:
+        for i in tmp1:
+            f.writelines(i)

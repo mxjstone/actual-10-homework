@@ -34,6 +34,11 @@ def users():
     users = db.uesrs()
     return render_template('users.html', users=users)
 
+@app.route('/delete_user/')
+def delete_users():
+    username = request.args.get('username')
+    db.delete_users(username)
+    return redirect('/users/')
 
 
 if __name__ == '__main__':
