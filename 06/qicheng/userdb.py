@@ -7,12 +7,6 @@ import gconf
 from dbutils import execute_fetch_sql, execute_commit_sql
 
 
-'''获取所有用户的信息
-返回值: [
-            {"name" : "kk", "password" : "123456", "age" : 29},
-            {"name" : "woniu", "password" : "abcdef", "age" : 28}
-        ]
-'''
 def get_users(wheres=[]):
     _columns = ('id', 'name', 'password', 'age')
     _sql = 'select * from users where 1=1'
@@ -72,15 +66,6 @@ def add_user(name, password, age):
 def get_user(uid):
     _rt = get_users([('id', uid)])
     return _rt[0] if len(_rt) > 0 else None
-    '''
-    _columns = ('id', 'name', 'password', 'age')
-    _sql = 'select * from user where id = %s'
-    _count, _rt_list = execute_fetch_sql(_sql, (uid, ))
-    _rt = []
-    for _line in _rt_list:
-        _rt.append(dict(zip(_columns, _line)))
-    return _rt[0] if len(_rt) > 0 else None
-    '''
 
 
 '''检查更新用户信息
@@ -108,14 +93,5 @@ def delete_user(uid):
 def get_user_by_name(name):
     _rt = get_users([('name', name)])
     return _rt[0] if len(_rt) > 0 else None
-    '''
-    _columns = ('id', 'name', 'password', 'age')
-    _sql = 'select * from user where name = %s'
-    _count, _rt_list = execute_fetch_sql(_sql, (name, ))
-    _rt = []
-    for _line in _rt_list:
-        _rt.append(dict(zip(_columns, _line)))
-    return _rt[0] if len(_rt) > 0 else None
-    '''
 
 
