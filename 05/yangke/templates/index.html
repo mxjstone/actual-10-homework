@@ -27,14 +27,14 @@
         </tr>
     </thead>
     <tbody>
-        {%for name in nameinfo.items() %}
-            {%if name[0] and name[1]%}
+    {% if nameinfo %}
+        {%for name,passwd in nameinfo.items() %}
             <tr>
-                <td>{{name[0]}}</td>
-                <td>{{name[1]}}</td>
+                <td>{{name}}</td>
+                <td>{{passwd}}</td>
             </tr>
-            {%endif%}
         {%endfor%}
+    {%endif%}
     </tbody>
 </table>
 
