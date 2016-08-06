@@ -10,8 +10,7 @@ def userinfo():
     with open(userfile) as f:
         for line in f:
             tmp = line.strip().split(":")
-            name,passwd = tmp[0],tmp[1]
-            dic[name] = passwd
+            dic[tmp[0]] = tmp[1]
         return dic
 
 def adduser(user,passwd):
