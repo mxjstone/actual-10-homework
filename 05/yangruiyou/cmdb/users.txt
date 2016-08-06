@@ -1,13 +1,6 @@
 (dp0
-S'pc'
+S'yangruiyou'
 p1
-S'666666'
-p2
-sS'woniu'
-p3
 S'123456'
-p4
-sS'panda'
-p5
-g4
+p2
 s.
