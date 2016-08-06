@@ -38,12 +38,23 @@ def Delete(username):
     f.close()
 
 
-def Modify():
+def Modify_v1():
     content = {}
     f = open('users.txt')
     content = pickle.load(f)
     f.close()
     content['pc'] = '666666'
+    f = open('users.txt', 'wb')
+    pickle.dump(content, f)
+    f.close()
+
+
+def Modify(username, password):
+    content = {}
+    f = open('users.txt')
+    content = pickle.load(f)
+    f.close()
+    content[username] = password
     f = open('users.txt', 'wb')
     pickle.dump(content, f)
     f.close()
@@ -74,6 +85,7 @@ def SelectOne(username):
 if __name__ == '__main__':
     Create('yangruiyou', '123456')
     # Delete()
-    # Modify()
+    Modify('kk','kkkkkk')
+    Modify('panda','123456')
     Select()
     # SelectOne('panda')
