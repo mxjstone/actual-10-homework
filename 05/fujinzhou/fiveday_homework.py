@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 from flask import Flask,redirect,request,render_template
-from file import userinfo,checkinfo,adduser
+from file import userinfo,checkinfo,adduser,deluser
 app=Flask(__name__)
 
 @app.route("/")
@@ -21,6 +21,15 @@ def add_user():
 		return "用户名已存在"
 	adduser(name,password)
 	return redirect("/")
+
+@app.route("/deluser")
+def del_user():
+	name=request.args.get("username")
+	if name in userinfo():
+		deluser(name)
+		return redirect("/")
+	else:
+		return "用户名不存在"
 
 
 

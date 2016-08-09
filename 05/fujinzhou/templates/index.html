@@ -12,6 +12,15 @@
     </form>
 
 <hr>
+
+
+<h4>删除用户</h4>
+    <form action="/deluser">
+       用户名<input type="text" name="username" placeholder="username">
+        <input type="submit" name="del" value="删除">
+    </form>
+<hr>
+
 <table border="1">
     <thead>
         <tr>
@@ -20,14 +29,14 @@
         </tr>
     </thead>
     <tbody>
-        {%for name in nameinfo.items() %}
-            {%if name[0] and name[1]%}
+	{% if nameinfo %}
+        {%for name,passwd in nameinfo.items() %}
             <tr>
-                <td>{{name[0]}}</td>
-                <td>{{name[1]}}</td>
+                <td>{{name}}</td>
+                <td>{{passwd}}</td>
             </tr>
-            {%endif%}
         {%endfor%}
+	{%endif%}
     </tbody>
 </table>
 
