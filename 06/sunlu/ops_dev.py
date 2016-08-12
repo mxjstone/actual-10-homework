@@ -14,8 +14,8 @@ app = Flask(__name__)
 def index():
     all_error = 'Account or password error'
     if request.method == 'POST':
-        username = request.form['username'].strip()
-        password = request.form['password'].strip()
+        username = request.form['username']
+        password = request.form['password']
         if mysql.check_users(username, password) == 0:
             return redirect('/userlist?name=%s' % (username))
         return render_template('index.html', error=all_error)
@@ -65,11 +65,12 @@ def userlist():
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
+    ids = int(request.args.get('id'))
+    users = mysql.upuser_dict(ids)
     if request.method == 'POST':
         l = []
         d = {}
-        ids = int(request.args.get('id'))
-        d['name'] = request.form['name']
+        d['name_cn'] = request.form['name_cn']
         d['password'] = request.form['password']
         d['email'] = request.form['email']
         d['mobile'] = request.form['tel']
@@ -83,10 +84,8 @@ def update():
         cur.execute(sql)
         db.commit()
         cur.close()
-        return redirect('/userlist?name=%s'%(d['name']))
+        return redirect('/userlist?id=%s'%(ids))
     else:
-        ids = int(request.args.get('id'))
-        users = mysql.upuser_dict(ids)
         return render_template('update.html', users=users)
 
 
