@@ -4,6 +4,7 @@
 import MySQLdb
 conn= MySQLdb.connect(host='localhost', port = 3306, user='root', passwd='1qaz#EDC', db ='reboot10',)
 cur = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
+
 class Updateuser:
     def __init__(self):
 	pass
@@ -21,7 +22,7 @@ class Updateuser:
         conn.commit()
 
 def adduser(name,name_cn,password,email,mobile,role):
-    cur.execute("insert into users (name,name_cn,password,email,mobile,role,status,create_time,last_time) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)", (name,name_cn,password,email,mobile,role,"1","20160810","20160909"))
+    cur.execute("insert into users (name,name_cn,password,email,mobile,role,status,create_time,last_time) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)", (name,name_cn,password,email,mobile,role,"1",20160812,"20160812"))
     conn.commit()
 
 def getuser():
