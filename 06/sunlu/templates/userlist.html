@@ -6,13 +6,12 @@
 </head>
 <body>
 <a href="/add">添加用户</a>
-<form action="/userlist">
-    <p>查询：<input type="text" name="selects"> <input type="submit" value="查询"></p>
+<form action="" method="post">
+    <p>查询：<input type="text" name="cats"> <input type="submit" value="查询"></p>
 </form>
 <table border='1'>
     <thead>
     <tr>
-        <td>ID</td>
         <td>用户名</td>
         <td>中文名</td>
         <td>邮箱</td>
@@ -29,7 +28,6 @@
     {% if users %}
         {% for user in users %}
             <tr>
-                <td>{{ user['id'] }}</td>
                 <td>{{ user['name'] }}</td>
                 <td>{{ user['name_cn'] }}</td>
                 <td>{{ user['email'] }}</td>
@@ -39,15 +37,17 @@
                 {% else %}
                     <td>其他用户</td>
                 {% endif %}
-                {% if user['status'] == "0" %}
+                {% if user['status'] == 0 %}
                     <td>启用</td>
                 {% else %}
                     <td>禁用</td>
                 {% endif %}
                 <td>{{ user['create_time'] }}</td>
                 <td>{{ user['last_time'] }}</td>
-                <td><form action=""><input type="text" style="display: none;"  name="upid" value="{{ user['id'] }}"><input type="submit" name="update" value="更新"></form>
-                    <form action=""><input type="text" style="display: none;" name="delid" value="{{ user['id'] }}"><input type="submit" name="delete" value="删除"></form></td>
+                <td> <a href="/update?id={{ user.id }}"><input type="button" name="update" id='{{ user.id }}' value="更新"></a>
+                    <a href="/upasswd?id={{ user.id }}"><input type="button" name="up_passwd" id="{{ user.id }}" value="修改密码"></a>
+                    <a href="/delete?id={{ user.id }}"> <input type="button" name="del" id='{{ user.id }}' value="删除"></a>
+                </td>
 
             </tr>
         {% endfor %}

@@ -1,7 +1,6 @@
 # coding=utf8
 from flask import Flask, redirect, request, render_template, sessions, jsonify
 import mysql_info as mysql
-import MySQLdb
 import sys
 
 reload(sys)
@@ -17,9 +16,16 @@ def index():
         username = request.form['username']
         password = request.form['password']
         if mysql.check_users(username, password) == 0:
-            return redirect('/userlist?name=%s' % (username))
-        return render_template('index.html', error=all_error)
-    return render_template('index.html')
+            if mysql.get_one('role', 'name', username)[0] == '1':
+                mysql.insert_time(username)
+                return redirect('/userlist')
+            else:
+                mysql.insert_time(username)
+                return redirect('/userlist?name=%s' % (username))
+        else:
+            return render_template('index.html', error=all_error)
+    else:
+        return render_template('index.html')
 
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -27,40 +33,39 @@ def add():
     error = 'Account already exists'
     error1 = 'passwd error'
     if request.method == 'POST':
-        username = request.form['username']
-        name_cn = request.form['name']
-        password = request.form['password']
-        re_password = request.form['re_password']
-        email = request.form['email']
-        tel = request.form['tel']
-        role = request.form['selects']
-        status = request.form['status']
-
+        d_user = dict(request.form)
+        d = {k: v[0] for k, v in d_user.iteritems()}
         user_list = mysql.users_all()
         for user in user_list:
-            if username in user['name']:
+            if d['name'] in user['name']:
                 return render_template('add.html', error=error)
-        if password != re_password:
+        if d['password'] != d['re_password']:
             return render_template('add.html', error=error1)
-        mysql.insert_user(username, name_cn, password, email, tel, role, status, mysql.nowtime(), mysql.nowtime())
-        return redirect('/userlist?name=%s' % (username))
-
+        else:
+            if d['role'] == '1':
+                mysql.insert_user(d)
+                return redirect('/userlist')
+            else:
+                mysql.insert_user(d)
+                return redirect('/userlist?name=%s' % (d['name']))
     else:
         return render_template('add.html')
 
 
 @app.route('/userlist', methods=['GET', 'POST'])
 def userlist():
-    del_id = request.args.get('delid')
-    up_id = request.args.get('upid')
-    users = mysql.users_all()
-    if del_id:
-        mysql.del_user(del_id)
-        return redirect('/userlist')
-    elif up_id:
-        return redirect('/update?id=%d' %(int(up_id)))
-    else:
+    if request.method == 'POST':
+        sel = request.form['cats']
+        users = mysql.get_all(sel)
         return render_template('userlist.html', users=users)
+    else:
+        names = request.args.get('name')
+        if names:
+            users = mysql.user_one(names)
+            return render_template('userlist.html', users=users)
+        else:
+            users = mysql.users_all()
+            return render_template('userlist.html', users=users)
 
 
 @app.route('/update', methods=['GET', 'POST'])
@@ -68,26 +73,35 @@ def update():
     ids = int(request.args.get('id'))
     users = mysql.upuser_dict(ids)
     if request.method == 'POST':
-        l = []
-        d = {}
-        d['name_cn'] = request.form['name_cn']
-        d['password'] = request.form['password']
-        d['email'] = request.form['email']
-        d['mobile'] = request.form['tel']
-        d['role'] = request.form['selects']
-        d['status'] = request.form['status']
-        for k, v in d.iteritems():
-            l.append('%s="%s"' % (k, v))
-        sql = 'update users set %s where id=%s' % (','.join(l), ids)
-        db = MySQLdb.connect(host='192.168.1.7', user='root', passwd='123456', db='ops', charset='utf8')
-        cur = db.cursor()
-        cur.execute(sql)
-        db.commit()
-        cur.close()
-        return redirect('/userlist?id=%s'%(ids))
+        d = dict(request.form)
+        d_user = {k: v[0] for k, v in d.iteritems()}
+        mysql.up_user(d_user, ids)
+        return redirect('/userlist?id=%s' % (ids))
     else:
         return render_template('update.html', users=users)
 
 
+@app.route('/delete', methods=['GET','POST'])
+def deleted():
+    ids = int(request.args.get('id'))
+    if ids:
+        mysql.del_user(ids)
+        return redirect('/userlist')
+    else:
+        return redirect('/userlist')
+
+
+@app.route('/upasswd', methods=['GET','POST'])
+def upasswd():
+    ids = request.args.get('id')
+    if request.method == 'POST':
+        d_pass = dict(request.form)
+        if request.form.get('password') == request.form.get('re_password'):
+            mysql.up_passwd(d_pass,ids)
+            return redirect('/userlist?name=%s' % (mysql.get_one('name', 'id', ids)))
+    else:
+        return render_template('up_passwd.html')
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8051, debug=True)
