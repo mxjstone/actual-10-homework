@@ -16,6 +16,7 @@ def userlist():
 def adduser():
 	if request.method =="GET":
 		return render_template("adduser.html")
+#前端post请求，逻辑端通过request.form获取整个表单的值
 	if request.method =="POST":
 		name=request.form['username']
 		name_cn=request.form['username_cn']
@@ -43,6 +44,7 @@ def adduser():
 
 @app.route("/deluser")
 def deluser():
+#前端get请求，逻辑端通过request.args.get获取参数
 	uid=request.args.get("uid")
 	print uid
 	del_user(uid)
@@ -50,11 +52,13 @@ def deluser():
 
 @app.route("/update",methods=['GET','POST'])
 def updateuser():
+#通过id查询到要更新的数据，并渲染到更新页面
 	if request.method =="GET":
 		uid=request.args.get("uid")
 		print uid
 		userinfo=getuser(uid)
 		return render_template("update.html",user=userinfo)
+#获取到更新页面表单的值，然后提交更新
 	if request.method =="POST":
 		userinfo={}
         	userinfo["name"] = request.form['name']
