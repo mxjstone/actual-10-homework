@@ -13,6 +13,10 @@ cur = conn.cursor()
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return redirect('/login')
+
 @app.route('/register',methods=['GET','POST'])
 def register():
     if request.method == 'POST':
