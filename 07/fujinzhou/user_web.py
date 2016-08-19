@@ -1,21 +1,46 @@
 #!/usr/bin/env python
 #coding:utf-8
-from flask import Flask,redirect,request,render_template,url_for
-from users import get_userlist,getuser,add_user,del_user,update_user
+from flask import Flask,redirect,request,render_template
+from db import get_userlist,getuser,add_user,del_user,update_user,checkuser,userlist
 
 app=Flask(__name__)
 
+
 @app.route("/")
-def userlist():
+def users():
+	return redirect("/login")
+
+
+@app.route("/userlist")
+def index():
 	user_items=["id","name","name_cn","email","mobile","role","status"]
 	userlist=get_userlist(user_items)
 	return render_template("userlist.html",users=userlist)
 
-
+@app.route("/login",methods=['GET','POST'])
+def login():
+	if request.method =="GET":
+		return render_template("login.html")
+	if request.method =='POST':
+		login_info = dict((k,v[0]) for k,v in dict(request.form).items())
+#		print login_info
+	if not login_info["name"] or not login_info["password"]:
+            errmsg = "username and password can not be empty"
+            return render_template("login.html",result=errmsg)
+        if login_info["name"] not in [ n.values()[0] for n in userlist(["name"]) ]:
+            errmsg = "username not exist"
+            return render_template("login.html",result=errmsg)
+        if login_info["password"] != checkuser(login_info["name"]):
+            errmsg = "password is error"
+            return render_template("login.html",result=errmsg)
+	else:
+	    return redirect("/userlist")
+	
 @app.route("/adduser",methods=['GET','POST'])
 def adduser():
-	if request.method =="GET":
-		return render_template("adduser.html")
+        if request.method =="GET":
+                return render_template("register.html")
+
 #前端post请求，逻辑端通过request.form获取整个表单的值
 	if request.method =="POST":
 		name=request.form['username']
@@ -30,17 +55,18 @@ def adduser():
 		print userlist
 		if len(name)==0 or len(name_cn)==0 or len(passwd) == 0 or len(email) == 0 or len(mobile) == 0:
 			content="这个值不能为空"
-			return render_template("adduser.html",content=content)
+			return render_template("register.html",content=content)
 
 		if name in map(lambda x:x["name"],userlist):
 			content=u"用户已存在"
-			return render_template("adduser.html",content=content)
+			return render_template("register.html",content=content)
 		if passwd !=repasswd:
 			content=u"您输入的两次密码不一致，请重新输入!"
-			return render_template("adduser.html",content=content)
+			return render_template("register.html",content=content)
 		userinfo=[name,name_cn,passwd,email,mobile,role,status]
 		add_user(userinfo)	
-		return redirect("/")
+		return redirect("/login")
+
 
 @app.route("/deluser")
 def deluser():
@@ -48,7 +74,7 @@ def deluser():
 	uid=request.args.get("uid")
 	print uid
 	del_user(uid)
-	return redirect("/")
+	return redirect("/userlist")
 
 @app.route("/update",methods=['GET','POST'])
 def updateuser():
@@ -68,9 +94,10 @@ def updateuser():
         	userinfo["role"] = request.form['role']
         	userinfo["status"] = request.form['status']
         	update_user(userinfo)
-        	return redirect("/")
-		
-	
+        	return redirect("/userlist")
+
+
+
 
 if __name__=="__main__":
-	app.run(host="0.0.0.0",port=8888,debug=True)
+        app.run(host="0.0.0.0",port=8888,debug=True)

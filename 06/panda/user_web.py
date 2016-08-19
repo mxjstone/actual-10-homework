@@ -86,7 +86,7 @@ def userinfo():
        condition = 'name = "%(name)s"' % where
     fields = ['id', 'name', 'name_cn', 'email', 'mobile'] 
     try:
-        sql = "select %s from users where %s" % (','.join(fields),condition)
+        sql  = "select %s from users where %s" % (','.join(fields),condition)
         cur.execute(sql)
         res = cur.fetchone()
         user = {}
@@ -122,9 +122,10 @@ def update():
            sql = "select %s from users where id = %s " % (','.join(fields),id)
            cur.execute(sql)
            res = cur.fetchone()
-           user = {}
-           for i,k in enumerate(fields):    
-               user[k]=res[i]   
+           # user = {}
+           # for i,k in enumerate(fields):    
+           #    user[k]=res[i]   
+           user = dict((k, res[i]) for i,k in enumerate(fields))  
            return  render_template('update.html', user = user)
        except:
            errmsg = "get one failed"
