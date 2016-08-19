@@ -10,21 +10,24 @@ def index():
 @app.route('/register')
 def register():
     name = request.args.get('name')
-    pwd = request.args. get('password')
+    pwd = request.args.get('password')
     if name != '' and pwd != '':
         user_file.register('user.txt','a+',name,pwd)
-    return redirect('/showuser')
+    else:
+	return "username or password can not be empty"
+    return redirect('/userlilst')
 
-@app.route('/showuser')
-def showuser():
-    users = user_file.showuser('user.txt')
+@app.route('/userlist')
+def userlist():
+    users = user_file.userlist('user.txt')
+    print users
     return render_template('user.html', users = users)
 
 @app.route('/deluser')
 def deluser():
     username = request.args.get('username')
     user_file.deluser('user.txt','r+','w',username)
-    return redirect('/showuser')
+    return redirect('/userlist')
 
 @app.route('/login')
 def login():
@@ -50,7 +53,7 @@ def edit():
     pwd = request.args.get('password')
     user_file.edit('user.txt','w+',name,pwd)
 		
-    return redirect('/showuser')
+    return redirect('/userlist')
 		    
         
 if __name__ == '__main__':
