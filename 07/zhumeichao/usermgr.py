@@ -7,7 +7,7 @@ import time
 import traceback
 import json
 
-conn=mysql.connect(host='localhost',user='root',passwd='123',db='reboot10',unix_socket='/app/mysql/data/mysql.sock',charset='utf8')
+conn=mysql.connect(host='localhost',user='root',passwd='123',db='reboot10',unix_socket='/var/lib/mysql/mysql.sock',charset='utf8')
 cur=conn.cursor()
 app=Flask(__name__)
 
@@ -57,7 +57,7 @@ def userinfo():
     condition = 'id="%(id)s"' % uid
   if uid['name'] and not uid['id']:
     condition = 'name="%(name)s"' % uid
-  if uid['name'] == 'Admin' or uid['id'] == '6':
+  if uid['name'] == 'Admin':
     return redirect('/userlist?name=Admin')
   fields=['id','name','name_cn','email','mobile','role','status','create_time','last_time']
   print condition

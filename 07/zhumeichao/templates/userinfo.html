@@ -25,7 +25,8 @@
 	    <td>{{user["create_time"]}}</td>
 	    <td>{{user["last_time"]}}</td>
 	    <td> <a href='/update?id={{user["id"]}}'><input type="button" name="update" value="更新"></a>
-                 <a href='/login'><input type="button" name="exit" value="注销"></a></td>
+                 <a href='/login'><input type="button" name="exit" value="注销"></a>
+		<a href='/modpasswd?id={{user["id"]}}'><input type="button" name="modpasswd" value="修改密码"></a></td>
 	</tr>
       {%endif%}
     </tbody>
