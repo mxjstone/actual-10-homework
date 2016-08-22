@@ -5,7 +5,7 @@
 
 import MySQLdb as mysql
 
-conn = mysql.connect(host="localhost",user="root",passwd="123456",db="reboot10",charset="utf8")
+conn = mysql.connect(host="localhost",user="root",passwd="www.123",db="reboot10",charset="utf8")
 conn.autocommit(True)
 curs = conn.cursor()
 
