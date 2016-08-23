@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 from flask import Flask,redirect,request,render_template
-from db import get_userlist,getuser,add_user,del_user,update_user,checkuser,userlist
+from db import get_userlist,getuser,add_user,del_user,update_user,checkuser
 
 app=Flask(__name__)
 
@@ -24,17 +24,17 @@ def login():
 	if request.method =='POST':
 		login_info = dict((k,v[0]) for k,v in dict(request.form).items())
 #		print login_info
-	if not login_info["name"] or not login_info["password"]:
-            errmsg = "username and password can not be empty"
-            return render_template("login.html",result=errmsg)
-        if login_info["name"] not in [ n.values()[0] for n in userlist(["name"]) ]:
-            errmsg = "username not exist"
-            return render_template("login.html",result=errmsg)
-        if login_info["password"] != checkuser(login_info["name"]):
-            errmsg = "password is error"
-            return render_template("login.html",result=errmsg)
-	else:
-	    return redirect("/userlist")
+		if not login_info["name"] or not login_info["password"]:
+            		errmsg = "username and password can not be empty"
+            		return render_template("login.html",result=errmsg)
+        	if login_info["name"] not in [ n.values()[0] for n in get_userlist(["name"]) ]:
+            		errmsg = "username not exist"
+            		return render_template("login.html",result=errmsg)
+        	if login_info["password"] != checkuser(login_info["name"]):
+            		errmsg = "password is error"
+            		return render_template("login.html",result=errmsg)
+		else:
+	    		return redirect("/userlist")
 	
 @app.route("/adduser",methods=['GET','POST'])
 def adduser():

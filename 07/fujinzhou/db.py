@@ -4,13 +4,6 @@ import MySQLdb as mysql
 conn=mysql.connect(user='root',passwd='www.123',db='reboot10',charset='utf8')
 curs=conn.cursor()
 
-def userlist(fields):
-    sql = "select %s from users"%",".join(fields)
-    curs.execute(sql)
-    result = curs.fetchall()
-    u_list = [dict((k,row[i]) for i, k in enumerate(fields)) for row in result]
-    return u_list
-
 #获取用户列表
 
 def get_userlist(userlist):
@@ -18,11 +11,12 @@ def get_userlist(userlist):
         users=[]
         curs.execute(sql)
         result=curs.fetchall()
-        for row in result:
-                user={}
-                for k,v in enumerate(userlist):
-                        user[v]=row[k]
-                users.append(user)
+	users=[dict((k,row[i]) for i, k in enumerate(userlist)) for row in result]
+#        for row in result:
+#                user={}
+#                for k,v in enumerate(userlist):
+#                        user[v]=row[k]
+#                users.append(user)
         return users
 
 #获取单个用户
