@@ -1,23 +1,13 @@
 #!/usr/bin/env python
 #coding=utf-8
 
-from flask import Flask,request,render_template,redirect
-import MySQLdb as mysql
+from flask import Flask,request,render_template,redirect,session
 import time
 import traceback
 import json
+from dbapi import *
 
-conn=mysql.connect(host='localhost',user='root',passwd='123',db='reboot10',unix_socket='/var/lib/mysql/mysql.sock',charset='utf8')
-cur=conn.cursor()
 app=Flask(__name__)
-
-def usernames():
-  cur.execute('select name from users')
-  users=cur.fetchall()
-  uinfo=[]
-  for i in users:
-    uinfo.append(i[0])
-  return uinfo 
 
 @app.route('/')
 def usermgr():
@@ -26,70 +16,68 @@ def usermgr():
 @app.route('/login', methods=['GET','POST'])
 def login():
   if request.method == 'POST':
-    user=request.form.get('user')
-    passwd=request.form.get('pass')
-    if not user:
-      errmsg = 'please input username..'
+    uinfo=dict((k,v[0]) for k,v in dict(request.form).items())
+    if not uinfo.get('user',None) or not uinfo.get('pass',None):
+      errmsg = 'please input username and password...'
       return render_template('login.html',result=errmsg)
-    if user in usernames():
-      sql='select password from users where name="%s"'%(user)
-      cur.execute(sql)
-      passre=cur.fetchone()
-      if passwd in passre:
-        return redirect('/userinfo?name=%s' %(user))
-      else:
-        errmsg = 'password not true...'
-        return render_template('login.html',result=errmsg)
+    fields=['id','name','password','role']
+    res=seluser(fields,name=uinfo['user'])
+    if not res:
+      errmsg = '%s not exist..please create it' %(uinfo['user'])
+      return render_template('login.html',result=errmsg)
+    udata=dict((k,res[i]) for i,k in enumerate(fields))
+    if uinfo['pass'] != udata['password']:
+      errmsg = 'password not true...'
+      return render_template('login.html',result=errmsg)
     else: 
-      errmsg = '%s not exist..please create it' %(user)
-      return render_template('login.html',result=errmsg)
+      return redirect('/userinfo?id=%s&role="%s"' %(udata['id'],udata['role']))
   else:
     return render_template('login.html')
 
 @app.route('/userinfo')
 def userinfo():
-  uid = {}
-  uid['id'] = request.args.get('id',None)
-  uid['name'] = request.args.get('name',None)
-  if not uid['id'] and not uid['name']:
-    return redirect('/login')
-  if uid['id'] and not uid['name']:
-    condition = 'id="%(id)s"' % uid
-  if uid['name'] and not uid['id']:
-    condition = 'name="%(name)s"' % uid
-  if uid['name'] == 'Admin':
-    return redirect('/userlist?name=Admin')
+  data = {}
+  data['id'] = request.args.get('id',None)
+  data['name'] = request.args.get('name',None)
+  data['role'] = request.args.get('role',None)
   fields=['id','name','name_cn','email','mobile','role','status','create_time','last_time']
-  print condition
-  sql='select %s from users where %s' %(','.join(fields),condition)
-  print sql
-  cur.execute(sql)
-  result=cur.fetchone()
-  uinfo={}
-  for i,k in enumerate(fields):
-    uinfo[k]=result[i]
-  print uinfo
+  if not data['id'] and not data['name']:
+    return redirect('/login')
+  if data['role'] == '"admin"':
+    return redirect('/userlist?role="admin"')
+  if data['id'] and not data['name']:
+    result=seluser(fields,uid=data['id'])
+  if data['name'] and not data['id']:
+    result=seluser(fields,name=data['name'])
+  uinfo=dict((k,result[i]) for i,k in enumerate(fields))
   return render_template('userinfo.html',user=uinfo)
 
 @app.route('/oneuser')
 def oneuser():
-  name=request.args.get('user')
-  field="name,name_cn,password,email,mobile,role,status"
-  if not name:
-    return redirect('/userlist') 
-  sql='select %s from users where name="%s"' %(field,name)
-  cur.execute(sql)
-  result=cur.fetchall()
-  return render_template('userlist.html',users=result)
+  uname=request.args.get('user')
+  if not uname:
+    return redirect('/userlist?role="admin"') 
+  fields=['id','name','name_cn','email','mobile','role','status','create_time','last_time']
+  result=seluser(fields,name=uname)
+  uinfo=dict((k,result[i]) for i,k in enumerate(fields))
+  return render_template('userlist.html',user=uinfo)
 
 @app.route('/userlist')
 def userlist():
-  fields=['id','name','name_cn','email','mobile','role','status','create_time','last_time']
-  sql='select %s from users' %(','.join(fields))
-  print sql
-  cur.execute(sql)
-  result=cur.fetchall()
-  return render_template('userlist.html',users=result)
+  data = {}
+  data['id'] = request.args.get('id',None)
+  data['name'] = request.args.get('name',None)
+  data['role'] = request.args.get('role',None)
+  if not data['role'] and not data['name'] and not data['id']:
+    return redirect('/login')
+  if data['role'] == '"admin"':
+    fields=['id','name','name_cn','email','mobile','role','status','create_time','last_time']
+    result=seluser(fields)
+    return render_template('userlist.html',users=result)
+  if data['id'] and not data['name']:
+    return redirect('/userinfo?id=%s' % data['id'])
+  if data['name'] and not data['id']:
+    return redirect('/userinfo?name="%s"' % data['name'])
 
 @app.route('/register',methods=['GET','POST'])
 def register():
@@ -105,7 +93,6 @@ def register():
     reginfo["status"]=request.form.get('status',None)
     reginfo["create_time"]=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     reginfo["last_time"]=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    print reginfo
     fields=['name','name_cn','password','email','mobile','role','status','create_time','last_time']
     if not reginfo["name"] or not reginfo["password"] or not reginfo["email"]:
       errmsg = 'please input username,password,email at least!'
@@ -114,11 +101,10 @@ def register():
       errmsg = 'password not match,please retry input'
       return render_template("register.html",result=errmsg)     
     try:
-      sql='insert into users(%s) values (%s)' %(','.join(fields),','.join(['"%s"' % reginfo[x] for x in fields]))
-      cur.execute(sql)
-      conn.commit()
-      info = '%s register seccess,now you can return login!!!'% reginfo["name"]
-      return render_template("register.html",result=info)
+      res=adduser(fields,reginfo)
+      if res:
+        uinfo=dict((k,res[i]) for i,k in enumerate(fields))
+        return redirect('/userinfo?name=%s&role="%s"' %(uinfo['name'],uinfo['role']))
     except:
       errmsg = 'register failed'
       print traceback.print_exc()
@@ -130,63 +116,52 @@ def register():
 def update():
   if request.method == 'POST':
     userdata=dict(request.form)
-    userdata.pop('update')
-    modtime=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    userdata['last_time']=[unicode(modtime)]
-    condition=[ '%s="%s"' %(k,v[0]) for k,v in userdata.items() ]
-    print condition
-    uid=userdata["id"][0]
-    sql='update users set %s where id=%s'%(','.join(condition),uid)
-    print sql
-    cur.execute(sql)
-    conn.commit()
-    return redirect('/userinfo?id=%s'%(uid))
+    try:
+      moduser(userdata)
+      return redirect('/userinfo?id=%s&role="%s"'%(userdata['id'][0],userdata['role'][0]))
+    except:
+      errmsg = 'update failed'
+      print traceback.print_exc()
+      return render_template('update.html',result=errmsg)
   else:
     userid=request.args.get('id')
     fields=['id','name','name_cn','email','mobile','role','status']
-    sql='select %s from users where id=%s' %(','.join(fields),userid)
-    cur.execute(sql)
-    user=cur.fetchone()
-    #uinfo={}
-    #for i,k in enumerate(fields):
-    #  uinfo[k]=user[i]
-    uinfo=dict((k,user[i]) for i,k in enumerate(fields))
+    data=seluser(fields,uid=userid)
+    uinfo=dict((k,data[i]) for i,k in enumerate(fields))
     return render_template('update.html',user=uinfo)
 
 @app.route('/deluser')
 def deluser():
-  uid=request.args.get('id')
-  sql='delete from users where id="%s"' %(uid)
-  cur.execute(sql)
-  conn.commit()
-  return redirect('/userlist')
-
+  userid=request.args.get('id')
+  try:
+    killuser(userid)
+    return redirect('/userlist?role="admin"')
+  except:
+    print traceback.print_exc()
+    return redirect('/userlist?role="admin"')
+ 
 @app.route('/modpasswd',methods=['GET','POST'])
 def modpasswd():
   if request.method == 'POST':
-    uid=request.form.get('id')
-    passwd=request.form.get('passwd')
-    passmd=request.form.get('passmd')
-    passrd=request.form.get('passrd')
-    print passrd
-    if not passwd or not passmd:
-      errmsg='you should input password...'
+    data=dict((k,v[0])  for k,v in dict(request.form).items())    
+    if not data['passwd'] or not data['passmd'] or not data['passrd']:
+      errmsg='you should input full password...'
       return render_template('modpasswd.html',result=errmsg)
-    if passmd != passrd:
+    if data['passmd'] != data['passrd']:
       errmsg='you should input tow same password...'
       return render_template('modpasswd.html',result=errmsg)
-    sql='update users set password="%s" where id="%s"' %(passrd,uid)
-    cur.execute(sql)
-    conn.commit()
-    errmsg='password change success!!!'
-    user={}
-    user['id']=uid
-    return render_template('modpasswd.html',user=user,result=errmsg)
+    try:
+      chgpass(data['passmd'],data['id'])
+      return redirect('/userinfo?id=%s' % data['id'])
+    except:
+      errmsg='password change faild...'
+      print traceback.print_exc()
+      return render_template('modpasswd.html',user=data,result=errmsg)
   else:
     user={}
     user['id']=request.args.get('id')
     return render_template('modpasswd.html',user=user)
 
 if __name__ == '__main__':
-  app.run(host='0.0.0.0',port=1000,debug=True)
+  app.run(host='0.0.0.0',port=2000,debug=True)
 

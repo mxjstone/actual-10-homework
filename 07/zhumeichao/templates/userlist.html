@@ -18,6 +18,22 @@
         </tr>
     </thead>
     <tbody>
+      {% if user %}
+	<tr>
+	    <td>{{user["id"]}}</td>
+	    <td>{{user["name"]}}</td>
+	    <td>{{user["name_cn"]}}</td>
+	    <td>{{user["email"]}}</td>
+	    <td>{{user["mobile"]}}</td>
+	    <td>{{user["role"]}}</td>
+	    <td>{{user["status"]}}</td>
+	    <td>{{user["create_time"]}}</td>
+	    <td>{{user["last_time"]}}</td>
+	    <td> <a href='/update?id={{user["id"]}}'><input type="button" name="update" value="更新"></a>
+                 <a href='/deluser?id={{user["id"]}}'><input type="button" name="delete" value="删除"></a>
+                 <a href='/modpasswd?id={{user["id"]}}'><input type="button" name="modpasswd" value="修改密码"></a></td>
+	</tr>
+      {%endif%}
       {% if users %}
       {% for user in users %}
 	<tr>
@@ -39,4 +55,4 @@
     </tbody>
 </table>
 <p style="color:red">{{ result }}
-<p><b><a href="/">返回用户管理</a>
+<p><b><a href="/login">注  销</a>
