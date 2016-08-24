@@ -35,7 +35,8 @@ def getuser(uid):
 #添加用户
 
 def add_user(userlist):
-        sql='insert into users(name,name_cn,password,email,mobile,role,status)values("%s")'%'","'.join(userlist)
+#        sql='insert into users(name,name_cn,password,email,mobile,role,status)values("%s")'%'","'.join(userlist)
+	sql="insert into users(%s)values('%s')"%(",".join(userlist.keys()),"','".join(userlist.values()))
         curs.execute(sql)
         conn.commit()
 

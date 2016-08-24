@@ -47,24 +47,28 @@ def adduser():
 
 #前端post请求，逻辑端通过request.form获取整个表单的值
 	if request.method =="POST":
-		userlist=dict((k,v[0]) for k,v in dict(request.form).items())
-		if userlist["name"] in [ n.values() for n in get_userlist(["name"]) ]:
-			content = "username is exist"
+		name=request.form['username']
+		name_cn=request.form['username_cn']
+		passwd=request.form['password']
+		repasswd=request.form['re_password']
+		email=request.form['email']
+		mobile=request.form['mobile']
+		role=request.form['role']
+		status=request.form['status']
+		userlist=get_userlist(["name"])
+		print userlist
+		if len(name)==0 or len(name_cn)==0 or len(passwd) == 0 or len(email) == 0 or len(mobile) == 0:
+			content="username and passwd is not empty"
 			return render_template("register.html",content=content)
-		if not userlist["name"] or not userlist["password"]:
-			content = "username and password is not empty"
+
+		if name in map(lambda x:x["name"],userlist):
+			content=u"username is exist"
 			return render_template("register.html",content=content)
-		if userlist["password"] != userlist["re_password"]:
-			content="password is error"
+		if passwd !=repasswd:
+			content=u"password is error!"
 			return render_template("register.html",content=content)
-		fields = ["name","name_cn","password","mobile","email","role","status"]
-        	values = [ '%s'%userlist[x] for x in fields]
-		print values
-#[u'weixiaobao', u'weixiaobao', u'123', u'123123', u'123113', u'ops', u'0']
-        	userdict = dict([(k,values[i]) for i,k in enumerate(fields)])
-		print userdict
-#{'status': u'0', 'name': u'weixiaobao', 'mobile': u'123123', 'name_cn': u'weixiaobao', 'role': u'ops', 'password': u'123', 'email': u'123113'}
-		add_user(userdict)	
+		userinfo=[name,name_cn,passwd,email,mobile,role,status]
+		add_user(userinfo)	
 		return redirect("/login")
 
 
