@@ -5,7 +5,7 @@
 
 import MySQLdb as mysql
 
-conn = mysql.connect(host="localhost",user="root",passwd="www.123",db="reboot10",charset="utf8")
+conn = mysql.connect(host="localhost",user="root",passwd="123456",db="reboot10",charset="utf8")
 conn.autocommit(True)
 curs = conn.cursor()
 
@@ -40,16 +40,22 @@ def delete(uid):
     curs.execute(sql)
     conn.commit()
 
-def checkuser(name):
-    sql = "select password from users where name='%s'"%name
+def checkuser(dict):
+    sql = "select password from users where %s='%s'"%(dict.keys()[0],dict.values()[0])
     curs.execute(sql)
     passwd = curs.fetchone()
     return passwd[0]
+
+def modpasswd(dict):
+    sql = "update users set password='%(password)s' where id=%(id)s"%dict
+    curs.execute(sql)
+    conn.commit()
+
 if __name__ == "__main__":
     # delete(10)
     # print userlist(['id','name'])
     # print getone("11")
-    print checkuser("jack")
+    #print checkuser({"name":"admin"})
     #modfiy({"name":"jack","mobile":"12345","id":"1"})
-
-#mydb.delete(11)
+    modpasswd({"id":"22","password":"1234"})
+    #mydb.delete(11)

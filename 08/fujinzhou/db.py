@@ -32,6 +32,20 @@ def getuser(uid):
                 userinfo[k]=result[i]
         return userinfo
 
+
+def getone(name):
+	userlist=["name","name_cn","email","mobile","role","status"]
+	sql="select %s from users where name='%s'" %(",".join(userlist),name)
+        curs.execute(sql)
+        result=curs.fetchone()
+        conn.commit()
+        userinfo={}
+        for i,k in enumerate(userlist):
+                userinfo[k]=result[i]
+        return userinfo
+
+
+
 #添加用户
 
 def add_user(userlist):
