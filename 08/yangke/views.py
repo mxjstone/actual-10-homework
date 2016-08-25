@@ -132,5 +132,6 @@ def cgpasswd():
 
 @app.route("/logout")
 def logout():
+    session.pop('role',None)
     session.pop('username', None)
     return redirect("/login")
