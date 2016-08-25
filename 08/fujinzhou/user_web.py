@@ -19,8 +19,14 @@ def index():
 	if not session.get('name'):
 		return redirect('/login')
 	user_items=["id","name","name_cn","email","mobile","role","status"]
-	userlist=get_userlist(user_items)
-	return render_template("userlist.html",users=userlist)
+	username=session.get("name")
+	if username == "admin":
+		userlist=get_userlist(user_items)
+		return render_template("userlist.html",users=userlist)
+	else:
+		users=getone(username)
+		print users
+		return render_template("userinfo.html",users=users)
 
 @app.route("/login",methods=['GET','POST'])
 def login():
@@ -45,14 +51,7 @@ def login():
 		else:
 #判断session中的用户名与表单里面的用户名是否相同
 			session['name']=login_info['name']
-			if session['name']=='admin':
-	    			return redirect("/userlist")
-			else:
-				name=request.form.get('name')
-				print name
-				userlist=getone(name)
-				print userlist
-				return render_template("userinfo.html",users=userlist)
+	    		return redirect("/userlist")
 
 	
 
