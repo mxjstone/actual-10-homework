@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+</head>
+<body>
+<form action="/users/change_pass/" method="post">
+    <div>
+        <lable>用户名</lable>
+        <input type="text" name="name" value={{ name }} readonly>
+    </div>
+    <div>
+        <lable>旧密码</lable>
+        <input type="password" name="old_pass">
+    </div>
+    <div>
+        <lable>新密码</lable>
+        <input type="password" name="new_pass">
+    </div>
+    <div>
+        <button type="submit">修改</button>
+    </div>
+</form>
+<p style="color: red;">{{ status }}</p>
+</body>
+</html>
