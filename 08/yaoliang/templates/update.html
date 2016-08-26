@@ -6,6 +6,12 @@
 <body>
   <form id="updateForm">
         <input type="hidden" id='id' name="id" value='{{user.id}}'>  <!--update need id-->
+
+        <div>
+            <label>用户名：</label>
+            <input id='name' type='text' name='name' readonly='true' value='{{user.name}}'>
+        </div><!-- name_cn-->
+
         <div>
             <label>中文名：</label>
             <input id='name_cn' type='text' name='name_cn' required='required'  value='{{user.name_cn}}'>
@@ -20,14 +26,14 @@
             <label>邮箱号：</label>
             <input id='email' type='text' name='email' value='{{user.email}}'>
         </div><!-- email -->
-
+<!--
         <div>
             <label>角色&nbsp：</label>
             <select name='role' id='role'>
                 <option value="admin">管理员</option>
                 <option value ="user">普通用户</option>
             </select>
-         </div> <!--role-->
+         </div> 
     
         <div>
             <label>状态&nbsp：</label>
@@ -35,8 +41,8 @@
                 <option value=0>正常</option> 
                 <option value=1>锁定</option>
             </select>
-         </div> <!--status-->
-
+         </div> 
+-->
         
         <div>
             <button id='updatebtn' type="submit">更新信息</button>
