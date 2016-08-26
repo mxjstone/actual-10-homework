@@ -32,6 +32,20 @@ def getuser(uid):
                 userinfo[k]=result[i]
         return userinfo
 
+
+def getone(name):
+	userlist=["id","name","name_cn","email","mobile","role","status"]
+	sql="select %s from users where name='%s'" %(",".join(userlist),name)
+        curs.execute(sql)
+        result=curs.fetchone()
+        conn.commit()
+        userinfo={}
+        for i,k in enumerate(userlist):
+                userinfo[k]=result[i]
+        return userinfo
+
+
+
 #添加用户
 
 def add_user(userlist):
@@ -59,3 +73,10 @@ def checkuser(name):
     curs.execute(sql)
     passwd = curs.fetchone()
     return passwd[0]
+
+#修改密码
+def modpasswd(password,name):
+    sql = "update users set password='%s' where name='%s'"%(password,name)
+    curs.execute(sql)
+    conn.commit()
+

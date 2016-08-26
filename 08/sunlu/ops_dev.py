@@ -20,12 +20,12 @@ def login():
             session['role'] = mysql.get_one('role', 'name', d['username'])[0]
             if session['role'] == '1':
                 mysql.insert_time(d['username'])
-                return redirect('/userlist')
+                return jsonify({'code': 'OK'})
             else:
                 mysql.insert_time(d['username'])
-                return redirect('/userlist')
+                return jsonify({'code': 200})
         else:
-            return render_template('login.html', error=all_error)
+            return jsonify({'code': 'error'})
     else:
         return render_template('login.html')
 

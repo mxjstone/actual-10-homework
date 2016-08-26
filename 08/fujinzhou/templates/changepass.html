@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>修改密码</title>
+</head>
+<body>
+    <form method="post" action="/modpasswd">
+        <input type="password" name="oldpassword" placeholder="老密码">
+        <input type="password" name="password" placeholder="新密码">
+	<input type="password" name="password" placeholder="新密码">
+	<input type="submit" value="修改">
+    </form>
+    {% if result %}
+    <div style="color:red">
+        {{result}}
+    </div>
+    {% endif %}
+</body>
+</html>
