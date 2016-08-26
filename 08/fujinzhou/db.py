@@ -34,7 +34,7 @@ def getuser(uid):
 
 
 def getone(name):
-	userlist=["name","name_cn","email","mobile","role","status"]
+	userlist=["id","name","name_cn","email","mobile","role","status"]
 	sql="select %s from users where name='%s'" %(",".join(userlist),name)
         curs.execute(sql)
         result=curs.fetchone()
