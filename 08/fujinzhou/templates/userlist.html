@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    欢迎登陆用户管理系统! <a href="/loginout">退出</a>
+    你好{{username}},欢迎登陆用户管理系统! <a href="/loginout">退出</a>
 </div>
     <h4>用户列表</h4>
     <table border='1'>
@@ -39,6 +39,7 @@
                     {% endif %}
                     <td>
                         <a href="/update?uid={{user['id']}}">更新</a>
+			<a href="/modpasswd">修改密码</a>
                         <a href="/deluser?uid={{user['id']}}">删除</a>
                     </td>
                 </tr>

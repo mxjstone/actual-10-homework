@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 from flask import Flask,redirect,request,render_template,session
-from db import get_userlist,getuser,add_user,del_user,update_user,checkuser,getone
+from db import get_userlist,getuser,add_user,del_user,update_user,checkuser,getone,modpasswd
 import json
 
 app=Flask(__name__)
@@ -22,11 +22,11 @@ def index():
 	username=session.get("name")
 	if username == "admin":
 		userlist=get_userlist(user_items)
-		return render_template("userlist.html",users=userlist)
+		return render_template("userlist.html",users=userlist,username=username)
 	else:
 		users=getone(username)
 		print users
-		return render_template("userinfo.html",users=users)
+		return render_template("userinfo.html",users=users,username=username)
 
 @app.route("/login",methods=['GET','POST'])
 def login():
@@ -123,8 +123,27 @@ def updateuser():
         	update_user(userinfo)
         	return redirect("/userlist")
 
-
-
+@app.route("/modpasswd",methods=["GET","POST"])
+def changepass():
+	if request.method=="GET":
+		return render_template("changepass.html")
+	if request.method=="POST":
+		passwd_info=dict((k,v[0]) for k,v in dict(request.form).items())
+		if not passwd_info.get("password","None") or not passwd_info.get("oldpassword","None"):
+			errmsg = "password can not be empty"
+			return render_template("changepass.html",result=errmsg)
+		if passwd_info["oldpassword"] != checkuser(session.get("name")):
+			oldpassword=checkuser(session.get("name"))
+			print oldpassword
+			errmsg= "your input oldpassword is error"
+			return render_template("changepass.html",result=errmsg)
+		else:
+			name=session.get("name")
+			password=passwd_info["password"]
+			print name
+			print password
+			modpasswd(password,name)
+			return  redirect('/userlist')
 
 if __name__=="__main__":
         app.run(host="0.0.0.0",port=8888,debug=True)
