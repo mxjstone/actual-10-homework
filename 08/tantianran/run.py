@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Program:
-#	This program is the database operation
+#	This program is the run the program
 # Author:   Tantianran    15915822634@139.com
 # last modification time:  /2016/08/25    
 # Version:  v0.1
