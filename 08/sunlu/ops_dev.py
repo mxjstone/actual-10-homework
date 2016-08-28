@@ -77,6 +77,7 @@ def userlist():
 def update():
     if not session.get('username'):
         return redirect('/login')
+    sess = dict(session)
     ids = int(request.args.get('id'))
     users = mysql.upuser_dict(ids)
     print users
@@ -86,7 +87,7 @@ def update():
         mysql.up_user(d_user, ids)
         return redirect('/userlist')
     else:
-        return render_template('update.html', users=users)
+        return render_template('update.html', users=users, sess=sess)
 
 
 @app.route('/delete', methods=['GET', 'POST'])
