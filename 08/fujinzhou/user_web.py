@@ -37,21 +37,25 @@ def login():
 		print login_info
 		if not login_info.get("name",None) or not login_info.get("password",None):
             		errmsg = "username and password can not be empty"
-            		return render_template("login.html",result=errmsg)
+#            		return render_template("login.html",result=errmsg)
+			return json.dumps({'code':'1','errmsg':errmsg})
 #把数据库中所有的name拿出来存为一个list
         	if login_info["name"] not in  [ n.values()[0] for n in get_userlist(["name"]) ]:
 			namelist=[ n.values()[0] for n in get_userlist(["name"]) ]
 			print namelist
 			print login_info["name"]
             		errmsg = "username not exist"
-            		return render_template("login.html",result=errmsg)
+#            		return render_template("login.html",result=errmsg)
+			return json.dumps({'code':'1','errmsg':errmsg})
         	if login_info["password"] != checkuser(login_info["name"]):
             		errmsg = "password is error"
-            		return render_template("login.html",result=errmsg)
+#            		return render_template("login.html",result=errmsg)
+			return json.dumps({'code':'1','errmsg':errmsg})
 		else:
 #判断session中的用户名与表单里面的用户名是否相同
 			session['name']=login_info['name']
-	    		return redirect("/userlist")
+#	    		return redirect("/userlist")
+			return json.dumps({'code':'0','result':"login sucess"})
 
 	
 
@@ -73,13 +77,16 @@ def adduser():
 		userlist=dict((k,v[0]) for k,v in dict(request.form).items())
 		if userlist["name"] in [ n.values() for n in get_userlist(["name"]) ]:
 			content = "username is exist"
-			return render_template("register.html",content=content)
+#			return render_template("register.html",content=content)
+			return json.dumps({'code':'1','errmsg':errmsg})
 		if not userlist["name"] or not userlist["password"]:
 			content = "username and password is not empty"
-			return render_template("register.html",content=content)
+#			return render_template("register.html",content=content)
+			return json.dumps({'code':'1','errmsg':errmsg})
 		if userlist["password"] != userlist["re_password"]:
 			content="password is error"
-			return render_template("register.html",content=content)
+#			return render_template("register.html",content=content)
+			return json.dumps({'code':'1','errmsg':errmsg})
 		fields = ["name","name_cn","password","mobile","email","role","status"]
         	values = [ '%s'%userlist[x] for x in fields]
 		print values
@@ -88,7 +95,9 @@ def adduser():
 		print userdict
 #{'status': u'0', 'name': u'weixiaobao', 'mobile': u'123123', 'name_cn': u'weixiaobao', 'role': u'ops', 'password': u'123', 'email': u'123113'}
 		add_user(userdict)	
-		return redirect("/login")
+#		return redirect("/login")
+		return json.dumps({'code':'0','result':"register sucess"})
+	
 
 
 @app.route("/deluser")
@@ -131,19 +140,22 @@ def changepass():
 		passwd_info=dict((k,v[0]) for k,v in dict(request.form).items())
 		if not passwd_info.get("password","None") or not passwd_info.get("oldpassword","None"):
 			errmsg = "password can not be empty"
-			return render_template("changepass.html",result=errmsg)
+#			return render_template("changepass.html",result=errmsg)
+			return json.dumps({'code':'1','errmsg':errmsg})
 		if passwd_info["oldpassword"] != checkuser(session.get("name")):
 			oldpassword=checkuser(session.get("name"))
 			print oldpassword
 			errmsg= "your input oldpassword is error"
-			return render_template("changepass.html",result=errmsg)
+#			return render_template("changepass.html",result=errmsg)
+			return json.dumps({'code':'1','errmsg':errmsg})
 		else:
 			name=session.get("name")
 			password=passwd_info["password"]
 			print name
 			print password
 			modpasswd(password,name)
-			return  redirect('/userlist')
+#			return  redirect('/userlist')
+			return json.dumps({'code':'0','result':"change sucess"})
 
 if __name__=="__main__":
         app.run(host="0.0.0.0",port=8888,debug=True)
