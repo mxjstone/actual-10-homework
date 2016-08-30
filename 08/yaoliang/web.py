@@ -89,8 +89,8 @@ def update():
     else:
 	data = dict(request.form)
         conditions = [ "%s='%s'" %  (k,v[0]) for k,v in data.items()]
-        db.update(conditions,data['id'][0])
 	if session.get('role'):
+            db.update(conditions,data['id'][0])
             return json.dumps({'code':'0','result':'modify success!'})
 	else:
 	    return redirect('/')
