@@ -76,15 +76,15 @@ def adduser():
 	if request.method =="POST":
 		userlist=dict((k,v[0]) for k,v in dict(request.form).items())
 		if userlist["name"] in [ n.values() for n in get_userlist(["name"]) ]:
-			content = "username is exist"
+			errmsg = "username is exist"
 #			return render_template("register.html",content=content)
 			return json.dumps({'code':'1','errmsg':errmsg})
 		if not userlist["name"] or not userlist["password"]:
-			content = "username and password is not empty"
+			errmsg = "username and password is not empty"
 #			return render_template("register.html",content=content)
 			return json.dumps({'code':'1','errmsg':errmsg})
 		if userlist["password"] != userlist["re_password"]:
-			content="password is error"
+			errmsg="password is error"
 #			return render_template("register.html",content=content)
 			return json.dumps({'code':'1','errmsg':errmsg})
 		fields = ["name","name_cn","password","mobile","email","role","status"]

@@ -57,19 +57,19 @@
             <button id="adduser">添加用户</button>
         </div> <!--button--> 
     </form>
+    <p id="errmsg" style="color:red"></p>
+   {% if errmsg %}
+    <div style="color:red">
+        {{errmsg}}
+    </div>
+    {% endif %}
  
-    <div style="color:red" id="errmsg"></div>
-
-
     <script type="text/javascript" src="/static/js/jquery-3.1.0.min.js"></script>
     <script>
     $('#adduser').on('click',function(){
      var str = $('#addForm').serialize()
-     console.log(str) 
      $.post("/adduser",str,function(data){
-          console.log(data)    
           data = JSON.parse(data)
-          console.log(data)  
           if (data['code']==0){
             alert(data['result'])
             location.href="/login"
