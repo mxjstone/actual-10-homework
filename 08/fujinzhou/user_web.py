@@ -75,7 +75,10 @@ def adduser():
 #前端post请求，逻辑端通过request.form获取整个表单的值
 	if request.method =="POST":
 		userlist=dict((k,v[0]) for k,v in dict(request.form).items())
-		if userlist["name"] in [ n.values() for n in get_userlist(["name"]) ]:
+		print userlist
+		print [ n.values()[0] for n in get_userlist(["name"]) ]
+		print userlist["name"]
+		if userlist["name"] in [ n.values()[0] for n in get_userlist(["name"]) ]:
 			errmsg = "username is exist"
 #			return render_template("register.html",content=content)
 			return json.dumps({'code':'1','errmsg':errmsg})
