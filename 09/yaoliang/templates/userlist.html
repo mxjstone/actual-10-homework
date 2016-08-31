@@ -330,19 +330,19 @@ $(document).ready(function(){
     }) 
 })
 
-$('#deletebtn').click(function(){
-    var str = $('#deletebtn').attr('name')
-    $.getJSON('/delete',str,function(data){
- 	data = data['result']
-	if (data['code'] == 0){	
-	    alert(data)
-	    location.href='/user'
-	}else{
-            $('errmsg').html(data['errmsg'])
-        }
-    })
-    return false
-})
+//$('#deletebtn').click(function(){
+//    var str = $('#deletebtn').attr('name')
+//    $.getJSON('/delete',str,function(data){
+// 	data = data['result']
+//	if (data['code'] == 0){	
+//	    alert(data)
+//	    location.href='/user'
+//	}else{
+//            $('errmsg').html(data['errmsg'])
+//        }
+//    })
+//    return false
+//})
 
 //$.ajax(function(){
 //    var dataname = $('#updatebtn').attr('dataname')
