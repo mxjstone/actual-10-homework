@@ -4,7 +4,7 @@
 import MySQLdb as mysql
 import time
 
-conn=mysql.connect(host='localhost',user='root',passwd='123',db='reboot10',unix_socket='/app/mysql/data/mysql.sock',charset='utf8')
+conn=mysql.connect(host='localhost',user='root',passwd='123',db='reboot10',charset='utf8')
 cur=conn.cursor()
 
 #Select User

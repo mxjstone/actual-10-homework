@@ -126,7 +126,7 @@
                     <h5> 更新用户信息 </h5>
                 </div>
                 <div class="ibox-content">
-		<form action="/update" class="form-horizontal nice-validator n-yellow" id="updateForm" method="post" novalidate="novalidate">
+		<form action="" class="form-horizontal nice-validator n-yellow" id="updateForm" method="post" novalidate="novalidate">
 		{% if user %}
 			<div class="form-group">
                                 <div class="col-sm-8">
@@ -177,12 +177,12 @@
                         </div>
                         <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-2">
-                            <button type="submit" class="btn btn-primary" id="submit_button">确认保存</button>
-                            <a href="/userinfo"><button class="btn btn-primary"> 取消 </button></a>
+                            <button type="submit" class="btn btn-primary" id="upbtn">确认保存</button>
+                            <a href="/userlist"><button class="btn btn-primary"> 取消 </button></a>
                         </div>
                 </div>
                 {% endif %}
-		</form><p style="color:red">{{ result }}</p>
+		</form><p id="result" style="color:red">{{ result }}</p>
     		</div>
 	    </div>
 	</div>
@@ -196,5 +196,21 @@
         <strong>Copyright</strong> McCoyServer.org Team © 2016-2017
     </div>
   </div>
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.min.js"></script>
+<script>
+$('#upbtn').click(function(){
+        var formdata = $('#updateForm').serialize()
+        $.post("/update",formdata,function(data){
+                udata = JSON.parse(data)
+                if (udata['code']==0){
+                        alert(udata['result'])
+                        location.href="/userlist"
+                }else{
+                        $('#result').html(udata['errmsg'])
+                }
+        })
+        return false
+})
+</script>
 </body>
 </html>

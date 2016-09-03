@@ -9,7 +9,8 @@ from dbapi import *
 from run_server import app
 
 @app.route('/')
-def usermgr():
+@app.route('/index')
+def index():
   return render_template('index.html')
 
 @app.route('/login', methods=['GET','POST'])
@@ -18,25 +19,25 @@ def login():
     uinfo=dict((k,v[0]) for k,v in dict(request.form).items())
     if not uinfo.get('user',None) or not uinfo.get('pass',None):
       errmsg = 'please input username and password...'
-      return json.dumps({'code':'1','errmsg':errmsg})
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
     fields=['id','name','password','role','status']
     res=seluser(fields,name=uinfo['user'])
     if not res:
       errmsg = '%s not exist..please create it' %(uinfo['user'])
-      return json.dumps({'code':'1','errmsg':errmsg})
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
     udata=dict((k,res[i]) for i,k in enumerate(fields))
     if udata['status'] == 1:
       errmsg = '%s is lock..please unlock it' %(uinfo['user'])
-      return json.dumps({'code':'1','errmsg':errmsg})
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
     if uinfo['pass'] != udata['password']:
       errmsg = 'password not true...'
-      return json.dumps({'code':'1','errmsg':errmsg})
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
     else:
       session['username']=udata['name']
       session['password']=udata['password']
       session['role']=udata['role']
       errmsg = 'Login Success!!!'
-      return json.dumps({'code':'0','result':errmsg})
+      return json.dumps({"code" : 0,"result" : errmsg})
   else:
     return render_template('login.html')
 
@@ -86,22 +87,20 @@ def register():
     fields=['name','name_cn','password','email','mobile','role','status','create_time','last_time']
     if not reginfo['name'] or not reginfo['password'] or not reginfo['email']:
       errmsg = 'please input username,password,email at least!'
-      return render_template("register.html",result=errmsg)     
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
     if reginfo["password"] != reginfo["passre"]:
       errmsg = 'password not match,please retry input'
-      return render_template("register.html",result=errmsg)     
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
     try:
       res=adduser(fields,reginfo)
       if res:
         uinfo=dict((k,res[i]) for i,k in enumerate(fields))
-        session['username']=uinfo['name']
-        session['role']=uinfo['role']
-        session['password']=uinfo['password']
-        return redirect('/userinfo')
+	msg = "Register Success!!!"
+        return json.dumps({"code" : 0,"errmsg" : errmsg})
     except:
       errmsg = 'register failed'
       print traceback.print_exc()
-      return render_template("register.html",result=errmsg)     
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
   else:
     if not session.get('username'):
       return redirect('/login')
@@ -114,15 +113,13 @@ def update():
   if request.method == 'POST':
     userdata=dict(request.form)
     try:
-      print userdata
       moduser(userdata)
-      return redirect('/userinfo')
+      msg = "Update Success!!!"
+      return json.dumps({"code" : 0,"errmsg" : errmsg})
     except:
       errmsg = 'update failed'
       print traceback.print_exc()
-    if session['role'] == "admin":
-      return render_template('juser/admin_edit.html',result=errmsg)
-    return render_template('juser/user_edit.html',result=errmsg)
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
   else:
     if not session.get('username'):
       return redirect('/login')
@@ -149,23 +146,24 @@ def deluser():
     print traceback.print_exc()
     return redirect('/userlist')
  
-@app.route('/modpasswd',methods=['GET','POST'])
+@app.route('/modpasswd', methods=['GET','POST'])
 def modpasswd():
   if request.method == 'POST':
     data=dict((k,v[0])  for k,v in dict(request.form).items())    
     if not data['passwd'] or not data['passmd'] or not data['passrd']:
       errmsg='you should input full password...'
-      return render_template('pass_edit.html',result=errmsg)
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
     if data['passmd'] != data['passrd']:
       errmsg='you should input tow same password...'
-      return render_template('pass_edit.html',result=errmsg)
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
     try:
       chgpass(data['passmd'],data['name'])
-      return redirect('/userinfo')
+      msg='Password Change Success !!!'
+      return json.dumps({"code" : 0,"result" : msg})
     except:
       errmsg='password change faild...'
       print traceback.print_exc()
-      return render_template('pass_edit.html',user=data,result=errmsg)
+      return json.dumps({"code" : 1,"errmsg" : errmsg})
   else:
     if not session.get('username'):
       return redirect('/login')

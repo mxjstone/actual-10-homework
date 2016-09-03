@@ -124,7 +124,7 @@
                         <h5>填写基本信息</h5>
                     </div>
                     <div class="ibox-content">
-                        <form action="/register" class="form-horizontal nice-validator n-yellow" id="regForm" method="post" novalidate="novalidate">
+                        <form action="" class="form-horizontal nice-validator n-yellow" id="regForm" method="post" novalidate="novalidate">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="name">用户名<span class="red-fonts">*</span></label>
                                 <div class="col-sm-8">
@@ -178,7 +178,7 @@
                             <div class="hr-line-dashed"></div>
                             <div class="form-group"><label class="col-sm-2 control-label">状态</label>
                                 <div class="col-sm-8">
-				<select name="role" id="role">
+				<select name="status" id="status">
                                     <label><option value="0">启用 </label>
                                     <label><option value="1">禁用 </label>
 				</select>
@@ -187,7 +187,7 @@
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
-                                    <button type="submit" class="btn btn-primary" id="submit_button">确认保存</button>
+                                    <button type="submit" class="btn btn-primary" id="subtn">确认保存</button>
                                     <a href="/userlist"><button class="btn btn-primary"> 取消 </button></a>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
             </div>
         </div>
     </div>
-</table><p style="color:red">{{ result }}</p>
+</table><p id="result" style="color:red">{{ result }}</p>
   <div class="footer fixed">
     <div class="pull-right">
         Version <strong>0.3.1</strong> GPL.
@@ -206,5 +206,21 @@
         <strong>Copyright</strong> McCoyServer.org Team © 2016-2017
     </div>
   </div>
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.min.js"></script>
+<script>
+$('#subtn').click(function(){
+	var formdata = $('#regForm').serialize()
+	$.post("/register",formdata,function(data){
+		data = JSON.parse(data)
+		if (data['code']==0){
+			alert(data['result'])
+			location.href="/userlist"
+		}else{
+			$('#result').html(data['errmsg'])
+		}
+	})
+	return false
+})
+</script>
 </body>
 </html>
