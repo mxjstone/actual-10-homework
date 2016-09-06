@@ -3,9 +3,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-<title>Reboot | Devops自动化运维平台</title>
+    <title>Reboot | Devops自动化运维平台</title>
 
-<link href="/static/pulgin/Validform/style.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/pulgin/sweetalert-master/dist/sweetalert.css">
+<script src="/static/pulgin/sweetalert-master/dist/sweetalert.min.js"></script>
+
 <link rel="shortcut icon" href="/static/img/facio.ico" type="image/x-icon">
 <link href="/static/css/bootstrap.min.css" rel="stylesheet">
 <link href="/static/css/style.css" rel="stylesheet">
@@ -13,17 +15,18 @@
 <!--plugins-->
 <link href="/static/pulgin/Font-Awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
 <link href="/static/pulgin/layer-v2.4/layer/skin/layer.css" rel="stylesheet">
-<link href="/static/pulgin/datatables/jquery.dataTables.min.css" rel="stylesheet">
-<link href="/static/pulgin/sweetalert-master/dist/sweetalert.css" rel="stylesheet">
+
 
 <script src="/static/js/jquery-2.1.1.js"></script>
 
 <!--plugins-->
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/pulgin/layer-v2.4/layer/layer.js"></script>
-<script src="/static/pulgin/datatables/jquery.dataTables.min.js"></script>
-<script src="/static/pulgin/Validform/Validform_v5.3.2_min.js"></script>
-<script src="/static/pulgin/sweetalert-master/dist/sweetalert-dev.js"></script>
+
+<!--datatables plugins-->
+<script type="text/javascript" src="/static/pulgin/datatables/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="/static/pulgin/datatables/jquery.dataTables.min.css" type="text/css"/>
+
 
 
 <!--整个页面的框架-->
@@ -52,20 +55,37 @@
         </a>
     </div>
 </li>
+<script>
+    $(".iframe_user").on('click', function(){
+        var url= $(this).attr("value");
+        layer.open({
+            type: 2,
+            title: '个人信息',
+            maxmin: true,
+            shift: 'top',
+            border: [2, 0.3, '#1AB394'],
+            shade: [0.5, '#000000'],
+            shadeClose: true,
+            area : ['800px', '600px'],
+            content: '\<\div style="padding:20px;">自定义内容\<\/div>'
+        });
+    });
+</script>
 <!--左边栏头像部分结束-->
 
 <!--左边菜单栏开始-->
+
 <li id="index" class="active">
 <a href="/"><i class="fa fa-dashboard"></i> <span class="nav-label">仪表盘</span><span class="label label-info pull-right"></span></a>
 </li>   <!--仪表盘-->
-           
+
 <li id="juser">
 <a href="#"><i class="fa fa-group"></i><span class="nav-label">用户管理</span></span><span class="fa arrow"></span></a>
    <ul class="nav nav-second-level collapse">
         <li class="group"><a href="/userlist">个人中心</a></li>
         <li class="user"><a href="/userlist">用户列表</a></li>
    </ul>
-</li>   <!-- 用户管理 -->     
+</li>   <!-- 用户管理 -->
 
 
 <li id="jasset">
@@ -75,9 +95,9 @@
         <li class="asset"> <a href="/cabinet">机柜管理</a></li>
         <li class="idc"> <a href="/server">服务器管理</a></li>
       </ul>
-</li> <!-- 资产管理 -->     
+</li> <!-- 资产管理 -->
 
-         
+
 <li id="setting">
 <a href="#"><i class="fa fa-gears"></i> <span class="nav-label">监控</span><span class="label label-info pull-right"></span></a>
 </li>    <!--监控-->
@@ -94,9 +114,10 @@
 <li class="special_link">
 <a href="http://www.51reboot.com" target="_blank"><i class="fa fa-database"></i> <span class="nav-label">访问官网</span></a>
 </li>  <!--link-->
- 
-</ul> 
+
+</ul>
 </div>
+
 </nav>  <!--左边导航结束-->
 <!--左边导航点击自动弹出下拉菜单-->
 <script>
@@ -119,6 +140,8 @@ $('#juser').click(function(){
 <div class="row border-botto">
    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
    <div class="navbar-header">
+    <form role="search" class="navbar-form-custom" method="get" action="">
+        </form> 
     </div>
     <ul class="nav navbar-top-links navbar-right">
         <li>
@@ -145,12 +168,12 @@ $('#juser').click(function(){
                 <a href="/">
                 {% block breadcrumb %}
                 {% endblock %}
+          
                 </a>
             </li>
         </ol>
     </div>
 </div> <!--右边导航结束-->
-
 
 <!--正文部分分了三层-->
 <div class="wrapper wrapper-content">
@@ -162,9 +185,6 @@ $('#juser').click(function(){
 
          </div>
     </div>
-    <br>
-
-
 </div> <!--wrapper-content-->
 
 
