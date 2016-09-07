@@ -63,8 +63,10 @@
 <li id="juser">
 <a href="#"><i class="fa fa-group"></i> <span class="nav-label">用户管理</span><span class="fa arrow"></span></a>
    <ul class="nav nav-second-level collapse">
-        <li class="group"><a href="/">个人中心</a></li>
+        <li class="group"><a href="/ucenter">个人中心</a></li>
+        {% if info.role == "admin" %}
         <li class="user"><a href="/userlist">用户列表</a></li>
+        {% endif %}
    </ul>
 </li>   <!-- 用户管理 -->     
      

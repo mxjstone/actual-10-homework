@@ -37,6 +37,7 @@
                 <td class="text-center">
                     <button data-id="{{user.id}}" class="btn btn-xs btn-info update">编辑</button>
                     <button data-id="{{user.id}}" class="btn btn-xs btn-danger del ">删除</button>
+                    <button data-id="{{user.id}}" class="btn btn-xs btn-primary modpasswd">修改密码</button>
                 </td>
             </td>
          </tr>
@@ -57,16 +58,6 @@
                 <label for="username" class="col-sm-2 control-label">用户名<span class="red-fonts">*</span></label>
                 <div class="col-sm-8">
                     <input id="name" name="name" placeholder="Username" type="text" class="form-control" readonly="">
-                </div>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
-                <label for="password" class="col-sm-2 control-label">密码</label>
-                <div class="col-sm-8">
-                    <input id="password" name="password" placeholder="Password" type="password" class="form-control">
-                    <span class="help-block m-b-none">
-                        登陆web的密码（如不修改请留空）
-                    </span>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
@@ -129,6 +120,44 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+<div class="modal fade" id="passwdModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">修改密码</h4>
+      </div>
+      <form id="passwdForm" class="form-horizontal nice-validator n-yellow" novalidate="novalidate">
+      <div class="modal-body">
+            <input type="hidden" name="id" id="passwdid">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">新密码<span class="red-fonts">*</span></label>
+                <div class="col-sm-8">
+                    <input id="password" name="password" type="password" class="form-control">
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">确认密码<span class="red-fonts">*</span></label>
+                <div class="col-sm-8">
+                    <input id="re_password" name="re_password" type="password" class="form-control">
+                </div>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-sm-6 red-fonts" id="errmsg"></div>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id="passwdbtn">确认</button>
+      </div>
+       </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
 </div> <!--col-sm-12-->
     <script>
     $(".del").click(function () {
@@ -168,8 +197,26 @@
             }
         })
     })
-    </script>
 
+    $(".modpasswd").click(function () {
+        $("#passwdModal").modal("show")
+        var id=$(this).attr("data-id")
+        $("#passwdid").val(id)
+    })
+
+    $("#passwdbtn").click(function () {
+        $.post("/modfpasswd",$("#passwdForm").serialize(),function (data) {
+            data=JSON.parse(data)
+            if(data["code"] == 1){
+                $("#errmsg").text(data["errmsg"])
+            }else{
+                alert(data["result"])
+                location.reload()
+            }
+        })
+    })
+
+    </script>
 
 {% endblock %}
 
