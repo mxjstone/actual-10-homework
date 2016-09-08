@@ -83,6 +83,10 @@ def cabinet():
         return redirect("/login")
     return  render_template('cabinet.html',info=session)
 
+
+
+
+
 @app.route('/server')
 def server():
     fields = ["id","name","ip","idc","name_grp","os","cpu","memory","hd"]
