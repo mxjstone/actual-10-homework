@@ -5,6 +5,9 @@ from flask import Flask, render_template, redirect, request, session
 import db
 import json
 import os
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 app = Flask(__name__)
 app.secret_key=os.urandom(32)
@@ -34,9 +37,8 @@ def login():
 @app.route('/users/')
 def user_list():
     user_list = db.user_list()
-    if session.get('username', '') == 'admin':
-        return render_template('users.html', users=user_list)
-    return 'hahaha'
+    user_login = {'user':session.get('username')}
+    return render_template('users.html', users=user_list, session = user_login)
 
 @app.route('/users/regedit/')
 def user_regedit():
@@ -47,14 +49,13 @@ def user_regedit():
 def change_pass():
     if request.method == 'GET':
         name = request.args.get('name')
-        return render_template('change_pass.html', name=name)
+        return render_template('change_pass.html', name=name, session={'user': session.get('username')})
     else:
-        if session.get('username', '') != 'admin':
-            return 'you are not admin, you can not change password!'
+        login_name = session.get('username')
         name = request.form.get('name')
         old_pass = request.form.get('old_pass')
         new_pass = request.form.get('new_pass')
-        status = db.change_pass(name, old_pass, new_pass)
+        status = db.change_pass(login_name, name, old_pass, new_pass)
         if status == "1":
             return redirect('/users/')
         else:
@@ -81,7 +82,7 @@ def users_update():
         # return redirect('/users/')
     id = request.args.get('id')
     user = db.get_user_by_id(id)
-    return render_template('user_modify.html', user=user)
+    return render_template('user_modify.html', user=user, session={'user': session.get('username')})
 
 
 @app.route('/users/delete/', methods=['GET'])

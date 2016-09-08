@@ -5,12 +5,12 @@ from datetime import datetime
 
 
 def auth_user(username, password):
-    sql = "select * from users where name=%s and password=%s" % (username, password)
+    sql = "select * from users where name='%s' and password='%s'" % (username, password)
     sql_count, rt_list = execute_sql(sql)
     if sql_count == 0:
         return False
     last_login = datetime.now()
-    sql1 = "update users set last_time=%s where name=%s" % (last_login,username)
+    sql1 = "update users set last_time='%s' where name='%s'" % (last_login,username)
     execute_sql(sql1, fetch=False)
     return True
 
@@ -22,24 +22,31 @@ def user_list():
     users = []
     for i in rt_list:
         users.append(dict(zip(columns, i)))
+    for i in users:
+        if i.get('status') == 0:
+            i['status'] = '正常'
+            if i.get('role') == 'admin':
+                i['role'] = '管理员'
+            else:
+                i['role'] = '普通用户'
+        else:
+            i['status'] = '锁定'
     return users
 
 
 def user_regedit_check(user_data):
-    flag = False
     for v in user_data.values():
         if v == '':
-            error = "All msg can't be null"
-            return flag,error
+            error = {"status":1, "msg":"All msg can't be null"}
+            return error
     if user_check(user_data['name']):
-        error = 'user %s exist' % (user_data['name'])
-        return flag,error
+        error = {"status":1, "msg":'user %s exist' % (user_data['name'])}
+        return error
     if user_data['password'] != user_data['repwd']:
-        error = "password and repwd are not same"
-        return flag,error
-    flag = True
-    error = ''
-    return flag,error
+        error = {"status":1, "msg":"password and repwd are not same"}
+        return error
+    error = {"status":0, "msg":'success'}
+    return error
 
 
 def user_check(name):
@@ -85,15 +92,21 @@ def user_del(id):
     return False
 
 
-def change_pass(name,old_pass,new_pass):
+def change_pass(login_name, name,old_pass,new_pass):
+    if login_name == 'admin':
+        sql = "update users set password='%s' where name='%s'" % (new_pass, name)
+        if execute_sql(sql, fetch=False):
+            return "1"
+        else:
+            return "password change failed"
     if new_pass == '':
         return 'please enter your pass'
-    sql = "select password from users where name=%s" % (name)
+    sql = "select password from users where name='%s'" % (name)
     sql_cnt, rt_list = execute_sql(sql)
     pass_in_db = ''.join(rt_list[0]).strip()
     if old_pass != pass_in_db:
         return "old password is wrong"
-    sql = "update users set password=%s where name=%s" % (new_pass, name)
+    sql = "update users set password='%s' where name='%s'" % (new_pass, name)
     if execute_sql(sql, fetch=False):
         return "1"
     else:

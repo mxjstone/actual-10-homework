@@ -22,6 +22,15 @@ def user_list():
     users = []
     for i in rt_list:
         users.append(dict(zip(columns, i)))
+    for i in users:
+        if i.get('status') == 0:
+            i['status'] = '正常'
+            if i.get('role') == 'admin':
+                i['role'] = '管理员'
+            else:
+                i['role'] = '普通用户'
+        else:
+            i['status'] = '锁定'
     return users
 
 
@@ -83,7 +92,13 @@ def user_del(id):
     return False
 
 
-def change_pass(name,old_pass,new_pass):
+def change_pass(login_name, name,old_pass,new_pass):
+    if login_name == 'admin':
+        sql = "update users set password='%s' where name='%s'" % (new_pass, name)
+        if execute_sql(sql, fetch=False):
+            return "1"
+        else:
+            return "password change failed"
     if new_pass == '':
         return 'please enter your pass'
     sql = "select password from users where name='%s'" % (name)
