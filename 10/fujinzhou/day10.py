@@ -100,7 +100,7 @@ def deluser():
         uid=request.args.get("uid")
         print uid
         del_user(uid)
-        return redirect("/userlist")
+	return json.dumps({"code":0,"result":"delete user success"})
 
 @app.route("/update",methods=['GET','POST'])
 def updateuser():
@@ -124,8 +124,7 @@ def updateuser():
                 userinfo["role"] = request.form['role']
                 userinfo["status"] = request.form['status']
                 update_user(userinfo)
-                return redirect("/userlist")
-
+		return json.dumps({"code":0})
 
 @app.route("/modpasswd",methods=["GET","POST"])
 def changepass():
@@ -195,7 +194,7 @@ def delidc():
         uid=request.args.get("uid")
         print uid
         del_idc(uid)
-        return redirect("/idc")
+	return json.dumps({"code":0,"result":"delete idc success"})
 
 
 @app.route("/updateidc",methods=['GET','POST'])
@@ -219,8 +218,7 @@ def updateidc():
                 idcinfo["telephone"] = request.form['telephone']
                 idcinfo["remarks"] = request.form['remarks']
                 update_idc(idcinfo)
-                return redirect("/idc")
-
+		return json.dumps({"code":0})
 
 @app.route('/server')
 def server():
