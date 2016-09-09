@@ -12,6 +12,11 @@ def get_userlist(userlist):
         curs.execute(sql)
         result=curs.fetchall()
 	users=[dict((k,row[i]) for i, k in enumerate(userlist)) for row in result]
+#        for row in result:
+#                user={}
+#                for k,v in enumerate(userlist):
+#                        user[v]=row[k]
+#                users.append(user)
         return users
 
 #获取单个用户
@@ -44,6 +49,7 @@ def getone(name):
 #添加用户
 
 def add_user(userlist):
+#        sql='insert into users(name,name_cn,password,email,mobile,role,status)values("%s")'%'","'.join(userlist)
 	sql="insert into users(%s)values('%s')"%(",".join(userlist.keys()),"','".join(userlist.values()))
         curs.execute(sql)
         conn.commit()
@@ -74,47 +80,3 @@ def modpasswd(password,name):
     curs.execute(sql)
     conn.commit()
 
-#获取idc列表
-
-def get_idclist(idclist):
-        sql="select %s from idclist" %','.join(idclist)
-        idcs=[]
-        curs.execute(sql)
-        result=curs.fetchall()
-        idcs=[dict((k,row[i]) for i, k in enumerate(idclist)) for row in result]
-        return idcs
-
-#添加idc
-
-def add_idc(idclist):
-        sql="insert into idclist(%s)values('%s')"%(",".join(idclist.keys()),"','".join(idclist.values()))
-        curs.execute(sql)
-        conn.commit()
-
-#删除idc
-
-def del_idc(uid):
-        sql="delete from idclist where id=%s"%uid
-        curs.execute(sql)
-        conn.commit()
-
-
-#更新IDC
-
-def update_idc(idcdict):
-        sql="update idclist set cabinets='%(cabinets)s',hosts='%(hosts)s',contacts='%(contacts)s',telephone='%(telephone)s',remarks='%(remarks)s'  where name='%(name)s'"%(idcdict)
-        curs.execute(sql)
-        conn.commit()
-
-#获取单个IDC
-
-def getidc(uid):
-        idclist=["name","cabinets","hosts","contacts","telephone","remarks"]
-        sql="select %s from idclist where id=%s" %(",".join(idclist),uid)
-        curs.execute(sql)
-        result=curs.fetchone()
-        conn.commit()
-        idcinfo={}
-        for i,k in enumerate(idclist):
-                idcinfo[k]=result[i]
-        return idcinfo
