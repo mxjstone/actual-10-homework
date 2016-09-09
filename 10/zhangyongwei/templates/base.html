@@ -32,15 +32,15 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">{% block session_user %}{% endblock %}</a></li>           <!--  block session_user -->
+        <li><a href="#">欢迎 {% block session_user %}{% endblock %}</a></li>           <!--  block session_user -->
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理中心<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <li><a href="/users/">用户中心</a></li>
+            <li><a href="#">欢迎来到德莱联盟</a></li>
+            <li><a href="#">欢迎来到召唤师峽谷</a></li>
             <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <li><a href="/logout/">退出登录</a></li>
           </ul>
         </li>
         </ul>

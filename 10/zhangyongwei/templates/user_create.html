@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% block title %}添加用户{% endblock %}
+{% block session_user %}{{ session.user }}{% endblock %}
 {% block main %}
 
 
-    <div class="col-md-4 right">
+    <div class="col-md-10 right">
+
+    <ol class="breadcrumb">
+      <li><a href="/users/">Home</a></li>
+      <li class="active">添加用户</li>
+    </ol>
+
       <form id="addForm" class="form-horizontal">
           <div class="form-group">
             <label for="name" class="col-md-2 control-label">用户名：</label>
