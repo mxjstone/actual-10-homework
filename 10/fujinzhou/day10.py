@@ -113,7 +113,6 @@ def updateuser():
                 userinfo=getuser(uid)
 		print userinfo
 		return json.dumps(userinfo)
-#                return render_template("update.html",user=userinfo)
 #获取到更新页面表单的值，然后提交更新
         if request.method =="POST":
                 userinfo={}
@@ -124,6 +123,7 @@ def updateuser():
                 userinfo["role"] = request.form['role']
                 userinfo["status"] = request.form['status']
                 update_user(userinfo)
+		print update_user(userinfo)
 		return json.dumps({"code":0})
 
 @app.route("/modpasswd",methods=["GET","POST"])

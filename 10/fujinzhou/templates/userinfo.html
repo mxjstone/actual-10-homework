@@ -17,6 +17,8 @@
                                 <th class="text-center">中文名</th>
                                 <th class="text-center">邮箱</th>
                                 <th class="text-center">手机号</th>
+                                <th class="text-center">角色</th>
+				<th class="text-center">状态</th>
                                 <th class="text-center">操作</th>
                             </tr>
                         </thead>
@@ -27,6 +29,12 @@
                     			<td class="text-center">{{users.name_cn}}</td>
                     			<td class="text-center">{{users.email}}</td>
                     			<td class="text-center">{{users.mobile}}</td>
+					<td class="text-center">{{users.role}}</td>
+					{% if users.status == 0 %}
+                                        <td class="text-center">激活</td>
+                                        {% else %}
+                                        <td class="text-center">锁定</td>
+                                        {% endif %}
                     			<td class="text-center">
   			                <button data-id="{{users['id']}}" class="btn btn-xs btn-info update">更新</button>
 					<button data-id="{{users['id']}}" class="btn btn-xs btn-warning change ">修改密码 </button>
@@ -38,14 +46,14 @@
     </div>
 </div>
 
-<div class="modal fade" id="updataModal">
+<div class="modal fade" id="upuserModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title">更新用户信息</h4>
       </div>
-      <form id="updateForm" class="form-horizontal nice-validator n-yellow" novalidate="novalidate">            
+      <form id="updateuserForm" class="form-horizontal nice-validator n-yellow" novalidate="novalidate">            
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">用户名<span class="red-fonts">*</span></label>
                                 <div class="col-sm-8">
@@ -74,10 +82,29 @@
                                     <input  id="mobile" name="mobile" placeholder="mobile" type="text" class="form-control">
                                 </div>
                            </div>
+				
+			   <div class="form-group" id="role">
+                                <label for="role" class="col-sm-2 control-label">角色</label>
+                                <div class="col-sm-8">
+                                    <select name="role">
+                                    <option value="admin" class="form-control">管理员</option>
+                                    <option value="user" class="form-control">普通用户</option>
+                                    </select>
+                                </div>
+                           </div>
+                        <div class="form-group" id="status">
+                                <label for="status" class="col-sm-2 control-label">状态</label>
+                                <div class="col-sm-8">
+                                    <select name="status">
+                                    <option value="0" class="form-control">激活</option>
+                                    <option value="1" class="form-control">锁定</option>
+                                    </select>
+                                </div>
+                           </div>
 
      			<div class="modal-footer">
         			<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        			<button type="button" class="btn btn-primary" id="upbtn">确认</button>
+        			<button type="button" class="btn btn-primary" id="upbutton">确认</button>
       			</div>
 		</form>
     </div><!-- /.modal-content -->
@@ -126,30 +153,6 @@
 
 <script>
 
-    $(".btn-info").click(function () {
-        $("#updataModal").modal("show")
-        var id=$(this).attr("data-id")
-        $.getJSON("/update",{uid:id},function (data) {
-            $("#name").val(data["name"]);
-            $("#name_cn").val(data["name_cn"]);
-            $("#mobile").val(data["mobile"]);
-            $("#email").val(data["email"])
-        } )
-    })
-
-    $("#upbtn").click(function () {
-        $.post("/update",$("#updateForm").serialize(),function (data) {
-            data=JSON.parse(data)
-            if(data["code"]==0){
-                alert("modfiy success")
-                location.reload()
-            }else{
-                alert("error")
-            }
-        })
-    })
-
-
     $(".btn-warning").click(function () {
         $("#changpass").modal("show")
         var id=$(this).attr("data-id")
@@ -168,6 +171,35 @@
             }
         })
     })
+
+
+    $(".btn-info").click(function () {
+        $("#upuserModal").modal("show")
+        var id=$(this).attr("data-id")
+        $.getJSON("/update",{uid:id},function (data) {
+            $("#name").val(data["name"]);
+            $("#name_cn").val(data["name_cn"]);
+            $("#mobile").val(data["mobile"]);
+            $("#email").val(data["email"])
+	    $("#role").hide()
+	    $("#status").hide()
+        } )
+    })
+
+
+
+    $("#upbutton").click(function () {
+        $.post("/update",$("#updateuserForm").serialize(),function (data) {
+            data=JSON.parse(data)
+            if(data["code"]==0){
+                alert("modfiy success")
+                location.reload()
+            }else{
+                alert("error")
+            }
+        })
+    })
+
 
     </script>
 
