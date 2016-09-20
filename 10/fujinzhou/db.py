@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 import MySQLdb as mysql
-conn=mysql.connect(user='root',passwd='www.123',db='reboot10',charset='utf8')
+conn=mysql.connect(user='root',passwd='123.com',db='reboot10',charset='utf8')
 curs=conn.cursor()
 
 #获取用户列表
