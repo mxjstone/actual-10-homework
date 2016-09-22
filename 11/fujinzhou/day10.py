@@ -92,7 +92,7 @@ def adduser():
                 return json.dumps({'code':'0','result':"register sucess"})
 
 
-@app.route("/deluser")
+@app.route("/deluser",methods=['POST'])
 def deluser():
         if not session.get('name'):
                 return redirect('/login')
@@ -186,7 +186,7 @@ def addidc():
                 return json.dumps({'code':'0','result':"add sucess"})
 
 
-@app.route("/delidc")
+@app.route("/delidc",methods=['POST'])
 def delidc():
         if not session.get('name'):
                 return redirect('/login')
