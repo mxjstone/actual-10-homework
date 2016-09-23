@@ -103,10 +103,15 @@ $('#addbutton').on('click',function(){
      $.post("/adduser",str,function(data){
           data = JSON.parse(data)
           if (data['code']==0){
-            alert(data['result'])
-            location.href="/userlist"
+                swal({
+                        title:"注册成功",
+                        text: data['result'],
+                        type: "success",
+                        },function(){
+                                location.href="/userlist"
+                });
           }else{
-            $('#errmsg').html(data['errmsg'])
+            sweetAlert("my god",data['errmsg'],"error");
            }
      })
       return false

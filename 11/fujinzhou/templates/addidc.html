@@ -80,10 +80,15 @@ $('#addbutton').on('click',function(){
      $.post("/addidc",str,function(data){
           data = JSON.parse(data)
           if (data['code']==0){
-            alert(data['result'])
-            location.href="/idc"
+                swal({
+                        title:"添加成功",
+                        text: data['result'],
+                        type: "success",
+                        },function(){
+                                location.href="/idc"
+                });
           }else{
-            $('#errmsg').html(data['errmsg'])
+            sweetAlert("my god",data['errmsg'],"error");
            }
      })
       return false

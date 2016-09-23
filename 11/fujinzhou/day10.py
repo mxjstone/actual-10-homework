@@ -21,7 +21,6 @@ def login():
                 return render_template("login.html")
         if request.method =='POST':
                 login_info = dict((k,v[0]) for k,v in dict(request.form).items())
-                print login_info
                 if not login_info.get("name",None) or not login_info.get("password",None):
                         errmsg = "username and password can not be empty"
                         return json.dumps({'code':'1','errmsg':errmsg})
@@ -52,6 +51,7 @@ def userlist():
         username=session.get("name")
         if username == "admin":
                 userlist=get_userlist(user_items)
+		print userlist
                 return render_template("userlist.html",users=userlist,username=username)
         else:
                 users=getone(username)
@@ -126,27 +126,21 @@ def updateuser():
 		print update_user(userinfo)
 		return json.dumps({"code":0})
 
-@app.route("/modpasswd",methods=["GET","POST"])
+@app.route("/modpasswd",methods=["POST"])
 def changepass():
-        if request.method=="GET":
-		username=session.get("name")
-                return render_template("changepass.html",username=username)
         if request.method=="POST":
                 passwd_info=dict((k,v[0]) for k,v in dict(request.form).items())
-                if not passwd_info.get("password","None") or not passwd_info.get("oldpassword","None"):
+		print passwd_info
+		if len(passwd_info) == 3:
+			if passwd_info["password"] != passwd_info["re_password"]:
+				return json.dumps({"code":1,"errmsg":"The tow password is different"})
+                if not passwd_info.get("password","None") or not passwd_info.get("re_password","None"):
                         errmsg = "password can not be empty"
                         return json.dumps({'code':'1','errmsg':errmsg})
-                if passwd_info["oldpassword"] != checkuser(session.get("name")):
-                        oldpassword=checkuser(session.get("name"))
-                        print oldpassword
-                        errmsg= "your input oldpassword is error"
-                        return json.dumps({'code':'1','errmsg':errmsg})
                 else:
-                        name=session.get("name")
+                        uid=passwd_info["id"]
                         password=passwd_info["password"]
-                        print name
-                        print password
-                        modpasswd(password,name)
+                        modpasswd(password,uid)
                         return json.dumps({'code':'0','result':"change sucess"})
 
 

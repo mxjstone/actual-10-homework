@@ -47,7 +47,7 @@
                     			{% endif %}
                     			<td class="text-center">
   			                <button data-id="{{user['id']}}" class="btn btn-xs btn-info update">更新</button>
-					<a class="btn btn-xs btn-warning email" href="/modpasswd?uid={{user['id']}}"> 修改密码 </a>
+					<button data-id="{{user['id']}}" class="btn btn-xs btn-warning change ">修改密码</button>
                     			<button data-id="{{user['id']}}" class="btn btn-xs btn-danger del ">删除</button>
                     			</td>
                 		</tr>
@@ -123,6 +123,41 @@
 </div><!-- /.modal -->
 
 
+<div class="modal fade" id="changpass">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">修改密码</h4>
+      </div>
+                        <form id="passwdForm" class="form-horizontal">
+				<input type="hidden" name="id" id="passwdid">
+
+                            <div class="form-group">
+                                <label for="password" class="col-sm-2 control-label">新密码<span class="red-fonts"></span></label>
+                                <div class="col-sm-8">
+                                    <input id="password" name="password" type="password" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="re_password" class="col-sm-2 control-label">确认密码</label>
+                                <div class="col-sm-8">
+                                    <input id="re_password" name="re_password" type="password" class="form-control">
+                                </div>
+                            </div>
+
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" id="chpass">确认</button>
+                        </div>
+                </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
 <div class="modal fade" id='deleteModel'>
   <div class="modal-dialog">
     <div class="modal-content">
@@ -188,6 +223,30 @@ $('.del-sure').click(function(){
             if(data["code"]==0){
                 swal({
                     title:'更新成功',
+                    text:"success",
+                    type:'success',
+                    },function(){
+                        location.reload()
+                    })
+            }else{
+                swal('Error',data['errmsg'],'error')
+            }
+        })
+    })
+
+
+    $(".btn-warning").click(function () {
+        $("#changpass").modal("show")
+        var id=$(this).attr("data-id")
+	$("#passwdid").val(id)
+    })
+
+    $("#chpass").click(function () {
+        $.post("/modpasswd",$("#passwdForm").serialize(),function (data) {
+            data=JSON.parse(data)
+            if(data["code"]==0){
+	         swal({
+                    title:'修改成功',
                     text:"success",
                     type:'success',
                     },function(){

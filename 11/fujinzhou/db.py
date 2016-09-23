@@ -69,8 +69,8 @@ def checkuser(name):
     return passwd[0]
 
 #修改密码
-def modpasswd(password,name):
-    sql = "update users set password='%s' where name='%s'"%(password,name)
+def modpasswd(password,uid):
+    sql = "update users set password='%s' where id='%s'"%(password,uid)
     curs.execute(sql)
     conn.commit()
 
