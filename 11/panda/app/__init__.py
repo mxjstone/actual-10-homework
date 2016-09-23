@@ -6,4 +6,10 @@ app = Flask(__name__)
 
 app.secret_key = "UIsadl;oi3&*(&9023sd"
 
-import demo,login,cmdb
+import login
+import demo
+import idc
+import cabinet
+import server
+import mem
+import log
