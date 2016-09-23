@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block breadcrumb %} 
-用户列表
+个人用户
 {% endblock %}
 {% block main %} 
 
@@ -103,7 +103,7 @@
 	    <div id='password_div' class="form-group">
 		<label for="password" class="col-sm-2 control-label">旧密码<span class="red-fonts">*</span></label>
 		<div class="col-sm-8">
-		    <input id="mod-password" name="password" placeholder="Password" type="password" class="form-control">
+		    <input id="mod-password" name="password" placeholder="Password" type="password" class="form-control" aria-required="true" data-tip="密码" class='inputxt' datatype='*6-18' nullmsg='请输入旧密码' errormsg='密码最少6位，最多18位'>
 		</div>
 	    </div>
 	    {% endif %}
@@ -225,19 +225,22 @@ $('.update').click(function(){
 
 $('.update-sure').click(function(){
     var str=$('#updateForm').serialize()
-    $.post('/update/',str,function(data){
-	data=JSON.parse(data)
-	if (data['code'] == 0){
-	    swal('Congratulation',data['result'],'success')
-	    //location.href='/userlist'
-	    $('.confirm').click(function(){
-	        location.href='/userself/'
-	    })
-	}else{
-	    swal('Error',data['errmsg'],'error')
-	}
-    })
-    return false
+    var msg=$('.Validform_wrong').text()
+    if (!msg){
+	$.post('/update/',str,function(data){
+	    data=JSON.parse(data)
+	    if (data['code'] == 0){
+		swal('Congratulation',data['result'],'success')
+		//location.href='/userlist'
+		$('.confirm').click(function(){
+		    location.href='/userself/'
+		})
+	    }else{
+		swal('Error',data['errmsg'],'error')
+	    }
+	})
+	return false
+    }
 })
 
 $('.modpwd').click(function(){
