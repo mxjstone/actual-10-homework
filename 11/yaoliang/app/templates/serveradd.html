@@ -115,14 +115,17 @@ $('#cancel_button').click(function(){
 })
 
 var str = ''
-var str1 = ''
 $.getJSON('/cabinet_msg/',function(data){
     cabinets = data['result']
     for(var i=0;i<cabinets.length;i++){
 	str += '<option value="'+cabinets[i]['id']+'">'+cabinets[i]['name']+'</option>'
-	str1 = '<option style="display:none">'+'请选择机柜'+'</option>'
-	$('#cabinet_id').html(str1+str)
+	$('#cabinet_id').html(str)
     }
+$('#idc_id').multiselect({
+            placeholder: "请选择",
+            enableCaseInsensitiveFiltering: true
+            })
+$('#idc_id').multiselect('refresh')
 })
 
 </script>
