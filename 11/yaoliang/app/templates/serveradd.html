@@ -121,11 +121,11 @@ $.getJSON('/cabinet_msg/',function(data){
 	str += '<option value="'+cabinets[i]['id']+'">'+cabinets[i]['name']+'</option>'
 	$('#cabinet_id').html(str)
     }
-$('#idc_id').multiselect({
+$('#cabinet_id').multiselect({
             placeholder: "请选择",
             enableCaseInsensitiveFiltering: true
             })
-$('#idc_id').multiselect('refresh')
+$('#cabinet_id').multiselect('refresh')
 })
 
 </script>
