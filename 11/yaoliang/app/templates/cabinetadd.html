@@ -101,13 +101,11 @@ $('#cancel_button').click(function(){
 })
 
 var str = ''
-var str1 = ''
 $.getJSON('/idc_msg',function(data){
     idcs = data['result']
     for(var i=0;i<idcs.length;i++){
 	str += '<option value="'+idcs[i]['id']+'">'+idcs[i]['name']+'</option>'
-	str1 = '<option style="display:none">'+'请选择机房'+'</option>'
-	$('#idc_id').html(str1+str)
+	$('#idc_id').html(str)
     }
 $('#idc_id').multiselect({
             placeholder: "请选择",
