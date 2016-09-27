@@ -7,6 +7,7 @@ import json
 import db
 
 fields_server=['id','hostname','lan_ip','wan_ip','cabinet_id','op','phone']
+fields_cabinet=['id','name','idc_id','u_num','power']
 
 @app.route('/server/')
 def server():
@@ -14,6 +15,10 @@ def server():
 	return render_template('login.html')
     role = session.get('role')
     servers = db.list('server',fields_server)
+    for i in servers:
+	cabinet = db.list('cabinet',fields_cabinet,i['cabinet_id'])
+	i['cabinet_id'] = cabinet['name']
+
     return render_template("serverlist.html",servers = servers,role = role)
 
 

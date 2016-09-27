@@ -7,6 +7,7 @@ import json
 import db
 
 fields_cabinet=['id','name','idc_id','u_num','power']
+fields_idc=['id','name','name_cn','address','adminer','phone','num']
 
 @app.route('/cabinet/')
 def cabinet():
@@ -14,6 +15,10 @@ def cabinet():
 	return render_template('login.html')
     role = session.get('role')
     cabinets = db.list('cabinet',fields_cabinet)
+    for i in cabinets:
+	idc = db.list('idc',fields_idc,i['idc_id'])
+	i['idc_id'] = idc['name']
+
     return render_template("cabinetlist.html",cabinets = cabinets,role = role)
 
 @app.route('/cabinet_msg/')
