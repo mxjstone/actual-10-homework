@@ -6,7 +6,7 @@ import db
 import hashlib
 
 #app.secret_key = 'sldkfjljl'
-salt = "sdfljal"
+salt = "aaaaa"
 
 @app.route('/')
 @app.route('/index')
