@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block breadcrumb %} 
-用户列表
+个人中心
 {% endblock %}  
 {% block main %}
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -146,6 +146,7 @@
 </div><!-- /.modal -->
 
 <script>
+$('#editable').DataTable();
 
     $(".btn-warning").click(function () {
         $("#changpass").modal("show")
@@ -190,10 +191,15 @@
         $.post("/update",$("#updateuserForm").serialize(),function (data) {
             data=JSON.parse(data)
             if(data["code"]==0){
-                alert("modfiy success")
-                location.reload()
+                swal({
+                    title:'更新成功',
+                    text:"success",
+                    type:'success',
+                    },function(){
+                        location.reload()
+                    })
             }else{
-                alert("error")
+                swal('Error',data['errmsg'],'error')
             }
         })
     })

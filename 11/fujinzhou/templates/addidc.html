@@ -14,7 +14,7 @@
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">机房名</label>
                                 <div class="col-sm-8">
-                                    <input id="name" name="name" placeholder="机房名" type="text" class="form-control">
+                                    <input id="name" name="name" placeholder="机房名" type="text" class="form-control" aria-required="true" data-tip="输入用户名" class='inputxt' datatype='s4-8' errormsg='用户名最少4个字符，最多8个字符'/>
                                 </div>
                             </div>
 
@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <label for="contacts" class="col-sm-2 control-label">联系人</label>
                                 <div class="col-sm-8">
-                                    <input  id="contacts" name="contacts" placeholder="联系人" type="text" class="form-control">
+                                    <input  id="contacts" name="contacts" placeholder="联系人" type="text" class="form-control" aria-required="true" data-tip="中文名" class='inputxt' datatype='s3-4' errormsg='中文名最少3个字符，最多4个字符'>
                                 </div>
 			   </div>
 
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 <label for="telephone" class="col-sm-2 control-label">电话<span class="red-fonts"></span></label>
                                 <div class="col-sm-8">
-                                    <input id="telephone"  name="telephone" placeholder="电话" type="text" class="form-control">
+                                    <input id="telephone"  name="telephone" placeholder="电话" type="text" class="form-control" aria-required="true" data-tip="手机号" class='inputxt' ignore='ignore' datatype='m' errormsg='手机号必须11位数字'>
                                 </div>
                             </div>
 
@@ -58,7 +58,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
-                                    <button class="btn btn-white" type="submit">取消</button>
+                                    <button id="cancel_button" class="btn btn-white" type="submit">取消</button>
                                     <button id="addbutton" class="btn btn-primary" type="submit">添加</button>
                                 </div>
                             </div>
@@ -73,10 +73,16 @@
 
 
 <!--adduser -->
-<script src="/static/js/jquery-3.1.0.min.js"></script>
 <script>
+$('#addform').Validform({
+    tiptype:3,
+})
+
+
 $('#addbutton').on('click',function(){
      var str = $('#addform').serialize()
+     var strs=$('.Validform_wrong').text()
+    if(!strs){
      $.post("/addidc",str,function(data){
           data = JSON.parse(data)
           if (data['code']==0){
@@ -92,6 +98,12 @@ $('#addbutton').on('click',function(){
            }
      })
       return false
+	}
 })
+
+$('#cancel_button').click(function(){
+    location.href='/idc'
+})
+
 </script>
 {% endblock %}

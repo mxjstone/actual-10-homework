@@ -21,6 +21,9 @@ def login():
                 return render_template("login.html")
         if request.method =='POST':
                 login_info = dict((k,v[0]) for k,v in dict(request.form).items())
+		name=login_info["name"]
+		userlists=getone(name)
+		print userlists
                 if not login_info.get("name",None) or not login_info.get("password",None):
                         errmsg = "username and password can not be empty"
                         return json.dumps({'code':'1','errmsg':errmsg})
@@ -34,6 +37,8 @@ def login():
                 if login_info["password"] != checkuser(login_info["name"]):
                         errmsg = "password is error"
                         return json.dumps({'code':'1','errmsg':errmsg})
+		if int(userlists['status'])==1:
+			return json.dumps({'code':'1','errmsg':"账户被锁定"})
                 
 #判断session中的用户名与表单里面的用户名是否相同
                 session['name']=login_info['name']
@@ -51,9 +56,16 @@ def userlist():
         username=session.get("name")
         if username == "admin":
                 userlist=get_userlist(user_items)
-		print userlist
+#		print userlist
                 return render_template("userlist.html",users=userlist,username=username)
-        else:
+
+@app.route("/userinfo")
+def userinfo():
+        if not session.get('name'):
+                return redirect('/login')
+        user_items=["id","name","name_cn","email","mobile","role","status"]
+        username=session.get("name")
+        if username==session.get('name'):
                 users=getone(username)
                 print users
                 return render_template("userinfo.html",users=users,username=username)
