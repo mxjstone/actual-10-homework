@@ -51,7 +51,7 @@ def userlist():
         username=session.get("name")
         if username == "admin":
                 userlist=get_userlist(user_items)
-		print userlist
+#		print userlist
                 return render_template("userlist.html",users=userlist,username=username)
         else:
                 users=getone(username)

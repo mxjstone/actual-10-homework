@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label for="name_cn" class="col-sm-2 control-label">中文名<span class="red-fonts">*</span></label>
                                 <div class="col-sm-8">
-                                    <input id="name_cn" name="name_cn" placeholder="中文名" type="text" class="form-control" aria-required="true" data-tip="中文名" class='inputxt' datatype='s2-4' errormsg='中文名最少2个字符，最多4个字符'>
+                                    <input id="name_cn" name="name_cn" placeholder="中文名" type="text" class="form-control" aria-required="true" data-tip="中文名" class='inputxt' datatype='zh3-4' errormsg='中文名最少3个字符，最多4个字符'>
                                 </div>
                             </div>
 
@@ -91,7 +91,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
-                                    <button class="btn btn-white" type="submit">取消</button>
+                                    <button id="cancel_button" class="btn btn-white" type="submit">取消</button>
                                     <button id="addbutton" class="btn btn-primary" type="submit">添加</button>
                                 </div>
                             </div>
@@ -121,6 +121,8 @@ $('#addform').Validform({
 
 $('#addbutton').on('click',function(){
      var str = $('#addform').serialize()
+     var str=$('.Validform_wrong').text()
+    if(!str){
      $.post("/adduser",str,function(data){
           data = JSON.parse(data)
           if (data['code']==0){
@@ -136,6 +138,11 @@ $('#addbutton').on('click',function(){
            }
      })
       return false
+          }
+})
+
+$('#cancel_button').click(function(){
+    location.href='/userlist'
 })
 </script>
 {% endblock %}
