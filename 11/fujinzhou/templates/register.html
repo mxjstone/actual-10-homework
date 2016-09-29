@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label for="name_cn" class="col-sm-2 control-label">中文名<span class="red-fonts">*</span></label>
                                 <div class="col-sm-8">
-                                    <input id="name_cn" name="name_cn" placeholder="中文名" type="text" class="form-control" aria-required="true" data-tip="中文名" class='inputxt' datatype='zh3-4' errormsg='中文名最少3个字符，最多4个字符'>
+                                    <input id="name_cn" name="name_cn" placeholder="中文名" type="text" class="form-control" aria-required="true" data-tip="中文名" class='inputxt' datatype='s3-4' errormsg='中文名最少3个字符，最多4个字符'/>
                                 </div>
                             </div>
 
@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label for="mobile" class="col-sm-2 control-label">手机</label>
                                 <div class="col-sm-8">
-                                    <input  id="mobile" name="mobile" placeholder="mobile" type="text" class="form-control" aria-required="true" data-tip="手机号" class='inputxt' ignore='ignore' datatype='m' errormsg='手机号必须11位数字'>
+                                    <input  id="mobile" name="mobile" placeholder="mobile" type="text" class="form-control" aria-required="true" data-tip="手机号" class='inputxt' ignore='ignore' datatype='m' errormsg='手机号必须11位数字'/>
                                 </div>
 			   </div>
 
@@ -45,7 +45,7 @@
                             <div class="form-group">
                                 <label for="password" class="col-sm-2 control-label">密码<span class="red-fonts"></span></label>
                                 <div class="col-sm-8">
-                                    <input id="password"  name="password" placeholder="密码" type="password" class="form-control" aria-required="true" data-tip="密码" class='inputxt' plugin='passwordStrength' datatype='*6-18' nullmsg='请设置密码' errormsg='密码最少6位，最多18位'>
+                                    <input id="password"  name="password" placeholder="密码" type="password" class="form-control" aria-required="true" data-tip="密码" class='inputxt' plugin='passwordStrength' datatype='*6-18' nullmsg='请设置密码' errormsg='密码最少6位，最多18位'/>
 				<td>
                                     <div class="passwordStrength">
                                         密码强度：
@@ -121,8 +121,8 @@ $('#addform').Validform({
 
 $('#addbutton').on('click',function(){
      var str = $('#addform').serialize()
-     var str=$('.Validform_wrong').text()
-    if(!str){
+     var strs=$('.Validform_wrong').text()
+    if(!strs){
      $.post("/adduser",str,function(data){
           data = JSON.parse(data)
           if (data['code']==0){

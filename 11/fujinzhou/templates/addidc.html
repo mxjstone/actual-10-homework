@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <label for="contacts" class="col-sm-2 control-label">联系人</label>
                                 <div class="col-sm-8">
-                                    <input  id="contacts" name="contacts" placeholder="联系人" type="text" class="form-control" aria-required="true" data-tip="中文名" class='inputxt' datatype='zh3-4' errormsg='中文名最少3个字符，最多4个字符'>
+                                    <input  id="contacts" name="contacts" placeholder="联系人" type="text" class="form-control" aria-required="true" data-tip="中文名" class='inputxt' datatype='s3-4' errormsg='中文名最少3个字符，最多4个字符'>
                                 </div>
 			   </div>
 
@@ -81,8 +81,8 @@ $('#addform').Validform({
 
 $('#addbutton').on('click',function(){
      var str = $('#addform').serialize()
-     var str=$('.Validform_wrong').text()
-    if(!str){
+     var strs=$('.Validform_wrong').text()
+    if(!strs){
      $.post("/addidc",str,function(data){
           data = JSON.parse(data)
           if (data['code']==0){
