@@ -130,7 +130,8 @@ $('.update').click(function(){
 		cabinet = data['result']
 		$('#id').val(cabinet['id'])
 		$('#name').val(cabinet['name'])
-		$('#idc_id').val(cabinet['idc_id'])
+//		$('#idc_id').val(cabinet['idc_id'])
+		$("#idc_id option[value='"+cabinet['idc_id']+"']").attr('selected',true)
 		$('#u_num').val(cabinet['u_num'])
 		$('#power').val(cabinet['power'])
 		$('#idc_id').multiselect({
