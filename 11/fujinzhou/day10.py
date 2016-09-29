@@ -3,9 +3,11 @@
 from flask import Flask,redirect,request,render_template,session
 from db import get_userlist,getuser,add_user,del_user,update_user,checkuser,getone,modpasswd,get_idclist,add_idc,del_idc,update_idc,getidc
 import json
+import hashlib
 
 app=Flask(__name__)
 app.secret_key='www.123'
+salt="www.123"
 
 
 @app.route("/")
@@ -21,6 +23,7 @@ def login():
                 return render_template("login.html")
         if request.method =='POST':
                 login_info = dict((k,v[0]) for k,v in dict(request.form).items())
+		login_info['password']=hashlib.md5(login_info['password']+salt).hexdigest()
 		name=login_info["name"]
 		userlists=getone(name)
 		print userlists
@@ -81,6 +84,8 @@ def adduser():
 #前端post请求，逻辑端通过request.form获取整个表单的值
         if request.method =="POST":
                 userlist=dict((k,v[0]) for k,v in dict(request.form).items())
+		userlist['password']=hashlib.md5(userlist['password']+salt).hexdigest()
+		userlist['re_password']=hashlib.md5(userlist['re_password']+salt).hexdigest()
                 print userlist
                 print [ n.values()[0] for n in get_userlist(["name"]) ]
                 print userlist["name"]
