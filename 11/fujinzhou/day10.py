@@ -53,7 +53,14 @@ def userlist():
                 userlist=get_userlist(user_items)
 #		print userlist
                 return render_template("userlist.html",users=userlist,username=username)
-        else:
+
+@app.route("/userinfo")
+def userinfo():
+        if not session.get('name'):
+                return redirect('/login')
+        user_items=["id","name","name_cn","email","mobile","role","status"]
+        username=session.get("name")
+        if username==session.get('name'):
                 users=getone(username)
                 print users
                 return render_template("userinfo.html",users=users,username=username)
