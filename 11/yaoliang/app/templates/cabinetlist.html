@@ -143,27 +143,33 @@ $('.update').click(function(){
 	    str += '<option value="'+idcs[i]['id']+'">'+idcs[i]['name']+'</option>'
 	    $('#idc_id').html(str)
 	}
+
+	$.getJSON(url,function(data){
+	    if (data['code'] == 0){
+		cabinet = data['result']
+		$('#id').val(cabinet['id'])
+		$('#name').val(cabinet['name'])
+		$('#idc_id').val(cabinet['idc_id'])
+		$('#u_num').val(cabinet['u_num'])
+		$('#power').val(cabinet['power'])
+	    }else{
+		$('#errmsg').html('fail')
+	    }
+	})
+
+//    $('#idc_id').multiselect({
+//		placeholder: "请选择",
+//		enableCaseInsensitiveFiltering: true
+//		})
+//    $('#idc_id').multiselect('refresh')
     })
 
-    $.getJSON(url,function(data){
-	if (data['code'] == 0){
-	    cabinet = data['result']
-	    $('#id').val(cabinet['id'])
-	    $('#name').val(cabinet['name'])
-	    $('#idc_id').val(cabinet['idc_id'])
-	    $('#u_num').val(cabinet['u_num'])
-	    $('#power').val(cabinet['power'])
-	}else{
-	    $('#errmsg').html('fail')
-	}
-    })
     $('#updateModel').modal('show')
 })
 
 $('.update-sure').click(function(){
     var str=$('#updateForm').serialize()
     var str1='&idc_id='+$('#idc_id').val()
-    console.log(str+str1)
     $.post('/cabinet_update/',str+str1,function(data){
 	data=JSON.parse(data)
 	if (data['code'] == 0){
