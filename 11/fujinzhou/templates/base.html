@@ -53,7 +53,7 @@
                     <strong class="font-bold">{{username}}<span style="color: #8095a8"></span></strong>
                 </span>
                 <span class="text-muted text-xs block">
-                    超级管理员 <b class="caret"></b>
+                   {%if username=='admin'%}超级管理员{%else%}普通用户{%endif%}
                  </span>
             </span>
         </a>
@@ -87,18 +87,22 @@
 <a href="#"><i class="fa fa-group"></i><span class="nav-label">用户管理</span></span><span class="fa arrow"></span></a>
    <ul class="nav nav-second-level collapse">
         <li class="group"><a href="/userinfo">个人中心</a></li>
+	{%if username=='admin'%}
         <li class="user"><a href="/userlist">用户列表</a></li>
+	{%endif%}
    </ul>
 </li>   <!-- 用户管理 -->
 
 
 <li id="jasset">
 <a><i class="fa fa-inbox"></i> <span class="nav-label">资产管理</span><span class="fa arrow"></span></a>
+	{%if username=='admin'%}
       <ul class="nav nav-second-level collapse">
         <li class="group"><a href="/idc">机房管理</a></li>
         <li class="asset"> <a href="/cabinet">机柜管理</a></li>
         <li class="idc"> <a href="/server">服务器管理</a></li>
       </ul>
+	{%endif%}
 </li> <!-- 资产管理 -->
 
 
