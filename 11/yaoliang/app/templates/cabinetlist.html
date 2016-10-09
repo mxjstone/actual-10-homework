@@ -111,25 +111,6 @@
 </div><!-- /.modal -->
 
 <script>
-$('#editable').DataTable({
-    "bDestroy": true, 
-    "language": {
-        "lengthMenu": "每页 _MENU_ 条记录",
-        "zeroRecords": "没有找到记录",
-        "sInfo": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 ),显示第 _START_ 至 _END_ 项(总共 _TOTAL_ 项)",
-        "infoEmpty": "无记录",
-        "infoFiltered": "(从 _MAX_ 条记录过滤)",
-        "sSearch": "搜索:",
-        "oPaginate": {
-        "sFirst": "首页",
-        "sPrevious": "上一页",
-        "sNext": "下一页",
-        "sLast": "末页"
-        }
-    },
-    "order": [[ 0,"asc" ]]
-})
-
 $('#updateForm').Validform({tiptype:3})
 
 $('.update').click(function(){
@@ -141,8 +122,8 @@ $('.update').click(function(){
 	idcs = data['result']
 	for(var i=0;i<idcs.length;i++){
 	    str += '<option value="'+idcs[i]['id']+'">'+idcs[i]['name']+'</option>'
-	    $('#idc_id').html(str)
-	}
+	    }
+	$('#idc_id').html(str)
 
 	$.getJSON(url,function(data){
 	    if (data['code'] == 0){
@@ -152,6 +133,11 @@ $('.update').click(function(){
 		$('#idc_id').val(cabinet['idc_id'])
 		$('#u_num').val(cabinet['u_num'])
 		$('#power').val(cabinet['power'])
+		$('#idc_id').multiselect({
+			    placeholder: "请选择",
+			    enableCaseInsensitiveFiltering: true
+			    })
+		$('#idc_id').multiselect('refresh')
 	    }else{
 		$('#errmsg').html('fail')
 	    }
@@ -210,5 +196,23 @@ $('.del-sure').click(function(){
     })
 })
 
+$('#editable').DataTable({
+    "bDestroy": true, 
+    "language": {
+        "lengthMenu": "每页 _MENU_ 条记录",
+        "zeroRecords": "没有找到记录",
+        "sInfo": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 ),显示第 _START_ 至 _END_ 项(总共 _TOTAL_ 项)",
+        "infoEmpty": "无记录",
+        "infoFiltered": "(从 _MAX_ 条记录过滤)",
+        "sSearch": "搜索:",
+        "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "上一页",
+        "sNext": "下一页",
+        "sLast": "末页"
+        }
+    },
+    "order": [[ 0,"asc" ]]
+})
 </script>
 {% endblock %}

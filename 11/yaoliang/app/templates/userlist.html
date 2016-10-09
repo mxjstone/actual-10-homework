@@ -219,24 +219,6 @@ $('#modpwdForm').Validform({
     }
 })
 
-$('#editable').DataTable({
-    'bDestory': true,
-    "language": {
-        "lengthMenu": "每页 _MENU_ 条记录",
-        "zeroRecords": "没有找到记录",
-        "sInfo": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 ),显示第 _START_ 至 _END_ 项(总共 _TOTAL_ 项)",
-        "infoEmpty": "无记录",
-        "infoFiltered": "(从 _MAX_ 条记录过滤)",
-        "sSearch": "搜索:",
-        "oPaginate": {
-        "sFirst": "首页",
-        "sPrevious": "上一页",
-        "sNext": "下一页",
-        "sLast": "末页"
-        }
-    },
-    "order": [[ 0,"asc" ]]
-});
 
 $('.update').click(function(){
     var id=$(this).attr('data-id')
@@ -298,7 +280,6 @@ $('.del').click(function(){
     var id=$(this).attr('data-id')
     $('.del-sure').attr('data-id',id)
     $('#deleteModel').modal('show')
-    
 })
 
 $('.del-sure').click(function(){
@@ -315,7 +296,6 @@ $('.del-sure').click(function(){
 	    })
     })
 })
-
 
 $('.modpwd').click(function(){
     var id=$(this).attr('data-id')
@@ -351,6 +331,25 @@ $('.modpwd-sure').click(function(){
 	return false
     }
 })
+
+$('#editable').DataTable({
+    'bDestory': true,
+    "language": {
+        "lengthMenu": "每页 _MENU_ 条记录",
+        "zeroRecords": "没有找到记录",
+        "sInfo": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 ),显示第 _START_ 至 _END_ 项(总共 _TOTAL_ 项)",
+        "infoEmpty": "无记录",
+        "infoFiltered": "(从 _MAX_ 条记录过滤)",
+        "sSearch": "搜索:",
+        "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "上一页",
+        "sNext": "下一页",
+        "sLast": "末页"
+        }
+    },
+    "order": [[ 0,"asc" ]]
+});
 
 </script>
 {% endblock %}
