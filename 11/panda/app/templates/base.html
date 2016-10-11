@@ -13,7 +13,7 @@
 <link href="/static/pulgin/Font-Awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
 <link href="/static/pulgin/sweetalert-master/dist/sweetalert.css" rel="stylesheet">
 <link href="/static/pulgin/datatable/dataTables.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="/static/pulgin/multiselect/bootstrap-multiselect.css" type="text/css"/>
 
 <script src="/static/js/jquery-2.1.1.js"></script>
 
@@ -21,6 +21,7 @@
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/pulgin/sweetalert-master/dist/sweetalert.min.js"></script>        
 <script src="/static/pulgin/datatable/dataTables.min.js"></script>        
+<script src="/static/pulgin/multiselect/bootstrap-multiselect.js"></script>
 
 
 <!--整个页面的框架-->
@@ -57,7 +58,7 @@
 
 <!--左边菜单栏开始-->
 <li id="index" class="active">
-<a href="/"><i class="fa fa-gitlab fa-3x"></i> <span class="nav-label">仪表盘</span><span class="label label-info pull-right"></span></a>
+<a href="/"><i class="fa fa-gitlab"></i> <span class="nav-label">仪表盘</span><span class="label label-info pull-right"></span></a>
 </li>   <!--仪表盘-->
            
 <li id="juser">
@@ -73,21 +74,23 @@
 <li id="jasset">
 <a><i class="fa fa-inbox"></i> <span class="nav-label">资产管理</span><span class="fa arrow"></span></a>
   <ul class="nav nav-second-level collapse">
-     {% if info.role  == 'admin' %}
     <li><a href="/idc">机房管理</a></li>
     <li> <a href="/cabinet">机柜管理</a></li>
     <li> <a href="/server">服务器管理</a></li>
-    {%  endif %}
   </ul> 
 </li> <!-- 资产管理 -->     
             
          
 <li id="setting">
-<a href="#"><i class="fa fa-gears"></i> <span class="nav-label">监控</span><span class="label label-info pull-right"></span></a>
+<a href="/monitor"><i class="fa fa-gears"></i> <span class="nav-label">监控</span><span class="label label-info pull-right"></span></a>
 </li>    <!--监控-->
 
 <li id="log">
-<a href="#"><i class="fa fa-gears"></i> <span class="nav-label">日志可视化</span><span class="label label-info pull-right"></span></a>
+<a><i class="fa fa-gears"></i> <span class="nav-label">日志可视化</span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li><a href="/log">日志状态饼图</a></li>
+    <li> <a href="/map">日志来源地图</a></li>
+  </ul> 
 </li>    <!--日志可视化-->
 
 
@@ -113,6 +116,9 @@ $('#jasset').click(function(){
 })
 $('#juser').click(function(){
     $("#juser").children("ul").toggleClass("collapse");   
+})
+$('#log').click(function(){
+    $("#log").children("ul").toggleClass("collapse");   
 })
 </script>
 
@@ -192,5 +198,8 @@ $('#juser').click(function(){
 
 </div>  <!--page-wrapper-->
 </div>   <!--wrapper-->
+
+{% block js %}
+{% endblock %}
 
 </body></html>

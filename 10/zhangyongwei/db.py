@@ -114,7 +114,7 @@ def change_pass(login_name, name,old_pass,new_pass):
 
 
 def execute_sql(sql, fetch=True):
-    conn = MySQLdb.connect(host='127.0.0.1', user='root', passwd='root', port=3306, db='reboot10', charset='utf8')
+    conn = MySQLdb.connect(host='127.0.0.1', user='root', passwd='123.com', port=3306, db='reboot10', charset='utf8')
     cur = conn.cursor()
     sql_count = 0
     rt_list = []
