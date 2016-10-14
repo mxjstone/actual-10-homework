@@ -42,7 +42,8 @@ def user_list():
 
 @app.route('/users/regedit/')
 def user_regedit():
-    return render_template('user_create.html')
+    user_login = {'user':session.get('username')}
+    return render_template('user_create.html', session = user_login)
 
 
 @app.route('/users/change_pass/', methods=['POST', 'GET'])

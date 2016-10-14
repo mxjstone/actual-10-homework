@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block title %}用户列表{% endblock %}
+{% block session_user %}{{ session.user }}{% endblock %}
+
 
 {% block main %}
     <div class="col-md-10 col-md-offset-2 right">
+        <ol class="breadcrumb">
+          <li><a href="/users/">Home</a></li>
+          <li class="active">用户管理</li>
+        </ol>
+
     {% if session.user != 'admin' %}
         <a href="/users/regedit/"><button type="button" class="btn btn-primary" disabled="disabled">添加用户</button></a>
     {% else %}

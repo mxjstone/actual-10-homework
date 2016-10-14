@@ -3,7 +3,6 @@
 import MySQLdb
 from datetime import datetime
 
-
 def auth_user(username, password):
     sql = "select * from users where name='%s' and password='%s'" % (username, password)
     sql_count, rt_list = execute_sql(sql)
@@ -22,15 +21,6 @@ def user_list():
     users = []
     for i in rt_list:
         users.append(dict(zip(columns, i)))
-    for i in users:
-        if i.get('status') == 0:
-            i['status'] = '正常'
-            if i.get('role') == 'admin':
-                i['role'] = '管理员'
-            else:
-                i['role'] = '普通用户'
-        else:
-            i['status'] = '锁定'
     return users
 
 
@@ -50,16 +40,23 @@ def user_regedit_check(user_data):
 
 
 def user_check(name):
-    sql = "select * from users where name=%s" % (name)
+    sql = "select * from users where name='%s'" % (name)
     sql_cnt, rt_list = execute_sql(sql)
     if sql_cnt !=0:
         return True
     return False
 
 
+def get_user_role(name):
+    columns = ('id', 'name', 'name_cn', 'password', 'email', 'mobile', 'role', 'status', 'create_time', 'last_time')
+    sql = "select %s from users where name='%s'" % (','.join(columns), name)
+    sql_cnt, rt_list = execute_sql(sql)
+    return dict(zip(columns,rt_list[0])).get('role','user')
+
+
 def user_info(name):
     columns = ('id', 'name', 'name_cn', 'password', 'email', 'mobile', 'role', 'status', 'create_time', 'last_time')
-    sql = "select %s from users where name=%s" % (','.join(columns), name)
+    sql = "select %s from users where name='%s'" % (','.join(columns), name)
     sql_cnt, rt_list = execute_sql(sql)
     return dict(zip(columns,rt_list[0]))
 
@@ -71,10 +68,27 @@ def user_add(user_data):
     return True
 
 
-def user_update(user_data):
+def user_update(user_name, user_data):
+    if len(user_data['mobile']) != 11:
+        return {'code': 1, 'errmsg': '手机位数不正确'}
     data = ",".join(["%s='%s'" % (k, v) for k, v in user_data.items()])
-    sql = "update users set %s where name='%s'" % (data, user_data['name'])
-    execute_sql(sql, fetch=False)
+    sql = "update users set %s where name='%s'" % (data, user_name)
+    if execute_sql(sql, fetch=False):
+        return {'code': 0, 'errmsg': '更新成功'}
+    else:
+        return {'code':1, 'errmsg':'更新失败'}
+
+
+
+def user_update_oneself(user_name, user_data):
+    if len(user_data['mobile']) != 11:
+        return {'code': 1, 'errmsg': '手机位数不正确'}
+    data = ",".join(["%s='%s'" % (k, v) for k, v in user_data.items()])
+    sql = "update users set %s where name='%s'" % (data, user_name)
+    if execute_sql(sql, fetch=False):
+        return {'code': 0, 'errmsg': '更新成功'}
+    else:
+        return {'code':1, 'errmsg':'更新失败'}
 
 
 def get_user_by_id(id):
@@ -91,26 +105,29 @@ def user_del(id):
         return True
     return False
 
+def change_pass_admin(name, new_pass):
+    if new_pass == '':
+        return {'code': 1, 'errmsg': '密码不能为空'}
+    sql = "update users set password='%s' where name='%s'" % (new_pass, name)
+    if execute_sql(sql, fetch=False):
+        return {'code': 0, 'errmsg': '更新成功'}
+    else:
+        return {'code':1, 'errmsg':'更新失败'}
+
 
 def change_pass(login_name, name,old_pass,new_pass):
-    if login_name == 'admin':
-        sql = "update users set password='%s' where name='%s'" % (new_pass, name)
-        if execute_sql(sql, fetch=False):
-            return "1"
-        else:
-            return "password change failed"
-    if new_pass == '':
-        return 'please enter your pass'
+    if old_pass == '' or new_pass == '':
+        return {'code': 1, 'errmsg': '密码不能为空'}
     sql = "select password from users where name='%s'" % (name)
     sql_cnt, rt_list = execute_sql(sql)
     pass_in_db = ''.join(rt_list[0]).strip()
     if old_pass != pass_in_db:
-        return "old password is wrong"
+        return {'code': 1, 'errmsg': '原始密码输入错误'}
     sql = "update users set password='%s' where name='%s'" % (new_pass, name)
     if execute_sql(sql, fetch=False):
-        return "1"
+        return {'code': 0, 'errmsg': '更新成功'}
     else:
-        return "password change failed"
+        return {'code':1, 'errmsg':'更新失败'}
 
 
 def execute_sql(sql, fetch=True):

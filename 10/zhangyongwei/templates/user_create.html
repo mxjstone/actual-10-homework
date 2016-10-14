@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block title %}添加用户{% endblock %}
-{% block session_user %}{{ session.user }}{% endblock %}
+{% block user_create %}active{% endblock %}
 {% block main %}
 
 
     <div class="col-md-10 right">
 
     <ol class="breadcrumb">
-      <li><a href="/users/">Home</a></li>
+      <li><a href="/user_center/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
       <li class="active">添加用户</li>
     </ol>
 
