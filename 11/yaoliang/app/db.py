@@ -3,6 +3,7 @@
 import  MySQLdb as mysql
 
 conn = mysql.connect(user='root',passwd='123456',host='localhost',db='reboot10')
+conn.autocommit(True)
 
 # 使用with语句，它会判断当前是否有错误，有错误就会回滚，没有就进行事务提交
 with conn as cur:
