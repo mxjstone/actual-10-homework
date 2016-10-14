@@ -30,7 +30,7 @@ def userlist():
     table = 'users'
     result = db.selectAll(fields,table)
     data = [dict((k,row[i]) for i,k in enumerate(fields)) for row in result]
-    return render_template('userlist.html',users=data,info=session)
+    return render_template('user/userlist.html',users=data,info=session)
 
 
 @app.route('/add',methods=['GET','POST'])
@@ -56,7 +56,7 @@ def add_user():
             print traceback.print_exc()
 	    return json.dumps({'code':1, 'result':'name not null'})
     else:
-        return render_template("addidc.html",info=session)
+        return render_template("user/adduser.html",info=session)
 
 @app.route('/update', methods=['GET','POST'])
 def update():

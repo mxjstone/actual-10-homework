@@ -5,4 +5,4 @@ app = Flask(__name__)
 
 app.secret_key = "jisldjlew"
 
-import user,cmdb,login
+import user,login,idc,cabinet,server
