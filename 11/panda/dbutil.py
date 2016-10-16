@@ -14,7 +14,7 @@ class DB():
         self.name = config.db_name
         self.user = config.db_user
         self.passwd = config.db_passwd
-        self.pool = PooledDB(mysql, mincached=4, maxcached=10, host=self.host,db=self.name,user=self.user,passwd=self.passwd,setsession=['SET AUTOCOMMIT = 1'])
+        self.pool = PooledDB(mysql, mincached=4, maxcached=10, host=self.host,db=self.name,user=self.user,passwd=self.passwd,setsession=['SET AUTOCOMMIT = 1'],charset="utf8")
 
     def connect_db(self):
         self.db = self.pool.connection()
@@ -31,6 +31,7 @@ class DB():
     def get_list(self,table,fields):
         sql = "select %s from %s"% (",".join(fields),table)
         try: 
+            util.WriteLog('db').info("sql: %s" % sql)
             self.execute(sql)
             result = self.cur.fetchall()
             if result:
@@ -93,6 +94,9 @@ class DB():
                 conditions.append("%s='%s'" % (k, v))
         sql = "delete from %s where %s" % (table,' AND '.join(conditions))
         try:
+            sql = "select %s from %s"% (",".join(fields),table)
+            util.WriteLog('db').info("sql: %s" % sql)
+            self.execute(sql)
             return self.execute(sql)
         except:
             util.WriteLog('db').info("Execute '%s' error: %s" % (sql, traceback.format_exc()))
