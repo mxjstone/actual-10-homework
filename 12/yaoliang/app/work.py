@@ -4,6 +4,7 @@
 from flask import render_template,request,redirect,session
 from . import app
 from config import * 
+from utils import login_request
 import json
 import db
 import time
@@ -18,9 +19,8 @@ passwd = app.config.get('LOCAL_PASSWD')
 ISOTIMEFORMAT='%Y-%m-%d %X'
 
 @app.route('/worklist/')
+@login_request.login_request
 def worklist():
-    if not session.get('name'):
-	return render_template('/base/login.html')
     role = session.get('role')
     works = db.list('work',fields_work)
     list_works = []
@@ -30,9 +30,8 @@ def worklist():
     return render_template("/work/worklist.html",works = list_works,role = role)
 
 @app.route('/workhistory/')
+@login_request.login_request
 def workhistory():
-    if not session.get('name'):
-	return render_template('/base/login.html')
     role = session.get('role')
     works = db.list('work',fields_work)
     history_works = []
@@ -42,11 +41,10 @@ def workhistory():
     return render_template("/work/workhistory.html",works = history_works,role = role)
 
 @app.route("/workadd/",methods=['GET','POST'])
+@login_request.login_request
 def workadd():
     name = session.get('name')
     id = session.get('id')
-    if not name:
-	return redirect('/login')
     if request.method == 'GET':
 	return render_template('/work/workadd.html',info = session,role = session.get('role'))
     else:
@@ -69,6 +67,7 @@ def workadd():
 
 # 获取工单状态
 @app.route('/work_status/')
+@login_request.login_request
 def work_status():
     id = request.args.get('id')
     work = db.list('work',fields_work,id)
@@ -81,6 +80,7 @@ def work_status():
 {'0':'未处理','1':'处理中','2':'完成'}
 '''
 @app.route('/update_status/',methods=['POST'])
+@login_request.login_request
 def update_status():
     data = dict((k,v[0]) for k,v in dict(request.form).items())
     res = {}

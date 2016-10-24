@@ -4,6 +4,7 @@
 from flask import render_template,request,redirect,session
 from . import app
 from config import *
+from utils import login_request
 import json
 import db
 
@@ -12,9 +13,8 @@ fields_cabinet=app.config.get('FIELDS_CABINET')
 fields_server=app.config.get('FIELDS_SERVER')  
 
 @app.route('/server/')
+@login_request.login_request
 def server():
-    if not session.get('name'):
-	return render_template('/base/login.html')
     role = session.get('role')
     servers = db.list('server',fields_server)
     for i in servers:
@@ -23,11 +23,9 @@ def server():
 
     return render_template("/server/serverlist.html",servers = servers,role = role)
 
-
 @app.route("/serveradd/",methods=['GET','POST'])
+@login_request.login_request
 def serveradd():
-    if not session.get('name'):
-	return redirect('/login')
     if request.method == 'GET':
 	return render_template('/server/serveradd.html',info = session,role = session.get('role'))
     if request.method == 'POST':
@@ -45,24 +43,23 @@ def serveradd():
 	return json.dumps({'code':1,'errmsg':'server name is exist'})
 
 @app.route('/server_update_msg/')
+@login_request.login_request
 def server_update_msg():
     id = request.args.get('id')
     server = db.list('server',fields_server,id)
     return json.dumps({'code':0,'result':server})
 
 @app.route('/server_update/',methods=['GET','POST'])
+@login_request.login_request
 def server_update():
-    if not session.get('name'):
-	return redirect('/login')
     data = dict((k,v[0]) for k,v in dict(request.form).items())
     conditions = [ "%s='%s'" %  (k,v) for k,v in data.items()]
     db.update('server',conditions,data['id'])
     return json.dumps({'code':0,'result':'update completed!'})
 
 @app.route('/server_delete/',methods=['POST'])
+@login_request.login_request
 def server_delete():
-    if session.get('role') != 'admin':
-	return redirect('/login')
     id = request.form.get('id')
     db.delete('server',id)
     return json.dumps({'code':0,'result':'delete success!'})

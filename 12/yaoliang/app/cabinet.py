@@ -4,6 +4,7 @@
 from flask import render_template,request,redirect,session
 from . import app
 from config import *
+from utils import login_request
 import json
 import db
 
@@ -12,9 +13,8 @@ fields_idc=app.config.get('FIELDS_IDC')
 fields_cabinet=app.config.get('FIELDS_CABINET')  
 
 @app.route('/cabinet/')
+@login_request.login_request
 def cabinet():
-    if not session.get('name'):
-	return render_template('/base/login.html')
     role = session.get('role')
     cabinets = db.list('cabinet',fields_cabinet)
     for i in cabinets:
@@ -24,16 +24,14 @@ def cabinet():
     return render_template("/cabinet/cabinetlist.html",cabinets = cabinets,role = role)
 
 @app.route('/cabinet_msg/')
+@login_request.login_request
 def cabinet_msg():
-    if not session.get('name'):
-	return render_template('/base/login.html')
     cabinets = db.list('cabinet',fields_cabinet)
     return json.dumps({'result':cabinets}) 
 
 @app.route("/cabinetadd/",methods=['GET','POST'])
+@login_request.login_request
 def cabinetadd():
-    if not session.get('name'):
-	return redirect('/login')
     if request.method == 'GET':
 	return render_template('/cabinet/cabinetadd.html',info = session,role = session.get('role'))
     if request.method == 'POST':
@@ -51,24 +49,23 @@ def cabinetadd():
 	return json.dumps({'code':1,'errmsg':'cabinet name is exist'})
 
 @app.route('/cabinet_update_msg/')
+@login_request.login_request
 def cabinet_update_msg():
     id = request.args.get('id')
     cabinet = db.list('cabinet',fields_cabinet,id)
     return json.dumps({'code':0,'result':cabinet})
 
 @app.route('/cabinet_update/',methods=['GET','POST'])
+@login_request.login_request
 def cabinet_update():
-    if not session.get('name'):
-	return redirect('/login')
     data = dict((k,v[0]) for k,v in dict(request.form).items())
     conditions = [ "%s='%s'" %  (k,v) for k,v in data.items()]
     db.update('cabinet',conditions,data['id'])
     return json.dumps({'code':0,'result':'update completed!'})
 
 @app.route('/cabinet_delete/',methods=['POST'])
+@login_request.login_request
 def cabinet_delete():
-    if session.get('role') != 'admin':
-	return redirect('/login')
     id = request.form.get('id')
     db.delete('cabinet',id)
     return json.dumps({'code':0,'result':'delete success!'})
