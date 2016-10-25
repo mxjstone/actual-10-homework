@@ -5,7 +5,7 @@
 
 {% block main %}
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="mem" style="width: 1000px;height:500px;"></div>
+<div id="mem" style="width: 1000px;height:700px;"></div>
 
 {% endblock %}
 
@@ -21,8 +21,8 @@ function randomData() {
 
 var option = {
     title: {
-        text: 'iphone销量',
-        subtext: '纯属虚构',
+        text: '网站访问来源',
+        subtext: '测试数据',
         left: 'center'
     },
     tooltip: {
@@ -31,10 +31,10 @@ var option = {
     legend: {
         orient: 'vertical',
         left: 'left',
-        data:['iphone3','iphone4','iphone5']
+        data: ["国内网站访问分布"]
     },
-    visualMap: {
-        min: 0,
+    visualMap: {                      // 调节数据大小的组件
+        min: 0 ,
         max: 2500,
         left: 'left',
         top: 'bottom',
@@ -43,18 +43,17 @@ var option = {
     },
     toolbox: {
         show: true,
-        orient: 'vertical',
+        orient: 'horizontal', // horizontal水平（默认），vertical垂直
         left: 'right',
-        top: 'center',
         feature: {
             dataView: {readOnly: false},
             restore: {},
             saveAsImage: {}
-        }
+         }
     },
     series: [
-        {
-            name: 'iphone3',
+         {
+            name: '国内网站访问分布',
             type: 'map',
             mapType: 'china',
             roam: false,
@@ -64,7 +63,7 @@ var option = {
                 },
                 emphasis: {
                     show: true
-                }
+                 }
             },
             data:[
                 {name: '北京',value: randomData() },
@@ -98,62 +97,6 @@ var option = {
                 {name: '四川',value: randomData() },
                 {name: '宁夏',value: randomData() },
                 {name: '海南',value: randomData() },
-                {name: '台湾',value: randomData() },
-                {name: '香港',value: randomData() },
-                {name: '澳门',value: randomData() }
-            ]
-        },
-        {
-            name: 'iphone4',
-            type: 'map',
-            mapType: 'china',
-            label: {
-                normal: {
-                    show: true
-                },
-                emphasis: {
-                    show: true
-                }
-            },
-            data:[
-                {name: '北京',value: randomData() },
-                {name: '天津',value: randomData() },
-                {name: '上海',value: randomData() },
-                {name: '重庆',value: randomData() },
-                {name: '河北',value: randomData() },
-                {name: '安徽',value: randomData() },
-                {name: '新疆',value: randomData() },
-                {name: '浙江',value: randomData() },
-                {name: '江西',value: randomData() },
-                {name: '山西',value: randomData() },
-                {name: '内蒙古',value: randomData() },
-                {name: '吉林',value: randomData() },
-                {name: '福建',value: randomData() },
-                {name: '广东',value: randomData() },
-                {name: '西藏',value: randomData() },
-                {name: '四川',value: randomData() },
-                {name: '宁夏',value: randomData() },
-                {name: '香港',value: randomData() },
-                {name: '澳门',value: randomData() }
-            ]
-        },
-        {
-            name: 'iphone5',
-            type: 'map',
-            mapType: 'china',
-            label: {
-                normal: {
-                    show: true
-                },
-                emphasis: {
-                    show: true
-                }
-            },
-            data:[
-                {name: '北京',value: randomData() },
-                {name: '天津',value: randomData() },
-                {name: '上海',value: randomData() },
-                {name: '广东',value: randomData() },
                 {name: '台湾',value: randomData() },
                 {name: '香港',value: randomData() },
                 {name: '澳门',value: randomData() }
