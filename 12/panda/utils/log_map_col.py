@@ -1,8 +1,11 @@
-import config
-import dbutil
+#config:utf-8
+import MySQLdb as mysql
+from DBUtils.PooledDB import PooledDB
 import requests
-#db = dbutil.DB(config.db,config.db_host,config.db_user,config.db_passwd)
- 
+pool = PooledDB(mysql,host="localhost",db="reboot10",user="root",passwd="123456",charset="utf8")
+db = pool.connection()
+cur = db.cursor()
+
 res = {}
 for line in open('log.log'):
     tmp = line.split(' ')
@@ -10,6 +13,7 @@ for line in open('log.log'):
     res[ip] = res.get(ip,0)+1
  
 token = 'q5mTrTGzCSVq5QmGpI9y18Bo'
+# token = 'AMTwhH9u6wCBx8sLrFjMxsNzhwNts3nI'
  
 for key,val in res.items():
     #if val<100:
@@ -21,4 +25,4 @@ for key,val in res.items():
         tmp = (key,geo_data['content']['address_detail']['province'],geo_data['content']['point']['x'],geo_data['content']['point']['y'],val)
         sql = 'insert into log_map(ip,province,geox,geoy,count) values ("%s","%s","%s","%s",%s)'%tmp
         print sql
- #       db.execute(sql)
+        cur.execute(sql)
