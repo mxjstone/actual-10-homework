@@ -1,6 +1,8 @@
 #coding:utf-8
 from flask import Flask
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')      # 因为程序内部有中文参数，gunicorn直接调用这个文件的app,在入口把编码转好
 
 app = Flask(__name__)
 
