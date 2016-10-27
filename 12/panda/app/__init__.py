@@ -15,3 +15,4 @@ import cabinet
 import server
 import mem
 import log
+import cmd
