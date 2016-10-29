@@ -126,9 +126,9 @@
 <li id="jwork">
 <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工单管理</span><span class="fa arrow"></span></a>
   <ul class="nav nav-second-level collapse">
-    <li class="workadd"><a href="/workadd">工单申请</a></li>
-    <li class="worklist"> <a href="/worklist/">工单申请列表</a></li>
-    <li class="workhistory"> <a href="/workhistory/">历史工单列表</a></li>
+    <li class="jobadd"><a href="/jobadd">工单申请</a></li>
+    <li class="joblist"> <a href="/joblist/">工单申请列表</a></li>
+    <li class="jobhistory"> <a href="/jobhistory/">历史工单列表</a></li>
   </ul> 
 </li> <!-- 工单管理 --> 
          
@@ -235,5 +235,6 @@ $('#jwork').click(function(){
 
 </div>  <!--page-wrapper-->
 </div>   <!--wrapper-->
-
+{% block js %}
+{% endblock %}
 </body></html>

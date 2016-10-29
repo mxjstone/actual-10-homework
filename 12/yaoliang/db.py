@@ -52,7 +52,7 @@ with conn as cur:
  	    logutil.writelog('db').info("sql: %s"%sql)
 	    cur.execute(sql)
 	except:
-	    logutil.writelog('db').error("Exec: %s,Error: %s"% (sql,traceback.formet_exc()))
+	    logutil.writelog('db').error("Exec: %s,Error: %s"% (sql,traceback.format_exc()))
 	
     def delete(table,id):
 	sql = "delete from %s where id='%s'"%(table,id)
@@ -60,7 +60,7 @@ with conn as cur:
  	    logutil.writelog('db').info("sql: %s"%sql)
 	    cur.execute(sql)
 	except:
-	    logutil.writelog('db').error("Exec: %s,Error: %s"% (sql,traceback.formet_exc()))
+	    logutil.writelog('db').error("Exec: %s,Error: %s"% (sql,traceback.format_exc()))
 
     def update(table,args,id):
 	sql = "update %s set %s where id='%s'"%(table,','.join(args),id)
@@ -68,4 +68,4 @@ with conn as cur:
  	    logutil.writelog('db').info("sql: %s"%sql)
 	    cur.execute(sql)
 	except:
-	    logutil.writelog('db').error("Exec: %s,Error: %s"% (sql,traceback.formet_exc()))
+	    logutil.writelog('db').error("Exec: %s,Error: %s"% (sql,traceback.format_exc()))

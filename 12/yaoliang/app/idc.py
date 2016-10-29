@@ -31,7 +31,6 @@ def idcadd():
 	return render_template('/idc/idcadd.html',info = session,role = session.get('role'))
     if request.method == 'POST':
 	data = dict((k,v[0]) for k,v in dict(request.form).items())
-	print data
 	l = []
 
 	for i in db.list('idc',fields_idc):

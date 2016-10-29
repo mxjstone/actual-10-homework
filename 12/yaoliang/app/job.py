@@ -12,49 +12,53 @@ import time
 
 app.config.from_object(Table)
 app.config.from_object(MyEmail)
-fields_work = app.config.get('FIELDS_WORK')  
+fields_job = app.config.get('FIELDS_OPS_JOBS')  
 fields_user = app.config.get('FIELDS_USER')  
 localemail = app.config.get('LOCAL_EMAIL')
 passwd = app.config.get('LOCAL_PASSWD')
 ISOTIMEFORMAT='%Y-%m-%d %X'
 
-@app.route('/worklist/')
-@login_request.login_request
-def worklist():
-    role = session.get('role')
-    works = db.list('work',fields_work)
-    list_works = []
-    for work in works:
-        if int(work['work_status']) == 0:
-	    list_works.append(work)
-    return render_template("/work/worklist.html",works = list_works,role = role)
+''' 
+{'0':'未处理','1':'处理中','2':'完成','3':'失败'}
+'''
 
-@app.route('/workhistory/')
+@app.route('/joblist/')
 @login_request.login_request
-def workhistory():
+def joblist():
     role = session.get('role')
-    works = db.list('work',fields_work)
-    history_works = []
-    for work in works:
-        if int(work['work_status']) != 0:
-    	    history_works.append(work)
-    return render_template("/work/workhistory.html",works = history_works,role = role)
+    jobs = db.list('ops_jobs',fields_job)
+    list_jobs = []
+    for job in jobs:
+        if job['status'] == 0 or job['status'] == 1:
+	    list_jobs.append(job)
+    return render_template("/job/joblist.html",jobs = list_jobs,role = role)
 
-@app.route("/workadd/",methods=['GET','POST'])
+@app.route('/jobhistory/')
 @login_request.login_request
-def workadd():
+def jobhistory():
+    role = session.get('role')
+    jobs = db.list('ops_jobs',fields_job)
+    history_jobs = []
+    for job in jobs:
+        if job['status'] == 2 or job['status'] == 3:
+    	    history_jobs.append(job)
+    return render_template("/job/jobhistory.html",jobs = history_jobs,role = role)
+
+@app.route("/jobadd/",methods=['GET','POST'])
+@login_request.login_request
+def jobadd():
     name = session.get('name')
     id = session.get('id')
     if request.method == 'GET':
-	return render_template('/work/workadd.html',info = session,role = session.get('role'))
+	return render_template('/job/jobadd.html',info = session,role = session.get('role'))
     else:
 	data = dict((k,v[0]) for k,v in dict(request.form).items())
-	data['des_name'] = name
+	data['apply_persion'] = name
 
-	if not data['operate']:
-	    return json.dumps({'code':1,'errmsg':'work description can not be null'})
+	if not data['apply_desc']:
+	    return json.dumps({'code':1,'errmsg':'job description can not be null'})
 	conditions = [ "%s='%s'" %  (k,v) for k,v in data.items()]
-	db.add('work',conditions)
+	db.add('ops_jobs',conditions)
 
 #	# 获取申请人email地址
 #        user = db.list('users',fields_user,id)
@@ -63,41 +67,42 @@ def workadd():
 #	# 发送邮件(需要发件人账号密码，密码，收件人，正文)
 #        myMail.mymail(email,passwd,localemail,data)
 
-	return json.dumps({'code':0,'result':'apply work success'})
+	return json.dumps({'code':0,'result':'apply job success'})
 
 # 获取工单状态
-@app.route('/work_status/')
+@app.route('/job_status/')
 @login_request.login_request
-def work_status():
+def job_status():
     id = request.args.get('id')
-    work = db.list('work',fields_work,id)
-    operate = work['operate']
-    work_status = work['work_status']
-    return json.dumps({'code':0,'result1':operate,'result2':work_status})
+    job = db.list('ops_jobs',fields_job,id)
+#    return json.dumps({'code':0,'result1':apply_desc,'result2':status})
+    result1 = job['status']
+    result2 = job['apply_desc']
+    result3 = job['deal_desc']
+    return json.dumps({'code':0,'result1':result1,'result2':result2,'result3':result3})
 
 # 修改工单状态
 ''' 
-{'0':'未处理','1':'处理中','2':'完成'}
+{'0':'未处理','1':'处理中','2':'完成','3':'失败'}
 '''
 @app.route('/update_status/',methods=['POST'])
 @login_request.login_request
 def update_status():
     data = dict((k,v[0]) for k,v in dict(request.form).items())
     res = {}
-    if data['work_status'] == '1':
-	data['handle_name'] = session.get('name')
+    if data['status'] == '1':
+	data['deal_persion'] = session.get('name')
 #	# 获取申请人email地址
 #        user = db.list('users',fields_user,session.get('id'))
 #        email = user['email']
 #        res['operate'] = 'Consent to apply'
-#        res['work'] = 'Consent to apply'
+#        res['job'] = 'Consent to apply'
 #	# 发送邮件
 #	myMail.mymail(localemail,passwd,email,res)
     else:
-	data['handle_time'] = time.strftime(ISOTIMEFORMAT,time.localtime())
+	data['deal_time'] = time.strftime(ISOTIMEFORMAT,time.localtime())
 #	myMail.mymail()
 
     conditions = [ "%s='%s'" %  (k,v) for k,v in data.items()]
-    db.update('work',conditions,data['id'])
+    db.update('ops_jobs',conditions,data['id'])
     return json.dumps({'code':0,'result':'execute completed!'})
-

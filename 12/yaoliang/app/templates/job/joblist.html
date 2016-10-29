@@ -12,43 +12,46 @@
         <th class="text-center">工单类型</th>
         <th class="text-center">申请时间</th>
         <th class="text-center">工单状态</th>
-        <th class="text-center">处理人</th>
-        <th class="text-center">处理结束时间</th>
         <th class="text-center">操作</th>
     </tr>
 </thead>
 <tbody>
-   {% if works %}
-   {% for work in works %}
-        <tr class="gradeX">
-                <td class="text-center">{{work.des_name}}</td>
-		{% if work.work == 'user_mod' %}
-                <td class="text-center" style='color:green'>权限修改</td>
-		{% elif work.work == 'db_mod' %}
-                <td class="text-center" style='color:green'>DB修改</td>
-		{% elif work.work == 'web_err' %}
-                <td class="text-center" style='color:green'>WEB故障</td>
-		{% elif work.work == 'other' %}
-                <td class="text-center" style='color:green'>其他...</td>
+   {% if jobs %}
+       {% for job in jobs %}
+	<tr class="gradeX">
+	    <td class="text-center">{{job.apply_persion}}</td>
+	    {% if job.apply_type == 'user_mod' %}
+	    <td class="text-center" style='color:green'>权限修改</td>
+	    {% elif job.apply_type == 'db_mod' %}
+	    <td class="text-center" style='color:green'>DB修改</td>
+	    {% elif job.apply_type == 'web_err' %}
+	    <td class="text-center" style='color:green'>WEB故障</td>
+	    {% elif job.apply_type == 'other' %}
+	    <td class="text-center" style='color:green'>其他...</td>
+	    {% endif %}
+	    <!--
+	    <td class="text-center" style='color:green'>{{job.apply_type}}</td>
+	    -->
+	    <td class="text-center">{{job.apply_date}}</td>
+	    {% if job.status == 0 %}
+	    <td class="text-center" style='color:lime'>申请中</td>
+	    {% elif job.status == 1 %}
+	    <td class="text-center" style='color:blue'>处理中</td>
+	    {% endif %}
+	    <td class="text-center">
+	    {% if role == 'admin' %}
+		{% if job.status == 0 %}
+		<button data-id='{{job.id}}' class='btn btn-info exec'>处理</button>
+		<button data-id='{{job.id}}' disabled='disabled' class='btn btn-success complete'>完成</button>
+		{% elif job.status == 1 %}
+		<button data-id='{{job.id}}' disabled='disabled' class='btn btn-info exec'>处理中</button>
+		<button data-id='{{job.id}}' class='btn btn-success complete'>完成</button>
 		{% endif %}
-                <td class="text-center">{{work.des_time}}</td>
-		{% if work.work_status == '1' %}
-                <td class="text-center" style='color:red'>处理中</td>
-		{% else %}
-                <td class="text-center" style='color:green'>成功</td>
-		{% endif %}
-                <td class="text-center">{{work.handle_name}}</td>
-                <td class="text-center">{% if work.handle_time %}{{work.handle_time}}{% endif %}</td>
-                <td class="text-center">
-		<button data-id='{{work.id}}' class='btn btn-info if'>详情</button>
-		{% if work.work_status == '1' %}
-		{% if role == 'admin' %}
-                <button data-id='{{work.id}}' class='btn btn-success complete'>完成</button>
-		{% endif %}
-		{% endif %}
-		</td>
-         </tr>
-    {% endfor %}
+	    {% endif %}
+	    <button data-id='{{job.id}}' id='{{job.id}}' class='btn btn-primary if'>详情</button>
+	    </td>
+	 </tr>
+	{% endfor %}
     {% endif %}
 </tbody>
 </table>
@@ -71,8 +74,7 @@
 	    <div class='form-group'>
 		<label for="name" class="col-sm-3 control-label">申请描述</label>
 		<div class="col-sm-7">
-		    <textarea id='operate' rows='10' cols='40'>
-		    </textarea>
+		    <textarea id='apply_desc' rows='10' cols='40'></textarea>
 		</div>
 	    </div>
 	</form>
@@ -84,7 +86,7 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" id='modModel'>
+<div class="modal fade" id='execModel'>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -96,7 +98,7 @@
       </div>
       <div class="modal-footer">
 	<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>                                                                         
-	<button type="button" class="btn btn-primary mod-sure" data-id=''>确认</button>
+	<button type="button" class="btn btn-primary exec-sure" data-id=''>确认</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -110,31 +112,79 @@
 	<h4 class="modal-title">确认</h4>
       </div>
       <div class="modal-body">
-	<p>同意执行?</p>
-      </div>
-      <div class="modal-footer">
-	<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>                                                                         
+	<form method="post" id="completeForm" class="form-horizontal">
+	    <div class="hr-line-dashed"></div>
+	    <div class="form-group">
+		<label for="status" class="col-sm-2 control-label">是否执行通过？</label>
+		<div class="col-sm-8">
+			
+		    <div class="col-sm-3">
+			<div class="radio i-checks">
+			    <label><input type="radio" value="2" class="status" name="status">成功</label>
+			</div>
+		    </div>
+			
+		    <div class="col-sm-3">
+			<div class="radio i-checks">
+			    <label><input type="radio" value="3" class="status" name="status">失败</label>
+			</div>
+		    </div>
+			
+		 </div>
+		</div>
+
+		<div class="hr-line-dashed"></div>
+		<div class="form-group">
+		    <label for="result" class="col-sm-2 control-label">评价</label>
+		    <div class="col-sm-8">
+		    <textarea id='deal_desc' name='deal_desc' rows='5' cols='40'></textarea>
+		    </div>
+		</div>
+        <div class="modal-footer">
+	<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 	<button type="button" class="btn btn-primary complete-sure" data-id=''>确认</button>
       </div>
+    </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <script>
 $('#editForm').Validform({tiptype:3})
 
 $('.if').click(function(){
     var id=$(this).attr('data-id')
-    var url = "/work_status/?id="+id
+    var url = "/job_status/?id="+id
     $.getJSON(url,function(data){
 	if (data['code'] == 0){
-	    operate = data['result1']
-	    $('#operate').val(operate)
+	    apply_desc = data['result2']
+	    $('#apply_desc').val(apply_desc)
 	}else{
 	    $('#errmsg').html('fail')
 	}
     })
     $('#infoModel').modal('show')
 })
+
+$('.exec').click(function(){
+    var id=$(this).attr('data-id')
+    $('.exec-sure').attr('data-id',id)
+    $('#execModel').modal('show')
+})
+$('.exec-sure').click(function(){
+    var id=$(this).attr('data-id')
+    var url='id='+id+'&status=1'
+    $.post('/update_status/',url,function(data){
+		swal({
+		    title:'Congratulation',
+		    text:'execute success!',
+		    type:'success',
+		    confirmButtonText:'确定'
+		    },function(){
+			location.href='/joblist/'
+		    })
+		})
+    })
 
 $('.complete').click(function(){
     var id=$(this).attr('data-id')
@@ -143,27 +193,19 @@ $('.complete').click(function(){
 })
 $('.complete-sure').click(function(){
     var id=$(this).attr('data-id')
-    var url = "/work_status/?id="+id
-    $.getJSON(url,function(data){
-	if (data['code'] == 0){
-	    work_status = data['result2']
-	    work_status = (parseInt(work_status) + 1).toString()
-	    var url='id='+id+'&work_status='+work_status
-	    $.post('/update_status/',url,function(data){
+    var res1 = "&id="+id
+    var res = $("#completeForm").serialize()
+    $.post('/update_status/',res+res1,function(data){
 		swal({
 		    title:'Congratulation',
-		    text:'complete !',
+		    text:'complete success!',
 		    type:'success',
 		    confirmButtonText:'确定'
 		    },function(){
-			location.href='/workhistory/'
+			location.href='/joblist/'
 		    })
 		})
-	}else{
-	    $('#errmsg').html('fail')
-	}
     })
-})
 
 $('#editable').DataTable({
     "bDestroy": true, 
@@ -181,7 +223,7 @@ $('#editable').DataTable({
         "sLast": "末页"
         }
     },
-    "order": [[ 0,"asc" ]]
+    "order": [[ 2,"desc" ]]
 })
 
 </script>
