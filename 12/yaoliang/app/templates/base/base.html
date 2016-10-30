@@ -114,14 +114,6 @@
   </ul> 
   {% endif %}
 </li> <!-- 资产管理 -->     
-            
-<li id="jduty">
-<a href="#"><i class="fa fa-bell"></i> <span class="nav-label">值班系统</span><span class="fa arrow"></span></a>
-  <ul class="nav nav-second-level collapse">
-    <li class="dutyself"><a href="/dutyself">当前值班人</a></li>
-    <li class="dutylist"><a href="/dutylist">值班列表</a></li>
-  </ul> 
-</li> <!-- 值班系统 --> 
 
 <li id="jwork">
 <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工单管理</span><span class="fa arrow"></span></a>
@@ -155,9 +147,9 @@ $('#jasset').click(function(){
 $('#juser').click(function(){
     $("#juser").children("ul").toggleClass("collapse");   
 })
-$('#jduty').click(function(){
-    $("#jduty").children("ul").toggleClass("collapse");   
-})
+//$('#jduty').click(function(){
+//    $("#jduty").children("ul").toggleClass("collapse");   
+//})
 $('#jwork').click(function(){
     $("#jwork").children("ul").toggleClass("collapse");   
 })
