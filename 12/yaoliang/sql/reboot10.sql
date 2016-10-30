@@ -30,7 +30,7 @@ CREATE TABLE `cabinet` (
   `power` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='机柜表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='机柜表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `cabinet` (
 
 LOCK TABLES `cabinet` WRITE;
 /*!40000 ALTER TABLE `cabinet` DISABLE KEYS */;
+INSERT INTO `cabinet` VALUES (8,'cabinet01',2,'1','1');
 /*!40000 ALTER TABLE `cabinet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +119,7 @@ CREATE TABLE `ops_jobs` (
   `deal_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '处理完成时间',
   `apply_persion` varchar(20) NOT NULL COMMENT '工单申请人',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +128,7 @@ CREATE TABLE `ops_jobs` (
 
 LOCK TABLES `ops_jobs` WRITE;
 /*!40000 ALTER TABLE `ops_jobs` DISABLE KEYS */;
-INSERT INTO `ops_jobs` VALUES (1,'2016-10-29 19:04:44','user_mod','test','test',3,'','2016-10-29 21:38:25','test'),(2,'2016-10-29 21:06:44','web_err','test','test',2,'test','2016-10-29 21:38:11','test'),(3,'2016-10-29 21:06:48','db_mod','test','test',2,'ok','2016-10-29 22:55:22','test'),(4,'2016-10-29 21:06:52','other','test',NULL,2,'test','2016-10-29 22:13:29','test'),(5,'2016-10-29 22:52:42','user_mod','test',NULL,3,'error!!!','2016-10-29 23:20:05','test'),(6,'2016-10-29 23:00:16','other','other',NULL,2,'ok','2016-10-29 23:20:34','test'),(7,'2016-10-29 23:17:11','db_mod','123456',NULL,1,NULL,'2016-10-29 23:17:18','test'),(8,'2016-10-29 23:19:13','user_mod','1111',NULL,1,NULL,'2016-10-29 23:19:19','test'),(9,'2016-10-29 23:19:38','user_mod','11111',NULL,1,NULL,'2016-10-29 23:19:53','test'),(10,'2016-10-29 23:22:36','user_mod','aaaaaaaaaaa',NULL,2,'qqq','2016-10-29 23:31:54','test'),(11,'2016-10-29 23:32:51','user_mod','2222222',NULL,1,NULL,'2016-10-29 23:33:10','test'),(12,'2016-10-29 23:39:40','user_mod','33333','test',2,'','2016-10-29 23:40:12','test');
+INSERT INTO `ops_jobs` VALUES (1,'2016-10-29 19:04:44','user_mod','test','test',3,'','2016-10-29 21:38:25','test'),(2,'2016-10-29 21:06:44','web_err','test','test',2,'test','2016-10-29 21:38:11','test'),(3,'2016-10-29 21:06:48','db_mod','test','test',2,'ok','2016-10-29 22:55:22','test'),(4,'2016-10-29 21:06:52','other','test',NULL,2,'test','2016-10-29 22:13:29','test'),(5,'2016-10-29 22:52:42','user_mod','test',NULL,3,'error!!!','2016-10-29 23:20:05','test'),(6,'2016-10-29 23:00:16','other','other',NULL,2,'ok','2016-10-29 23:20:34','test'),(7,'2016-10-29 23:17:11','db_mod','123456',NULL,1,NULL,'2016-10-29 23:17:18','test'),(8,'2016-10-29 23:19:13','user_mod','1111',NULL,1,NULL,'2016-10-29 23:19:19','test'),(9,'2016-10-29 23:19:38','user_mod','11111',NULL,1,NULL,'2016-10-29 23:19:53','test'),(10,'2016-10-29 23:22:36','user_mod','aaaaaaaaaaa',NULL,2,'qqq','2016-10-29 23:31:54','test'),(11,'2016-10-29 23:32:51','user_mod','2222222',NULL,1,NULL,'2016-10-29 23:33:10','test'),(12,'2016-10-29 23:39:40','user_mod','33333','test',2,'','2016-10-29 23:40:12','test'),(13,'2016-10-30 05:12:39','user_mod','test',NULL,0,NULL,'0000-00-00 00:00:00','test');
 /*!40000 ALTER TABLE `ops_jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +151,7 @@ CREATE TABLE `server` (
   UNIQUE KEY `hostname` (`hostname`),
   KEY `cabinet_id` (`cabinet_id`),
   CONSTRAINT `server_ibfk_1` FOREIGN KEY (`cabinet_id`) REFERENCES `cabinet` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +160,7 @@ CREATE TABLE `server` (
 
 LOCK TABLES `server` WRITE;
 /*!40000 ALTER TABLE `server` DISABLE KEYS */;
-INSERT INTO `server` VALUES (2,'server01','192.168.3.2','49.77.206.146',3,'yaol','15052235555'),(4,'server02','192.168.3.222','55.57.123.59',4,'yao','15052234444'),(6,'service03','192.168.3.100','55.123.56.127',5,'yaoliang','15055555555');
+INSERT INTO `server` VALUES (7,'server01','192.168.2.100','121.45.56.133',8,'yao','15052234455');
 /*!40000 ALTER TABLE `server` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-30  7:58:58
+-- Dump completed on 2016-10-30 18:03:32
