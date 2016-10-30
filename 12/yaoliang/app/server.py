@@ -4,7 +4,7 @@
 from flask import render_template,request,redirect,session
 from . import app
 from config import *
-from utils import login_request,server_msg
+from utils import login_request
 import json
 import db
 
