@@ -80,7 +80,17 @@
   </ul> 
 </li> <!-- 资产管理 -->     
             
-         
+<li id="job">
+<a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工单系统</span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li ><a href="/jobadd">工单申请</a></li>
+    {% if info.role  == 'admin' %}
+    <li > <a href="/joblist/">申请列表</a></li>
+    {% endif %}
+    <li > <a href="/jobhistory/">历史工单</a></li>
+  </ul> 
+</li> <!-- 工单管理 -->
+       
 <li id="setting">
 <a href="/monitor"><i class="fa fa-gears"></i> <span class="nav-label">监控</span><span class="label label-info pull-right"></span></a>
 </li>    <!--监控-->
@@ -119,6 +129,9 @@ $('#jasset').click(function(){
 })
 $('#juser').click(function(){
     $("#juser").children("ul").toggleClass("collapse");   
+})
+$('#job').click(function(){
+    $("#job").children("ul").toggleClass("collapse");   
 })
 $('#log').click(function(){
     $("#log").children("ul").toggleClass("collapse");   

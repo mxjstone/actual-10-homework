@@ -16,3 +16,4 @@ import server
 import mem
 import log
 import cmd
+import jobs

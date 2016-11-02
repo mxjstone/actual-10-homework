@@ -131,6 +131,37 @@ INSERT INTO `log_map` VALUES (1,'125.75.246.129','甘肃省','104.62663760','35.
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ops_jobs`
+--
+
+DROP TABLE IF EXISTS `ops_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ops_jobs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `apply_date` datetime NOT NULL COMMENT '创建时间',
+  `apply_type` tinyint(3) unsigned NOT NULL COMMENT '工单申请类型',
+  `apply_desc` text NOT NULL COMMENT '工单申请描述',
+  `deal_persion` varchar(20) DEFAULT NULL COMMENT '工单处理人',
+  `status` tinyint(3) NOT NULL COMMENT '工单处理过程的状态',
+  `deal_desc` text COMMENT '处理描述',
+  `deal_time` datetime DEFAULT NULL COMMENT '处理完成时间',
+  `apply_persion` varchar(20) NOT NULL COMMENT '工单申请人',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ops_jobs`
+--
+
+LOCK TABLES `ops_jobs` WRITE;
+/*!40000 ALTER TABLE `ops_jobs` DISABLE KEYS */;
+INSERT INTO `ops_jobs` VALUES (104,'2016-11-01 12:32:00',3,'测试','pc',2,'工单处理完毕','2016-11-02 11:25:00','pc'),(105,'2016-11-01 14:16:00',3,'测试测试测试','pc',1,NULL,'2016-11-01 23:36:00','pc'),(106,'2016-11-01 18:28:00',0,'你好啊','pc',2,'处理完成','2016-11-02 11:22:00','pc'),(107,'2016-11-02 11:26:00',0,'just a test',NULL,0,NULL,NULL,'test');
+/*!40000 ALTER TABLE `ops_jobs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `server`
 --
 
@@ -180,7 +211,7 @@ CREATE TABLE `users` (
   `last_time` datetime DEFAULT NULL COMMENT 'æœ€åŽç™»å½•æ—¶é—´',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1 COMMENT='ç”¨æˆ·è¡¨';
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1 COMMENT='ç”¨æˆ·è¡¨';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +220,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (22,'sss','aaaa','11','111@qq','1111','user',0,'2016-08-13 14:16:36',NULL),(42,'liu','liuziping','11','22','22','user',0,'2016-08-27 09:17:03','2016-09-03 10:39:03'),(44,'reboot','reboot','11','1111@!1.com','11111','CU',0,NULL,NULL),(45,'cc','1111111','11','111@qq','2222222','admin',1,'2016-09-03 10:35:01','2016-09-03 10:35:01'),(51,'aa','bb','cc','dd','dd','ss',0,NULL,NULL),(57,'ccc','ccc','ce5b428f93ab83af44e2780e51c339e9','111@qq','121212','user',0,NULL,NULL),(59,'pc','pc','0d56a13fff7a4616dc274f34dce72e16','1111@reboot.com','11232131232','admin',0,NULL,NULL),(66,'pc11','pc','0d56a13fff7a4616dc274f34dce72e16','','','CU',0,NULL,NULL);
+INSERT INTO `users` VALUES (22,'sss','aaaa','11','111@qq','1111','user',0,'2016-08-13 14:16:36',NULL),(42,'liu','liuziping','11','22','22','user',0,'2016-08-27 09:17:03','2016-09-03 10:39:03'),(44,'reboot','reboot','11','1111@!1.com','11111','CU',0,NULL,NULL),(45,'cc','1111111','11','111@qq','2222222','admin',1,'2016-09-03 10:35:01','2016-09-03 10:35:01'),(51,'aa','bb','cc','dd','dd','ss',0,NULL,NULL),(57,'ccc','ccc','ce5b428f93ab83af44e2780e51c339e9','111@qq','121212','user',0,NULL,NULL),(59,'pc','pc','0d56a13fff7a4616dc274f34dce72e16','1111@reboot.com','11232131232','admin',0,NULL,NULL),(66,'pc11','pc','0d56a13fff7a4616dc274f34dce72e16','','','CU',0,NULL,NULL),(68,'test','test','0d56a13fff7a4616dc274f34dce72e16','1111@reboot.com','11232131232','CU',0,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -202,4 +233,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-26 19:50:59
+-- Dump completed on 2016-11-02 11:29:53

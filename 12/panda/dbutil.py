@@ -28,8 +28,19 @@ class DB():
         self.connect_db()
         return self.cur.execute(sql)
     
-    def get_list(self,table,fields):
-        sql = "select %s from %s"% (",".join(fields),table)
+    def get_list(self,table,fields,where=None):
+        if isinstance(where, dict) and where:
+            conditions = []
+            for k,v in where.items():
+                if isinstance(v, list):
+                    conditions.append("%s IN (%s)" % (k, ','.join(v)))
+                elif isinstance(v, str) or isinstance(v, unicode):
+                    conditions.append("%s='%s'" % (k, v)) 
+                elif isinstance(v, int):
+                    conditions.append("%s=%s" % (k, v))
+            sql = "select %s from %s where %s" % (",".join(fields),table,' AND '.join(conditions))
+        elif not where:
+            sql = "SELECT %s FROM %s" % (','.join(fields), table)
         try: 
             util.WriteLog('db').info("sql: %s" % sql)
             self.execute(sql)
@@ -42,7 +53,7 @@ class DB():
         except:
             util.WriteLog('db').info("Execute '%s' error: %s" % (sql, traceback.format_exc()))
         finally:
-            self.close_db()
+            self.close_db() 
 
     def get_one(self,table,fields,where):
         if isinstance(where, dict) and where:
