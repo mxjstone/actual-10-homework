@@ -21,12 +21,10 @@ with conn as cur:
 	users = []
 	if not id:
 	    sql = "select %s from %s"%(','.join(fields),table)
-	    print sql
 	    try:
 		logutil.writelog('db').info("sql: %s"%sql)
 		cur.execute(sql)
 		result = cur.fetchall()
-		print result
 		for row in result:
 		    user = {}
 		    for i,k in enumerate(fields):
