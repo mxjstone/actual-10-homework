@@ -7,7 +7,7 @@ from config import *
 from utils import login_request
 from werkzeug import secure_filename
 import paramiko
-import json,os,sys
+import json,os,sys,re
 import db
 
 reload(sys)
@@ -19,8 +19,9 @@ fields_code = app.config.get('FIELDS_CODE')
 fpath = '/usr/local/src/'
 hosts = []
 
-for i in range(1,2):
-    hosts.append(app.config.get('HOST'+str(i)))
+for i in app.config:
+    if re.findall('HOST.',i):
+        hosts.append(app.config.get(i))
     # hosts格式为[['192.168.1.100', 22, 'root', '123456'],['192.168.1.101', 22, 'root', '123456'],['192.168.1.102', 22, 'root', '123456']]
 
 def trans(where,filename):
