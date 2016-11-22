@@ -21,7 +21,7 @@ mysql -uroot -p123456 reboot10 < sql/reboot10.sql
 * 用户: test
 * 密码: 123123
 
-## 项目结构与功能
+## 结构与功能
 * 仪表盘 
   * 欢迎界面
 * 用户管理
