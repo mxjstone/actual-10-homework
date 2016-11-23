@@ -16,6 +16,15 @@
 mysql -uroot -p123456 -e 'create database reboot10'
 mysql -uroot -p123456 reboot10 < sql/reboot10.sql
 ```
+### MYSQL数据库字符集设置
+```
+[client]
+default-character-set=utf8
+
+[mysqld]
+character-set-server=utf8
+collation-server=utf8_general_ci
+```
 
 ### 登录用户名和密码
 * 用户: test
@@ -57,12 +66,12 @@ mysql -uroot -p123456 reboot10 < sql/reboot10.sql
 ## 项目截图
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834136d7e85b.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834136dc8fce.png)
-![sec](https://ooo.0o0.ooo/2016/11/22/5834136f8b787.png)
-![sec](https://ooo.0o0.ooo/2016/11/22/5834136eda8be.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834136ed0fe2.png)
-![sec](https://ooo.0o0.ooo/2016/11/22/5834137b087e9.png)
+![sec](https://ooo.0o0.ooo/2016/11/22/5834136eda8be.png)
+![sec](https://ooo.0o0.ooo/2016/11/22/5834136f8b787.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834137ab0be7.png)
-![sec](https://ooo.0o0.ooo/2016/11/22/5834137b54126.png)
-![sec](https://ooo.0o0.ooo/2016/11/22/5834137bb871b.png)
+![sec](https://ooo.0o0.ooo/2016/11/22/5834137b087e9.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834137b52794.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834137b536a5.png)
+![sec](https://ooo.0o0.ooo/2016/11/22/5834137b54126.png)
+![sec](https://ooo.0o0.ooo/2016/11/22/5834137bb871b.png) 

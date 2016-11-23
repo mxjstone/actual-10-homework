@@ -22,15 +22,7 @@
    {% for job in jobs %}
         <tr class="gradeX">
                 <td class="text-center">{{job.apply_persion}}</td>
-		{% if job.apply_type == 'user_mod' %}
-                <td class="text-center" style='color:green'>权限修改</td>
-		{% elif job.apply_type == 'db_mod' %}
-                <td class="text-center" style='color:green'>DB修改</td>
-		{% elif job.apply_type == 'web_err' %}
-                <td class="text-center" style='color:green'>WEB故障</td>
-		{% elif job.apply_type == 'other' %}
-                <td class="text-center" style='color:green'>其他...</td>
-		{% endif %}
+                <td class="text-center" style='color:green'>{{job.apply_type}}</td>
                 <td class="text-center">{{job.apply_date}}</td>
 		{% if job.status == 2 %}
                 <td class="text-center" style='color:green'>成功</td>

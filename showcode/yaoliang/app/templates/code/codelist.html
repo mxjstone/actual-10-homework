@@ -20,13 +20,7 @@
    {% for code in codes %}
         <tr class="gradeX">
                 <td class="text-center">{{code.update_persion}}</td>
-		{% if code.project == 'guanwang' %}
-                <td class="text-center">官网</td>
-		{% elif code.project == 'weixinapp' %}
-                <td class="text-center">微信app</td>
-		{% elif code.project == 'houtai' %}
-                <td class="text-center">后台管理系统</td>
-		{% endif %}
+                <td class="text-center">{{code.project}}</td>
                 <td class="text-center">{{code.package}}</td>
                 <td class="text-center">{{code.update_date}}</td>
 		<td class="text-center">

@@ -5,6 +5,7 @@ from app import app
 from config import *
 from utils import logutil
 import traceback
+import sys
 
 app.config.from_object(MysqlConfig)
 
@@ -13,7 +14,8 @@ user = app.config.get('SQL_USER')
 passwd = app.config.get('SQL_PASSWD')
 db = app.config.get('SQL_DB')
 
-conn = mysql.connect(user=user,passwd=passwd,host=host,db=db)
+conn = mysql.connect(user=user,passwd=passwd,host=host,db=db,charset='utf8')
+conn.ping(True)
 conn.autocommit(True)
 
 with conn as cur:
