@@ -46,8 +46,10 @@ collation-server=utf8_general_ci
   * 机房管理
     * 机房信息  
 * 值班系统(暂无)
-  * 当前值班人(null)
-  * 值班列表(null)
+  * 当前值班人
+    * 当前值班人个人信息
+  * 值班列表
+    * 本周值班人信息列表
 * 工单管理
   * 工单申请
     * 显示申请界面
@@ -70,6 +72,8 @@ collation-server=utf8_general_ci
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834136eda8be.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834136ed0fe2.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834137b087e9.png)
+![sec](https://ooo.0o0.ooo/2016/11/23/58357428e7523.png)
+![sec](https://ooo.0o0.ooo/2016/11/23/583574290c5cd.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834137ab0be7.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834137b54126.png)
 ![sec](https://ooo.0o0.ooo/2016/11/22/5834137bb871b.png)

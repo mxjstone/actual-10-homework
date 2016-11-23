@@ -212,7 +212,7 @@ CREATE TABLE `users` (
   `last_time` datetime DEFAULT NULL COMMENT '最后登录时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8 COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +221,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (38,'test','test','cd31c5edd043bbd150530e42a0a1abee','yaoliang83@yeah.net','15055555555','admin',0,NULL,NULL),(72,'test1','test1','cd31c5edd043bbd150530e42a0a1abee','test@qq.com','15052237898','user',0,NULL,NULL),(81,'12345','1234','cd31c5edd043bbd150530e42a0a1abee','1@qq.com','15525555333','user',0,NULL,NULL),(82,'123456','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(83,'1234567','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(84,'12345678','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(85,'123456789','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(86,'1234567890','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(87,'12345678901','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(88,'123456789012','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(91,'admin','admin','cd31c5edd043bbd150530e42a0a1abee','','','admin',0,NULL,NULL);
+INSERT INTO `users` VALUES (38,'test','test','cd31c5edd043bbd150530e42a0a1abee','yaoliang83@yeah.net','15055555555','admin',0,NULL,NULL),(72,'test1','test1','cd31c5edd043bbd150530e42a0a1abee','test@qq.com','15052237898','user',0,NULL,NULL),(81,'12345','1234','cd31c5edd043bbd150530e42a0a1abee','1@qq.com','15525555333','user',0,NULL,NULL),(82,'123456','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(83,'1234567','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(84,'12345678','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(85,'123456789','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(86,'1234567890','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(87,'12345678901','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(88,'123456789012','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(91,'admin','admin','cd31c5edd043bbd150530e42a0a1abee','admin@sina.com','15044782314','admin',0,NULL,NULL),(92,'admin1','admin1','cd31c5edd043bbd150530e42a0a1abee','admin1@qq.com','13626223456','admin',0,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -234,4 +234,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-23 13:47:40
+-- Dump completed on 2016-11-23 18:44:58
