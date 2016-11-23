@@ -11,11 +11,8 @@
         <th class="text-center" style="display:none">编号</th>
         <th class="text-center">星期</th>
         <th class="text-center">用户名</th>
-        <th class="text-center">姓名</th>
         <th class="text-center">手机号</th>
         <th class="text-center">邮箱</th>
-        <th class="text-center">角色</th>
-        <th class="text-center">状态</th>
     </tr>
 </thead>
 <tbody>
@@ -25,11 +22,8 @@
                 <td class="text-center" style="display:none">{{user.id}}</td>
                 <td class="text-center">{{user.week}}</td>
                 <td class="text-center">{{user.name}}</td>
-                <td class="text-center">{{user.name_cn}}</td>
                 <td class="text-center">{{user.mobile}}</td>
                 <td class="text-center">{{user.email}}</td>
-                <td class="text-center">管理员</td>
-                <td class="text-center" style="color:green">正常</td>
             </td>
          </tr>
     {% endfor %}
