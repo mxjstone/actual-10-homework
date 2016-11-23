@@ -1,0 +1,87 @@
+{% extends "/base/base.html" %}
+
+{% block breadcrumb %} 
+代码更新
+{% endblock %}
+{% block main %}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+	<div class="col-sm-10">
+	     <div class="ibox float-e-margins">
+		<div class="ibox-title">
+		    <h5>更新信息</h5>
+		    <div class="ibox-tools">
+			<a class="collapse-link">
+			    <i class="fa fa-chevron-up"></i>
+			</a>
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			    <i class="fa fa-wrench"></i>
+			</a>
+			<a class="close-link">
+			    <i class="fa fa-times"></i>
+			</a>
+		    </div>
+		</div>
+		<div class="ibox-content">
+		    <form id="codeForm" method='post' action='/code/' class="form-horizontal nice-validator n-yellow" novalidate="novalidate" enctype='multipart/form-data'>
+			<div class="form-group">
+			    <label for="project" class="col-sm-2">选择更新工程<span class="red-fonts">*</span></label>
+			    <br>
+			    <div class="col-sm-12">
+			    <select id="project" name='project' class="form-control" >
+				<option></option> 
+				<option value='官网' >官网</option> 
+				<option value='微信app' >微信app</option>
+				<option value='后台管理系统' >后台管理系统</option>
+			    </select>
+			    </div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="form-group">
+			    <label for="package" class="col-sm-2">需要上传的包<span class="red-fonts">*</span></label>
+			    <br>
+			    <div class="col-sm-12">
+				<input id="package" name="package" type="file" datatype='*'/>
+			     </div>
+			</div>
+
+			<div class="hr-line-dashed"></div>
+			<div class="form-group">
+			    <label for="message" class="col-sm-2">填写更新信息<span class="red-fonts">*</span></label>
+			    <div class="col-sm-12">
+			    <br>
+				<input id="message" name="message" placeholder="更新信息" type="text" class="form-control" class='inputxt' datatype='*'/>
+			    </div>
+			</div>
+
+			<div class="hr-line-dashed"></div>
+			<div class="form-group">
+			    <label for="key" class="col-sm-2">填写许可码<span class="red-fonts">*</span></label>
+			    <div class="col-sm-12">
+			    <br>
+				<input id="key" name="key" placeholder="许可码" type="text" class="form-control" required="true" class='inputxt' datatype='*'/>
+			     </div>
+			</div>
+			
+			<div class="hr-line-dashed"></div>
+			<div class="form-group">
+			<div class="text-center" id="msg"></div>
+			    <label id='update' style="color:red" class="col-sm-12">{{result}}</label>
+			    <div class="col-sm-12">
+				<input type='submit' id="submit_button" class="btn btn-primary btn-block" value='确认'/>
+			    </div>
+			</div>
+		    </form>
+		</div>
+	    </div>
+	</div>
+    </div>
+</div>
+<script>
+$('#submit_button').click(function(){
+    $('#update').text('文件正在上传并更新...').css('color','green')
+})
+
+$('#codeForm').Validform({tiptype:3})
+</script>
+{% endblock %}

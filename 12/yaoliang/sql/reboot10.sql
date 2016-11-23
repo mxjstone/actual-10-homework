@@ -44,6 +44,34 @@ INSERT INTO `cabinet` VALUES (8,'cabinet01',2,'1','1');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `code`
+--
+
+DROP TABLE IF EXISTS `code`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `code` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_persion` varchar(20) DEFAULT NULL COMMENT '更新申请人',
+  `project` varchar(20) NOT NULL COMMENT '更新工程名',
+  `package` varchar(20) NOT NULL COMMENT '更新的包名',
+  `message` text NOT NULL COMMENT '更新描述',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `code`
+--
+
+LOCK TABLES `code` WRITE;
+/*!40000 ALTER TABLE `code` DISABLE KEYS */;
+INSERT INTO `code` VALUES (5,'2016-11-04 01:30:25','test','guanwang','ecg.zip','1');
+/*!40000 ALTER TABLE `code` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `idc`
 --
 
@@ -206,4 +234,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-30 18:03:32
+-- Dump completed on 2016-11-04  9:40:34

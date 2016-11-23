@@ -114,13 +114,31 @@
   </ul> 
   {% endif %}
 </li> <!-- 资产管理 -->     
+            
+<li id="jduty">
+<a href="#"><i class="fa fa-bell"></i> <span class="nav-label">值班系统</span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    <li class="dutyself"><a href="/dutyself">当前值班人</a></li>
+    <li class="dutylist"><a href="/dutylist">值班列表</a></li>
+  </ul> 
+</li> <!-- 值班系统 --> 
 
-<li id="jwork">
+<li id="jjob">
 <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工单管理</span><span class="fa arrow"></span></a>
   <ul class="nav nav-second-level collapse">
-    <li class="jobadd"><a href="/jobadd">工单申请</a></li>
+    <li class="jobadd"><a href="/jobadd/">工单申请</a></li>
     <li class="joblist"> <a href="/joblist/">工单申请列表</a></li>
     <li class="jobhistory"> <a href="/jobhistory/">历史工单列表</a></li>
+  </ul> 
+</li> <!-- 工单管理 --> 
+
+<li id="jcode">
+<a href="#"><i class="fa fa-download"></i> <span class="nav-label">代码更新</span><span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level collapse">
+    {% if role=='admin' %}
+    <li class="code"><a href="/code/">更新信息</a></li>
+    {% endif %}
+    <li class="codelist"> <a href="/codelist/">更新历史</a></li>
   </ul> 
 </li> <!-- 工单管理 --> 
          
@@ -147,11 +165,14 @@ $('#jasset').click(function(){
 $('#juser').click(function(){
     $("#juser").children("ul").toggleClass("collapse");   
 })
-//$('#jduty').click(function(){
-//    $("#jduty").children("ul").toggleClass("collapse");   
-//})
-$('#jwork').click(function(){
-    $("#jwork").children("ul").toggleClass("collapse");   
+$('#jduty').click(function(){
+    $("#jduty").children("ul").toggleClass("collapse");   
+})
+$('#jjob').click(function(){
+    $("#jjob").children("ul").toggleClass("collapse");   
+})
+$('#jcode').click(function(){
+    $("#jcode").children("ul").toggleClass("collapse");   
 })
 </script>
 
@@ -227,6 +248,5 @@ $('#jwork').click(function(){
 
 </div>  <!--page-wrapper-->
 </div>   <!--wrapper-->
-{% block js %}
-{% endblock %}
+
 </body></html>
