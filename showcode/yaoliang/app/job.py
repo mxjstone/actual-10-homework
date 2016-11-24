@@ -2,7 +2,6 @@
 #coding:utf-8
 
 from flask import render_template,request,redirect,session
-from flask_mail import Mail,Message
 from threading import Thread
 from . import app
 from config import * 
