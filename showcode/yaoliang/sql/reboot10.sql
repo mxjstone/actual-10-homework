@@ -147,7 +147,7 @@ CREATE TABLE `ops_jobs` (
   `deal_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '处理完成时间',
   `apply_persion` varchar(20) NOT NULL COMMENT '工单申请人',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +156,7 @@ CREATE TABLE `ops_jobs` (
 
 LOCK TABLES `ops_jobs` WRITE;
 /*!40000 ALTER TABLE `ops_jobs` DISABLE KEYS */;
-INSERT INTO `ops_jobs` VALUES (21,'2016-11-23 05:45:30','DB修改','测试2','test',2,'测试成功','2016-11-23 05:45:57','test'),(14,'2016-11-23 03:40:12','权限修改','test','test',3,'权限修改被禁止','2016-11-23 05:46:29','test'),(15,'2016-11-23 03:45:52','权限修改','测试',NULL,0,NULL,'0000-00-00 00:00:00','test'),(16,'2016-11-23 05:30:01','其他','其他','test',1,NULL,'0000-00-00 00:00:00','test'),(17,'2016-11-23 05:30:38','其他','其他。。。',NULL,0,NULL,'0000-00-00 00:00:00','test'),(18,'2016-11-23 05:31:24','其他','其他。。。',NULL,0,NULL,'0000-00-00 00:00:00','test'),(19,'2016-11-23 05:32:32','DB修改','数据库表修改','test',2,'数据库修改完成','2016-11-23 05:35:04','test'),(20,'2016-11-23 05:32:53','WEB故障','web故障',NULL,0,NULL,'0000-00-00 00:00:00','test');
+INSERT INTO `ops_jobs` VALUES (24,'2016-11-24 06:34:22','权限修改','11111111DB111111111',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(23,'2016-11-24 06:34:17','权限修改','11111111DB111111111',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(22,'2016-11-24 06:32:59','DB修改','111111111111111111DB',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(21,'2016-11-23 05:45:30','DB修改','测试2','test',2,'测试成功','2016-11-23 05:45:57','test'),(14,'2016-11-23 03:40:12','权限修改','test','test',3,'权限修改被禁止','2016-11-23 05:46:29','test'),(15,'2016-11-23 03:45:52','权限修改','测试',NULL,0,NULL,'0000-00-00 00:00:00','test'),(16,'2016-11-23 05:30:01','其他','其他','test',3,'error！','2016-11-24 08:20:10','test'),(17,'2016-11-23 05:30:38','其他','其他。。。',NULL,0,NULL,'0000-00-00 00:00:00','test'),(18,'2016-11-23 05:31:24','其他','其他。。。','test',3,'error','2016-11-24 08:10:40','test'),(19,'2016-11-23 05:32:32','DB修改','数据库表修改','test',2,'数据库修改完成','2016-11-23 05:35:04','test'),(20,'2016-11-23 05:32:53','WEB故障','web故障','test',3,'error！','2016-11-24 08:17:35','test'),(25,'2016-11-24 06:34:58','DB修改','db1111111111',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(26,'2016-11-24 06:43:19','DB修改','Db111111111','test',1,NULL,'0000-00-00 00:00:00','test1'),(27,'2016-11-24 06:50:36','DB修改','DB111111',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(28,'2016-11-24 06:52:22','其他','othereeeeeeeeee',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(29,'2016-11-24 06:52:27','其他','othereeeeeeeeee','test',2,'处理成功','2016-11-24 08:28:56','test1'),(30,'2016-11-24 06:53:51','权限修改','test',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(31,'2016-11-24 06:54:48','权限修改','111111111',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(32,'2016-11-24 07:03:25','其他','test',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(33,'2016-11-24 07:14:17','其他','test',NULL,0,NULL,'0000-00-00 00:00:00','test'),(34,'2016-11-24 07:15:46','其他','123123123',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(35,'2016-11-24 07:17:05','权限修改','123123123','test',1,NULL,'0000-00-00 00:00:00','test1'),(36,'2016-11-24 07:25:09','其他','qqqqqqqqqqq',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(37,'2016-11-24 07:25:52','WEB故障','web故障',NULL,0,NULL,'0000-00-00 00:00:00','test1'),(38,'2016-11-24 07:27:02','权限修改','111111111111','test',1,NULL,'0000-00-00 00:00:00','test1'),(39,'2016-11-24 08:25:33','DB修改','修改users数据库','test',2,'数据库修改成功','2016-11-24 08:27:22','test1');
 /*!40000 ALTER TABLE `ops_jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,6 +210,7 @@ CREATE TABLE `users` (
   `status` tinyint(4) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `last_time` datetime DEFAULT NULL COMMENT '最后登录时间',
+  `email_password` varchar(50) NOT NULL COMMENT '邮箱密码',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8 COMMENT='用户表';
@@ -221,7 +222,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (38,'test','test','cd31c5edd043bbd150530e42a0a1abee','yaoliang83@yeah.net','15055555555','admin',0,NULL,NULL),(72,'test1','test1','cd31c5edd043bbd150530e42a0a1abee','test@qq.com','15052237898','user',0,NULL,NULL),(81,'12345','1234','cd31c5edd043bbd150530e42a0a1abee','1@qq.com','15525555333','user',0,NULL,NULL),(82,'123456','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(83,'1234567','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(84,'12345678','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(85,'123456789','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(86,'1234567890','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(87,'12345678901','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(88,'123456789012','123','cd31c5edd043bbd150530e42a0a1abee','','','user',0,NULL,NULL),(91,'admin','admin','cd31c5edd043bbd150530e42a0a1abee','admin@sina.com','15044782314','admin',0,NULL,NULL),(92,'admin1','admin1','cd31c5edd043bbd150530e42a0a1abee','admin1@qq.com','13626223456','admin',0,NULL,NULL);
+INSERT INTO `users` VALUES (38,'test','test','cd31c5edd043bbd150530e42a0a1abee','yaoliang83@yeah.net','15055555555','admin',0,NULL,NULL,'MTIz'),(72,'test1','test1','cd31c5edd043bbd150530e42a0a1abee','yaoliang83@yeah.net','15052237898','user',0,NULL,NULL,'MTIzNA=='),(81,'12345','1234','cd31c5edd043bbd150530e42a0a1abee','1@qq.com','15525555333','user',0,NULL,NULL,'MTIzMTIz'),(91,'admin','admin','cd31c5edd043bbd150530e42a0a1abee','yaoliang83@yeah.net','15044782314','admin',0,NULL,NULL,'MQ=='),(92,'admin1','admin1','cd31c5edd043bbd150530e42a0a1abee','admin1@qq.com','13626223456','admin',0,NULL,NULL,'MQ==');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -234,4 +235,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-23 18:44:58
+-- Dump completed on 2016-11-24 16:33:21

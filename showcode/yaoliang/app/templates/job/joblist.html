@@ -37,6 +37,13 @@
 		<button data-id='{{job.id}}' class='btn btn-success complete'>完成</button>
 		{% endif %}
 	    {% endif %}
+	    {% if role != 'admin' %}
+		{% if job.status == 0 %}
+		<button data-id='{{job.id}}' disabled='disabled' class='btn btn-success finish'>待确认</button>
+		{% elif job.status == 1 %}
+		<button data-id='{{job.id}}' class='btn btn-success finish'>处理结束发送邮件</button>
+		{% endif %}
+	    {% endif %}
 	    <button data-id='{{job.id}}' id='{{job.id}}' class='btn btn-primary if'>详情</button>
 	    </td>
 	 </tr>
@@ -74,6 +81,25 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" id='finishModel'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	<h4 class="modal-title">确认</h4>
+      </div>
+      <div class="modal-body">
+	<p>工单处理完成?,开始发送邮件?</p>
+      </div>
+      <div class="modal-footer">
+	<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>    
+	<button type="button" class="btn btn-primary finish-sure" data-id=''>确认</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 <div class="modal fade" id='execModel'>
   <div class="modal-dialog">
@@ -172,8 +198,8 @@ $('.exec-sure').click(function(){
 		    },function(){
 			location.href='/joblist/'
 		    })
-		})
-    })
+	    })
+})
 
 $('.complete').click(function(){
     var id=$(this).attr('data-id')
@@ -188,6 +214,28 @@ $('.complete-sure').click(function(){
 		swal({
 		    title:'Congratulation',
 		    text:'complete success!',
+		    type:'success',
+		    confirmButtonText:'确定'
+		    },function(){
+			location.href='/joblist/'
+		    })
+	    })
+})
+
+// 发送工单处理结束的邮件(申请人-->值班人),id为工单编号
+$('.finish').click(function(){
+    var id=$(this).attr('data-id')
+    $('.finish-sure').attr('data-id',id)
+    $('#finishModel').modal('show')
+})
+$('.finish-sure').click(function(){
+    var id=$(this).attr('data-id')
+    var url='id='+id
+    $.post('/send_mail/',url,function(data){
+	data = JSON.parse(data)
+		swal({
+		    title:'Congratulation',
+		    text:data['result'],
 		    type:'success',
 		    confirmButtonText:'确定'
 		    },function(){

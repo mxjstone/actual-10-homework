@@ -6,6 +6,7 @@ from . import app
 from hashlib import md5
 from config import *
 from utils import login_request
+import base64
 import json
 import db
 
@@ -73,7 +74,8 @@ def useradd():
     if request.method == 'POST':
 	l = []
 	data = dict((k,v[0]) for k,v in dict(request.form).items())
-	data['password'] = md5(request.form.get('password')+salt).hexdigest()
+	data['password'] = md5(data['password']+salt).hexdigest()
+	data['email_password'] = base64.b64encode(data['email_password'])
 
 	for i in db.list('users',fields_user):
 	    l.append(i['name'])
@@ -130,6 +132,7 @@ def delete():
 def update_msg():
     id = request.args.get('id')
     user = db.list('users',fields_user,id)
+    user['email_password'] = base64.b64decode(user['email_password'])
     if session.get('role') == 'admin':
 	return json.dumps({'code':0,'result':user})
     else:
@@ -139,6 +142,7 @@ def update_msg():
 @login_request.login_request
 def update():
     data = dict((k,v[0]) for k,v in dict(request.form).items())
+    data['email_password'] = base64.b64encode(data['email_password'])
     conditions = [ "%s='%s'" %  (k,v) for k,v in data.items()]
     db.update('users',conditions,data['id'])
     return json.dumps({'code':0,'result':'update completed!'})
@@ -148,5 +152,6 @@ def loginout():
     if session:
 	session.pop('role')
 	session.pop('name')
+	session.pop('id')
 	return redirect('/login')
     return redirect('/login')
