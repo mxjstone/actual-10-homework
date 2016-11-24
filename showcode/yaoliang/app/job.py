@@ -18,10 +18,6 @@ fields_job = app.config.get('FIELDS_OPS_JOBS')
 fields_user = app.config.get('FIELDS_USER')  
 ISOTIMEFORMAT='%Y-%m-%d %X'
 
-app.config['MAIL_SERVER'] = 'smtp.qq.com'
-app.config['MAIL_PORT'] = 25
-app.config['MAIL_USE_TLS'] = True
-
 ''' 
 {'0':'未处理','1':'处理中','2':'完成','3':'失败'}
 '''
