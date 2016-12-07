@@ -55,7 +55,6 @@ CREATE TABLE `code` (
   `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_persion` varchar(20) DEFAULT NULL COMMENT '更新申请人',
   `project` varchar(20) NOT NULL COMMENT '更新工程名',
-  `package` varchar(20) NOT NULL COMMENT '更新的包名',
   `message` text NOT NULL COMMENT '更新描述',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
@@ -67,7 +66,7 @@ CREATE TABLE `code` (
 
 LOCK TABLES `code` WRITE;
 /*!40000 ALTER TABLE `code` DISABLE KEYS */;
-INSERT INTO `code` VALUES (5,'2016-11-04 01:30:25','test','官网','ecg.zip','1');
+INSERT INTO `code` VALUES (5,'2016-11-04 01:30:25','test','官网','1');
 /*!40000 ALTER TABLE `code` ENABLE KEYS */;
 UNLOCK TABLES;
 
