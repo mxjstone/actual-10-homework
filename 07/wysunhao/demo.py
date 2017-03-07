@@ -50,7 +50,7 @@ def userinfo():
     if where['id'] and not where['name']:
         condition = 'id = "%(id)s"' % where
     if where['name'] and not where['id']:
-        condition = 'name = "%(name)s"' % where
+        condition = 'name = "%(name)s"' % where   #一种print的表示方法，（name）即为取where['name']的值
     fields = ['id', 'name', 'name_cn', 'email', 'mobile']
     try:
         sql = "select %s from users where %s" % (','.join(fields),condition)
